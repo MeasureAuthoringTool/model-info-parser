@@ -1,12 +1,15 @@
-import {normalizeTypeName, normalizeElementTypeName} from "../utils";
-import {RawElement} from "./Element";
+import { normalizeTypeName, normalizeElementTypeName } from "../utils";
+import { RawElement } from "./Element";
 import Element from "./Element";
 import DataType from "./dataTypes/DataType";
 import distinctDataTypes from "./dataTypes/distinctDataTypes";
 import MemberVariable from "./dataTypes/MemberVariable";
 import parseDataType from "./dataTypes/parseDataType";
-import {primitiveTypeCheck, containsPrimitive} from "./dataTypes/primitiveDataTypes";
-import {SystemStringInstance} from "./dataTypes/system/SystemString";
+import {
+  primitiveTypeCheck,
+  containsPrimitive,
+} from "./dataTypes/primitiveDataTypes";
+import { SystemStringInstance } from "./dataTypes/system/SystemString";
 import ComplexDataType from "./dataTypes/ComplexDataType";
 
 const elementTypeName = "ns4:element";
@@ -16,14 +19,11 @@ export interface RawTypeInfo {
     name: string;
     namespace: string;
     baseType: string;
-  }
+  };
   [elementTypeName]: Array<RawElement>;
 }
 
-const reservedKeywordTypeNames = [
-  "boolean",
-  "string",
-];
+const reservedKeywordTypeNames = ["boolean", "string"];
 
 // We treat "string" and "boolean" differently because they are reserved TS keywords.
 // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to TS "number"
@@ -55,7 +55,9 @@ export default class TypeInfo {
     // TODO What about "baseTypeSpecifier"? Only on "allowedUnits"??
     this.baseFhirType = attrs.baseType;
     if (this.baseFhirType) {
-      const [baseNamespace, baseTypeName] = normalizeElementTypeName(this.baseFhirType);
+      const [baseNamespace, baseTypeName] = normalizeElementTypeName(
+        this.baseFhirType
+      );
       this.baseDataType = parseDataType(baseNamespace, baseTypeName);
     } else {
       this.baseDataType = null;
@@ -63,7 +65,7 @@ export default class TypeInfo {
 
     // Convert raw XML into our Element type
     this.elements = [];
-    rawElementsArr.forEach(rawElement => {
+    rawElementsArr.forEach((rawElement) => {
       this.elements.push(new Element(rawElement));
     });
 
@@ -86,18 +88,28 @@ export default class TypeInfo {
       }
     }
 
-    this.memberVariables = this.elements.reduce((accumulator, currentElement) => {
-      return accumulator.concat(currentElement.memberVariables);
-    }, []);
+    this.memberVariables = this.elements.reduce(
+      (accumulator, currentElement) => {
+        return accumulator.concat(currentElement.memberVariables);
+      },
+      []
+    );
 
-    this.distinctTypes = distinctDataTypes(this.memberVariables, this.baseDataType, this.name, this.namespace);
+    this.distinctTypes = distinctDataTypes(
+      this.memberVariables,
+      this.baseDataType,
+      this.name,
+      this.namespace
+    );
     this.isReservedKeyword = reservedKeywordCheck(this.name);
     this.primitive = primitiveTypeCheck(this.name);
 
     // Check if we're looking at "Extension". We have to treat that differently to prevent circular dependencies
-    if (this.namespace === 'FHIR' && this.name === 'Extension') {
+    if (this.namespace === "FHIR" && this.name === "Extension") {
       // Remove "Element" from the list of imports
-      this.distinctTypes = this.distinctTypes.filter(type => type.typeName !== "Element");
+      this.distinctTypes = this.distinctTypes.filter(
+        (type) => type.typeName !== "Element"
+      );
 
       // Stop being a child of Element
       this.baseDataType = null;
@@ -107,7 +119,9 @@ export default class TypeInfo {
 
       // Add an Array of Extensions to itself (just like Element)
       const extensionDataType = new ComplexDataType("FHIR", "Extension");
-      this.memberVariables.push(new MemberVariable(extensionDataType, "extension", true));
+      this.memberVariables.push(
+        new MemberVariable(extensionDataType, "extension", true)
+      );
     }
   }
 }

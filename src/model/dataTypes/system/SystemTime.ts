@@ -1,4 +1,4 @@
-import DataType from "../DataType"
+import DataType from "../DataType";
 
 export default class SystemTime implements DataType {
   public readonly namespace: string = "System";

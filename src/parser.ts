@@ -1,4 +1,4 @@
-import {promises as fsPromises} from "fs";
+import { promises as fsPromises } from "fs";
 import xml2js from "xml2js";
 import ModelInfo from "./model/ModelInfo";
 

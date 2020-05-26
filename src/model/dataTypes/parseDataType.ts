@@ -13,9 +13,12 @@ export default function parseDataType(ns, type): DataType {
     // We treat "FHIR.string" and "FHIR.boolean" differently because they are reserved TS keywords.
     // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to "number"
     switch (type) {
-      case "string": return new SystemString();
-      case "boolean": return new SystemBoolean();
-      default: return new ComplexDataType(ns, type);
+      case "string":
+        return new SystemString();
+      case "boolean":
+        return new SystemBoolean();
+      default:
+        return new ComplexDataType(ns, type);
     }
   }
 
@@ -25,13 +28,21 @@ export default function parseDataType(ns, type): DataType {
 
   // Handle the "System" namespace types
   switch (type) {
-    case "Boolean": return new SystemBoolean();
-    case "Date": return new SystemDate();
-    case "Decimal": return new SystemDecimal();
-    case "DateTime": return new SystemDateTime();
-    case "Integer": return new SystemInteger();
-    case "String": return new SystemString();
-    case "Time": return new SystemTime();
-    default: throw new Error(`Unrecognized System type: ${type}`);
+    case "Boolean":
+      return new SystemBoolean();
+    case "Date":
+      return new SystemDate();
+    case "Decimal":
+      return new SystemDecimal();
+    case "DateTime":
+      return new SystemDateTime();
+    case "Integer":
+      return new SystemInteger();
+    case "String":
+      return new SystemString();
+    case "Time":
+      return new SystemTime();
+    default:
+      throw new Error(`Unrecognized System type: ${type}`);
   }
 }

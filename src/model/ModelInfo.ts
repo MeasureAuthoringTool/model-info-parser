@@ -1,4 +1,4 @@
-import {RawTypeInfo} from "./TypeInfo";
+import { RawTypeInfo } from "./TypeInfo";
 import TypeInfo from "./TypeInfo";
 
 export const typeName = "ns4:modelInfo";
@@ -9,9 +9,9 @@ export interface RawModelInfo {
     $: {
       name: string;
       version: string;
-    }
+    };
     [typeInfoTypeName]: Array<RawTypeInfo>;
-  }
+  };
 }
 
 export default class ModelInfo {
@@ -23,10 +23,10 @@ export default class ModelInfo {
   complexTypes: Array<TypeInfo>;
 
   constructor(raw: RawModelInfo) {
-    const {$: attrs, [typeInfoTypeName]: rawTypeInfoArr} = raw[typeName];
+    const { $: attrs, [typeInfoTypeName]: rawTypeInfoArr } = raw[typeName];
     this.name = attrs.name;
     this.version = attrs.version;
-    this.types = rawTypeInfoArr.map(rawType => new TypeInfo(rawType));
-    this.complexTypes = this.types.filter(type => !type.isReservedKeyword);
+    this.types = rawTypeInfoArr.map((rawType) => new TypeInfo(rawType));
+    this.complexTypes = this.types.filter((type) => !type.isReservedKeyword);
   }
 }

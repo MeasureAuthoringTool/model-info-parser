@@ -34,6 +34,8 @@ export function primitiveTypeCheck(name: string): boolean {
  * @returns true if any of the provided types are primitive
  */
 export function containsPrimitive(distinctTypes: Array<DataType>): boolean {
-  const firstPrimitive = distinctTypes.find(type => primitiveTypeCheck(type.typeName));
+  const firstPrimitive = distinctTypes.find((type) =>
+    primitiveTypeCheck(type.typeName)
+  );
   return !!firstPrimitive;
 }

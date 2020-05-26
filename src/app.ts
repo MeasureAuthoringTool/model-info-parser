@@ -1,5 +1,5 @@
 import parser from "./parser";
-import generator from "./generators/TypeScriptGenerator";
+import TypeScriptGenerator from "./generators/TypeScriptGenerator";
 
 /*
 FHIR JSON Spec
@@ -25,22 +25,26 @@ Might need to store a static, type layout in the class definition to help with c
 // TODO what about "contextRelationship" and "context"? (I think it's like a Resource referencing another resource
 
  */
-const main = async() => {
-  const modelInfo = await parser('fhir-modelinfo-4.0.1.xml');
+const main = async () => {
+  const modelInfo = await parser("fhir-modelinfo-4.0.1.xml");
 
   const { complexTypes } = modelInfo;
 
+  const generator = new TypeScriptGenerator();
+
   const promises = complexTypes.map(async (typeInfo) => {
-    const generated = await generator(typeInfo);
+    const generated = await generator.generate(typeInfo);
     return generated;
   });
 
   const generatedTypes = await Promise.all(promises);
 };
 
-main().then((result) => {
-  console.log("Done");
-}).catch((err) => {
-  console.error("ERROR");
-  console.error(err);
-});
+main()
+  .then((result) => {
+    console.log("Done");
+  })
+  .catch((err) => {
+    console.error("ERROR");
+    console.error(err);
+  });

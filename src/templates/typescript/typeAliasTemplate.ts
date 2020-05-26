@@ -2,8 +2,7 @@ import Handlebars from "./registerPartials";
 import DataType from "../../model/dataTypes/DataType";
 import Element from "../../model/Element";
 
-export const source =
-`{{> classImport dataType=this}}
+export const source = `{{> classImport dataType=this}}
 type {{name}} = {{baseDataType.typeName}};
 
 export default {{name}};

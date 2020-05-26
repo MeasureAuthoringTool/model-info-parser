@@ -5,7 +5,10 @@ export function normalizeElementTypeName(elementType): [string, string] {
     throw new Error(`Invalid elementType encountered: ${elementType}`);
   }
   const [ns, ...typeArr] = tokens;
-  const name = typeArr.reduce((accumulator, currentToken) => accumulator + currentToken, "");
+  const name = typeArr.reduce(
+    (accumulator, currentToken) => accumulator + currentToken,
+    ""
+  );
   return [ns, name];
 }
 
