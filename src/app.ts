@@ -1,6 +1,5 @@
 import parser from "./parser";
-import generator from "./generator";
-
+import generator from "./generators/TypeScriptGenerator";
 
 /*
 FHIR JSON Spec

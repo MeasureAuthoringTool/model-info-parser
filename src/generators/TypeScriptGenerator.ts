@@ -1,7 +1,7 @@
-import TypeInfo from "./model/TypeInfo";
-import classTemplate from "./templates/classTemplate";
-import typeAliasTemplate from "./templates/typeAliasTemplate";
-import FileWriter from "./FileWriter";
+import TypeInfo from "../model/TypeInfo";
+import classTemplate from "../templates/typescript/classTemplate";
+import typeAliasTemplate from "../templates/typescript/typeAliasTemplate";
+import FileWriter from "../FileWriter";
 
 export default async function (typeInfo: TypeInfo) {
   let contents;

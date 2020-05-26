@@ -1,6 +1,6 @@
 import Handlebars from "./registerPartials";
-import DataType from "../model/dataTypes/DataType";
-import Element from "../model/Element";
+import DataType from "../../model/dataTypes/DataType";
+import Element from "../../model/Element";
 
 export const source =
 `{{> classImport dataType=this}}
