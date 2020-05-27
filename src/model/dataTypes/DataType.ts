@@ -4,4 +4,4 @@ export default interface DataType {
   systemType: boolean;
   normalizedName: string;
   primitive: boolean;
-}
+};
