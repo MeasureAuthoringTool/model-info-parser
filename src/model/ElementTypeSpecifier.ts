@@ -49,7 +49,7 @@ export default class ElementTypeSpecifier {
     }
 
     if (this.specifierType === TypeSpecifier.ChoiceTypeSpecifier) {
-      const choiceArray = raw["ns4:choice"];
+      const choiceArray = raw["ns4:choice"] || [];
       choiceArray.forEach((specifier) => {
         const dataType = ElementTypeSpecifier.convertSpecifierToDataType(
           specifier
@@ -76,8 +76,13 @@ export default class ElementTypeSpecifier {
         );
       } else {
         // The simpler variety of lists- no child "elementTypeSpecifier NameTypeSpecifier" elements
+        if (!attrs.elementType) {
+          throw new Error('Missing expected "elementType" attribute');
+        }
         const elementType = attrs.elementType;
-        const [namespace, normalizedTypeName] = normalizeElementTypeName(elementType);
+        const [namespace, normalizedTypeName] = normalizeElementTypeName(
+          elementType
+        );
         const dataType = parseDataType(namespace, normalizedTypeName);
 
         this.memberVariables.push(

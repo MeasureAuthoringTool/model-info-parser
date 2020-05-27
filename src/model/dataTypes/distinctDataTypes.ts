@@ -23,7 +23,7 @@ export default function distinctDataTypes(
   }
 
   const allDataTypes: Array<DataType> = input.reduce(
-    (accumulator, currentMemberVar) => {
+    (accumulator: Array<DataType>, currentMemberVar) => {
       accumulator.push(currentMemberVar.dataType);
       return accumulator;
     },
