@@ -1,23 +1,23 @@
 import _ from "lodash";
-import DataType from "./dataTypes/DataType";
-import MemberVariable from "./dataTypes/MemberVariable";
 import { normalizeElementTypeName, normalizeTypeName } from "../utils";
+import IDataType from "./dataTypes/IDataType";
+import MemberVariable from "./dataTypes/MemberVariable";
 import parseDataType from "./dataTypes/parseDataType";
 
-export interface RawSpecifier {
+export interface IRawSpecifier {
   $: {
     modelName: string;
     name: string;
   };
 }
 
-export interface RawElementTypeSpecifier {
+export interface IRawElementTypeSpecifier {
   $: {
     "xsi:type": string;
     elementType?: string;
   };
-  "ns4:choice"?: Array<RawSpecifier>;
-  "ns4:elementTypeSpecifier"?: Array<RawSpecifier>;
+  "ns4:choice"?: Array<IRawSpecifier>;
+  "ns4:elementTypeSpecifier"?: Array<IRawSpecifier>;
 }
 
 export enum TypeSpecifier {
@@ -30,7 +30,7 @@ export default class ElementTypeSpecifier {
   readonly specifierType: TypeSpecifier;
   readonly memberVariables: Array<MemberVariable>;
 
-  constructor(parentElementName: string, raw: RawElementTypeSpecifier) {
+  constructor(parentElementName: string, raw: IRawElementTypeSpecifier) {
     this.parentElementName = parentElementName;
     const { $: attrs } = raw;
 
@@ -94,7 +94,7 @@ export default class ElementTypeSpecifier {
     }
   }
 
-  static convertSpecifierToDataType(specifier: RawSpecifier): DataType {
+  static convertSpecifierToDataType(specifier: IRawSpecifier): IDataType {
     const { $: specifierAttrs } = specifier;
     const { name, modelName } = specifierAttrs;
     const normalizedName = normalizeTypeName(name);

@@ -1,6 +1,6 @@
-import DataType from "../DataType";
+import IDataType from "../IDataType";
 
-export default class SystemTime implements DataType {
+export default class SystemTime implements IDataType {
   public readonly namespace: string = "System";
   public readonly typeName: string = "Date";
   public readonly normalizedName: string = "Date";

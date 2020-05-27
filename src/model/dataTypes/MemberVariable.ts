@@ -1,11 +1,11 @@
-import DataType from "./DataType"
+import IDataType from "./IDataType";
 
 export default class MemberVariable {
-  public readonly dataType: DataType;
+  public readonly dataType: IDataType;
   public readonly variableName: string;
   public readonly isArray: boolean;
 
-  constructor(dataType: DataType, variableName: string, isArray: boolean = false) {
+  constructor(dataType: IDataType, variableName: string, isArray: boolean = false) {
     this.dataType = dataType;
     this.variableName = variableName;
     this.isArray = isArray;

@@ -1,6 +1,6 @@
-import Handlebars from "./registerPartials";
-import DataType from "../../model/dataTypes/DataType";
+import IDataType from "../../model/dataTypes/IDataType";
 import Element from "../../model/Element";
+import Handlebars from "./registerPartials";
 
 export const source = `{{> classImport dataType=this}}
 type {{name}} = {{baseDataType.typeName}};
@@ -8,11 +8,11 @@ type {{name}} = {{baseDataType.typeName}};
 export default {{name}};
 `;
 
-export interface TemplateContext {
-  distinctTypes: Array<DataType>;
+export interface ITemplateContext {
+  distinctTypes: Array<IDataType>;
   name: string;
   namespace: string;
   elements: Array<Element>;
 }
 
-export default Handlebars.compile<TemplateContext>(source);
+export default Handlebars.compile<ITemplateContext>(source);

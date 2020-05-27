@@ -1,8 +1,8 @@
-import DataType from "./DataType";
 import { normalizeTypeName } from "../../utils";
+import IDataType from "./IDataType";
 import { primitiveTypeCheck } from "./primitiveDataTypes";
 
-export default class ComplexDataType implements DataType {
+export default class ComplexDataType implements IDataType {
   public normalizedName: string;
   public primitive: boolean;
 

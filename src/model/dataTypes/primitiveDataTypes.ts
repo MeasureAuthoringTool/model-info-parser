@@ -1,4 +1,4 @@
-import DataType from "./DataType";
+import IDataType from "./IDataType";
 
 export const primitiveTypeNames = [
   "base64Binary",
@@ -33,7 +33,7 @@ export function primitiveTypeCheck(name: string): boolean {
  * @param distinctTypes
  * @returns true if any of the provided types are primitive
  */
-export function containsPrimitive(distinctTypes: Array<DataType>): boolean {
+export function containsPrimitive(distinctTypes: Array<IDataType>): boolean {
   const firstPrimitive = distinctTypes.find((type) =>
     primitiveTypeCheck(type.typeName)
   );

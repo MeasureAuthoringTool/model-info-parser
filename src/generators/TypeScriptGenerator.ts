@@ -1,10 +1,10 @@
-import Generator from "./Generator";
+import FileWriter from "../FileWriter";
 import TypeInfo from "../model/TypeInfo";
 import classTemplate from "../templates/typescript/classTemplate";
 import typeAliasTemplate from "../templates/typescript/typeAliasTemplate";
-import FileWriter from "../FileWriter";
+import IGenerator from "./IGenerator";
 
-export default class TypeScriptGenerator implements Generator {
+export default class TypeScriptGenerator implements IGenerator {
   constructor(private baseDirectory: string) {}
 
   async generate(typeInfo: TypeInfo): Promise<string> {
