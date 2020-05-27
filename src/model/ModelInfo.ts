@@ -1,16 +1,16 @@
-import { RawTypeInfo } from "./TypeInfo";
+import { IRawTypeInfo } from "./TypeInfo";
 import TypeInfo from "./TypeInfo";
 
 export const typeName = "ns4:modelInfo";
 export const typeInfoTypeName = "ns4:typeInfo";
 
-export interface RawModelInfo {
+export interface IRawModelInfo {
   [typeName]: {
     $: {
       name: string;
       version: string;
     };
-    [typeInfoTypeName]: Array<RawTypeInfo>;
+    [typeInfoTypeName]: Array<IRawTypeInfo>;
   };
 }
 
@@ -22,7 +22,7 @@ export default class ModelInfo {
   // The only types we omit are reserved TS keywords: boolean and string
   complexTypes: Array<TypeInfo>;
 
-  constructor(raw: RawModelInfo) {
+  constructor(raw: IRawModelInfo) {
     const { $: attrs, [typeInfoTypeName]: rawTypeInfoArr } = raw[typeName];
     this.name = attrs.name;
     this.version = attrs.version;

@@ -1,6 +1,6 @@
-import DataType from "../DataType";
+import IDataType from "../IDataType";
 
-export default class SystemString implements DataType {
+export default class SystemString implements IDataType {
   public readonly namespace: string = "System";
   public readonly typeName: string = "string";
   public readonly normalizedName: string = "string";

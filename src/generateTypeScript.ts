@@ -2,8 +2,8 @@
 
 import { program } from "commander";
 import { version } from "../package.json";
-import parser from "./parser";
 import TypeScriptGenerator from "./generators/TypeScriptGenerator";
+import parser from "./parser";
 
 /*
 FHIR JSON Spec

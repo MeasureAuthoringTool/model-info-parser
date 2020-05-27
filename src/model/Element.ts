@@ -1,15 +1,15 @@
-import ElementTypeSpecifier from "./ElementTypeSpecifier";
-import { RawElementTypeSpecifier } from "./ElementTypeSpecifier";
-import parseDataType from "./dataTypes/parseDataType";
 import { normalizeElementTypeName } from "../utils";
 import MemberVariable from "./dataTypes/MemberVariable";
+import parseDataType from "./dataTypes/parseDataType";
+import ElementTypeSpecifier from "./ElementTypeSpecifier";
+import { IRawElementTypeSpecifier } from "./ElementTypeSpecifier";
 
-export interface RawElement {
+export interface IRawElement {
   $: {
     name: string;
     elementType: string;
   };
-  "ns4:elementTypeSpecifier"?: Array<RawElementTypeSpecifier>;
+  "ns4:elementTypeSpecifier"?: Array<IRawElementTypeSpecifier>;
 }
 
 export default class Element {
@@ -17,7 +17,7 @@ export default class Element {
 
   readonly memberVariables: Array<MemberVariable>;
 
-  constructor(raw: RawElement) {
+  constructor(raw: IRawElement) {
     const { $: attrs } = raw;
     this.name = attrs.name;
 

@@ -1,23 +1,22 @@
-import { normalizeTypeName, normalizeElementTypeName } from "../utils";
-import { RawElement } from "./Element";
-import Element from "./Element";
-import DataType from "./dataTypes/DataType";
+import { normalizeElementTypeName, normalizeTypeName } from "../utils";
+import ComplexDataType from "./dataTypes/ComplexDataType";
 import distinctDataTypes from "./dataTypes/distinctDataTypes";
+import IDataType from "./dataTypes/IDataType";
 import MemberVariable from "./dataTypes/MemberVariable";
 import parseDataType from "./dataTypes/parseDataType";
 import { primitiveTypeCheck } from "./dataTypes/primitiveDataTypes";
 import { SystemStringInstance } from "./dataTypes/system/SystemString";
-import ComplexDataType from "./dataTypes/ComplexDataType";
+import Element, { IRawElement } from "./Element";
 
 const elementTypeName = "ns4:element";
 
-export interface RawTypeInfo {
+export interface IRawTypeInfo {
   $: {
     name: string;
     namespace: string;
     baseType: string;
   };
-  [elementTypeName]: Array<RawElement>;
+  [elementTypeName]: Array<IRawElement>;
 }
 
 // We treat "string" and "boolean" differently because they are reserved TS keywords.
@@ -35,16 +34,16 @@ export default class TypeInfo {
   name: string;
   namespace: string;
   baseFhirType: string;
-  baseDataType: DataType | null;
+  baseDataType: IDataType | null;
   elements: Array<Element>;
-  distinctTypes: Array<DataType>;
+  distinctTypes: Array<IDataType>;
   primitive: boolean;
   isReservedKeyword: boolean; // Used to filter out "string" and "boolean" types
   memberVariables: Array<MemberVariable>;
   aliasType: boolean = false;
   isBlacklisted: boolean; // Used to filter out unnecessarily difficult types we don't know how to deal with
 
-  constructor(raw: RawTypeInfo) {
+  constructor(raw: IRawTypeInfo) {
     const attrs = raw.$;
     const rawElementsArr = raw[elementTypeName] || [];
     this.fhirName = attrs.name;
