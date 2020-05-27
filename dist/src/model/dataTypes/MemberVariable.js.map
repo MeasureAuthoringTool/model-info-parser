@@ -1,1 +1,0 @@
-{"version":3,"file":"MemberVariable.js","sourceRoot":"","sources":["../../../../src/model/dataTypes/MemberVariable.ts"],"names":[],"mappings":";;AAEA,MAAqB,cAAc;IAKjC,YAAY,QAAkB,EAAE,YAAoB,EAAE,UAAmB,KAAK;QAC5E,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;QACzB,IAAI,CAAC,YAAY,GAAG,YAAY,CAAC;QACjC,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;IACzB,CAAC;CACF;AAVD,iCAUC"}

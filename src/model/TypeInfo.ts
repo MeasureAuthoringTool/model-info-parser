@@ -5,10 +5,7 @@ import DataType from "./dataTypes/DataType";
 import distinctDataTypes from "./dataTypes/distinctDataTypes";
 import MemberVariable from "./dataTypes/MemberVariable";
 import parseDataType from "./dataTypes/parseDataType";
-import {
-  primitiveTypeCheck,
-  containsPrimitive,
-} from "./dataTypes/primitiveDataTypes";
+import { primitiveTypeCheck } from "./dataTypes/primitiveDataTypes";
 import { SystemStringInstance } from "./dataTypes/system/SystemString";
 import ComplexDataType from "./dataTypes/ComplexDataType";
 
@@ -28,7 +25,10 @@ export interface RawTypeInfo {
 const reservedKeywordTypeNames = ["boolean", "string"];
 
 // These are FHIR types we don't know how to deal with (and hope we never have to)
-const blacklistedTypes = ["allowedUnits", "DataElement constraint on ElementDefinition data type"];
+const blacklistedTypes = [
+  "allowedUnits",
+  "DataElement constraint on ElementDefinition data type",
+];
 
 export default class TypeInfo {
   fhirName: string;
@@ -89,7 +89,7 @@ export default class TypeInfo {
     }
 
     this.memberVariables = this.elements.reduce(
-      (accumulator, currentElement) => {
+      (accumulator: Array<MemberVariable>, currentElement) => {
         return accumulator.concat(currentElement.memberVariables);
       },
       []
