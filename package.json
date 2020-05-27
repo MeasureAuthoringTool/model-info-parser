@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "This is a library to parse a modelinfo.xml specification file and generate libraries conforming to that specification.",
   "main": "dist/generateTypeScript.js",
+  "repository": "git@github.com:MeasureAuthoringTool/model-info-parser.git",
   "files": [
     "dist/**/*"
   ],
@@ -32,5 +33,20 @@
     "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
-  }
+  },
+  "author": "SemanticBits sb-mat-help@semanticbits.com",
+  "contributors": [
+    {
+      "name": "Andrew Bird",
+      "email": "andrew.bird@semanticbits.com"
+    },
+    {
+      "name": "Ashok Dongare",
+      "email": "ashok.dongare@semanticbits.com"
+    },
+    {
+      "name": "Joseph Kotanchik",
+      "email": "joseph.kotanchik@semanticbits.com"
+    }
+  ]
 }
