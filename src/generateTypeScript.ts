@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+import { program } from "commander";
+import { version } from "../package.json";
 import parser from "./parser";
 import TypeScriptGenerator from "./generators/TypeScriptGenerator";
 
@@ -25,12 +29,35 @@ Might need to store a static, type layout in the class definition to help with c
 // TODO what about "contextRelationship" and "context"? (I think it's like a Resource referencing another resource
 
  */
+
+program.version(version);
+
+// Get the location of the modelinfo.xml file from CLI args
+// Default is the FHIR modelinfo.xml file in resources
+program.requiredOption(
+  "-f, --modelinfo-file <file>",
+  "modelinfo.xml file being parsed",
+  `${__dirname}/../resources/fhir-modelinfo-4.0.1.xml`
+);
+
+// Get the output directory from CLI args
+// Default is /generated/{namespace} e.g. /generated/FHIR
+program.requiredOption(
+  "-o, --output-directory <file>",
+  "output directory for generated code",
+  `${__dirname}/../generated`
+);
+
+const { modelinfoFile, outputDirectory } = program;
+
+console.log(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
+
 const main = async () => {
-  const modelInfo = await parser("fhir-modelinfo-4.0.1.xml");
+  const modelInfo = await parser(modelinfoFile);
 
   const { complexTypes } = modelInfo;
 
-  const generator = new TypeScriptGenerator();
+  const generator = new TypeScriptGenerator(outputDirectory);
 
   const promises = complexTypes.map(async (typeInfo) => {
     const generated = await generator.generate(typeInfo);

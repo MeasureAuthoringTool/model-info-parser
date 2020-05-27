@@ -6,14 +6,14 @@ import ComplexDataType from "./ComplexDataType";
 
 // We use this to remove the type being declared from the list of things to import
 // Some classes reference themselves as member variables
-function typeMatch(type: DataType, name: string, namespace: string) {
-  return type.namespace === namespace && type.normalizedName === name;
+function typeMatch(type: DataType, normalizedName: string, namespace: string) {
+  return type.namespace === namespace && type.normalizedName === normalizedName;
 }
 
 export default function distinctDataTypes(
   input: Array<MemberVariable>,
   baseDataType: DataType | null,
-  name: string,
+  normalizedName: string,
   namespace: string
 ): Array<DataType> {
   const initial: Array<DataType> = [];
@@ -33,7 +33,7 @@ export default function distinctDataTypes(
   const result = allDataTypes.reduce((accumulator, currentType) => {
     if (
       !currentType.systemType &&
-      !typeMatch(currentType, name, namespace) &&
+      !typeMatch(currentType, normalizedName, namespace) &&
       !_.find(accumulator, currentType)
     ) {
       accumulator.push(currentType);
@@ -44,7 +44,7 @@ export default function distinctDataTypes(
   // We need to check if any of the members are primitives. If so, we should add the Extension to the list of imports
   // (unless we're looking at Extension, itself, or it's already been added)
   if (
-    name !== "Extension" &&
+    normalizedName !== "Extension" &&
     containsPrimitive(allDataTypes) &&
     !result.find((type) => type.typeName === "Extension")
   ) {

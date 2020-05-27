@@ -8,17 +8,17 @@ import SystemInteger from "./system/SystemInteger";
 import SystemString from "./system/SystemString";
 import SystemTime from "./system/SystemTime";
 
-export default function parseDataType(ns, type): DataType {
+export default function parseDataType(ns, normalizedTypeName): DataType {
   if (ns === "FHIR") {
     // We treat "FHIR.string" and "FHIR.boolean" differently because they are reserved TS keywords.
     // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to "number"
-    switch (type) {
+    switch (normalizedTypeName) {
       case "string":
         return new SystemString();
       case "boolean":
         return new SystemBoolean();
       default:
-        return new ComplexDataType(ns, type);
+        return new ComplexDataType(ns, normalizedTypeName);
     }
   }
 
@@ -27,7 +27,7 @@ export default function parseDataType(ns, type): DataType {
   }
 
   // Handle the "System" namespace types
-  switch (type) {
+  switch (normalizedTypeName) {
     case "Boolean":
       return new SystemBoolean();
     case "Date":
@@ -43,6 +43,6 @@ export default function parseDataType(ns, type): DataType {
     case "Time":
       return new SystemTime();
     default:
-      throw new Error(`Unrecognized System type: ${type}`);
+      throw new Error(`Unrecognized System type: ${normalizedTypeName}`);
   }
 }

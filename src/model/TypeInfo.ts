@@ -23,13 +23,12 @@ export interface RawTypeInfo {
   [elementTypeName]: Array<RawElement>;
 }
 
-const reservedKeywordTypeNames = ["boolean", "string"];
-
 // We treat "string" and "boolean" differently because they are reserved TS keywords.
 // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to TS "number"
-function reservedKeywordCheck(name: string): boolean {
-  return reservedKeywordTypeNames.includes(name);
-}
+const reservedKeywordTypeNames = ["boolean", "string"];
+
+// These are FHIR types we don't know how to deal with (and hope we never have to)
+const blacklistedTypes = ["allowedUnits", "DataElement constraint on ElementDefinition data type"];
 
 export default class TypeInfo {
   fhirName: string;
@@ -40,9 +39,10 @@ export default class TypeInfo {
   elements: Array<Element>;
   distinctTypes: Array<DataType>;
   primitive: boolean;
-  isReservedKeyword: boolean;
+  isReservedKeyword: boolean; // Used to filter out "string" and "boolean" types
   memberVariables: Array<MemberVariable>;
   aliasType: boolean = false;
+  isBlacklisted: boolean; // Used to filter out unnecessarily difficult types we don't know how to deal with
 
   constructor(raw: RawTypeInfo) {
     const attrs = raw.$;
@@ -55,10 +55,10 @@ export default class TypeInfo {
     // TODO What about "baseTypeSpecifier"? Only on "allowedUnits"??
     this.baseFhirType = attrs.baseType;
     if (this.baseFhirType) {
-      const [baseNamespace, baseTypeName] = normalizeElementTypeName(
+      const [baseNamespace, normalizedBaseTypeName] = normalizeElementTypeName(
         this.baseFhirType
       );
-      this.baseDataType = parseDataType(baseNamespace, baseTypeName);
+      this.baseDataType = parseDataType(baseNamespace, normalizedBaseTypeName);
     } else {
       this.baseDataType = null;
     }
@@ -101,7 +101,8 @@ export default class TypeInfo {
       this.name,
       this.namespace
     );
-    this.isReservedKeyword = reservedKeywordCheck(this.name);
+    this.isReservedKeyword = reservedKeywordTypeNames.includes(this.name);
+    this.isBlacklisted = blacklistedTypes.includes(this.fhirName);
     this.primitive = primitiveTypeCheck(this.name);
 
     // Check if we're looking at "Extension". We have to treat that differently to prevent circular dependencies

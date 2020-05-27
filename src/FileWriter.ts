@@ -1,17 +1,16 @@
 import { promises as fsPromises } from "fs";
 
-const baseDir = `${__dirname}/../generated`;
-
 export default class FileWriter {
   private fullPath: string;
   private fullFileName: string;
 
   constructor(
     private contents: string,
+    private baseDirectory: string,
     private subDir: string | null,
     private fileName: string
   ) {
-    this.fullPath = baseDir;
+    this.fullPath = baseDirectory;
     if (this.subDir) {
       this.fullPath = `${this.fullPath}/${this.subDir}`;
     }

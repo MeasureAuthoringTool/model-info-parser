@@ -1,0 +1,36 @@
+{
+    "name": "model-info-parser",
+    "version": "0.0.1",
+    "description": "This is a library to parse a modelinfo.xml specification file and generate libraries conforming to that specification.",
+    "main": "dist/generateTypeScript.js",
+    "files": [
+        "dist/**/*"
+    ],
+    "scripts": {
+        "prebuild": "rm -rf dist; rm -rf generated",
+        "build": "tsc",
+        "generateTypeScript": "ts-node src/generateTypeScript.ts",
+        "tslint": "npx tslint -c tslint.json 'src/**/*.ts'",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "bin": {
+        "generateTypeScript": "dist/generateTypeScript.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "CC0-1.0",
+    "dependencies": {
+        "commander": "^5.1.0",
+        "handlebars": "^4.7.6",
+        "lodash": "^4.17.15",
+        "xml2js": "^0.4.23"
+    },
+    "devDependencies": {
+        "@types/node": "^13.11.1",
+        "prettier": "^2.0.5",
+        "ts-node": "^8.8.2",
+        "tslint": "^6.1.1",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.8.3"
+    }
+}

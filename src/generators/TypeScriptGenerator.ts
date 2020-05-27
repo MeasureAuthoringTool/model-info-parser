@@ -5,6 +5,8 @@ import typeAliasTemplate from "../templates/typescript/typeAliasTemplate";
 import FileWriter from "../FileWriter";
 
 export default class TypeScriptGenerator implements Generator {
+  constructor(private baseDirectory: string) {}
+
   async generate(typeInfo: TypeInfo): Promise<string> {
     let contents: string;
 
@@ -17,7 +19,12 @@ export default class TypeScriptGenerator implements Generator {
     const { namespace, name } = typeInfo;
     const fileName = `${name}.ts`;
 
-    const writer = new FileWriter(contents, namespace, fileName);
+    const writer = new FileWriter(
+      contents,
+      this.baseDirectory,
+      namespace,
+      fileName
+    );
     await writer.writeFile();
     return contents;
   }

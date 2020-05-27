@@ -33,8 +33,8 @@ export default class Element {
     } else {
       // Simple element def
       const elementType = attrs.elementType;
-      const [namespace, typeName] = normalizeElementTypeName(elementType);
-      const dataType = parseDataType(namespace, typeName);
+      const [namespace, normalizedTypeName] = normalizeElementTypeName(elementType);
+      const dataType = parseDataType(namespace, normalizedTypeName);
       this.memberVariables = [new MemberVariable(dataType, this.name, false)];
     }
   }

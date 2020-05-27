@@ -4,8 +4,7 @@ import ModelInfo from "./model/ModelInfo";
 
 const parser = new xml2js.Parser(/* options */);
 
-const readXml = async (fileName) => {
-  const fullName = `${__dirname}/../resources/${fileName}`;
+const readXml = async (fullName) => {
   try {
     const rawFile = await fsPromises.readFile(fullName);
     const parsedXml = await parser.parseStringPromise(rawFile);

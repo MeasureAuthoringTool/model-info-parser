@@ -27,6 +27,6 @@ export default class ModelInfo {
     this.name = attrs.name;
     this.version = attrs.version;
     this.types = rawTypeInfoArr.map((rawType) => new TypeInfo(rawType));
-    this.complexTypes = this.types.filter((type) => !type.isReservedKeyword);
+    this.complexTypes = this.types.filter((type) => !type.isReservedKeyword && !type.isBlacklisted);
   }
 }

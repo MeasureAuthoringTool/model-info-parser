@@ -1,7 +1,7 @@
 import _ from "lodash";
 import DataType from "./dataTypes/DataType";
 import MemberVariable from "./dataTypes/MemberVariable";
-import { normalizeElementTypeName } from "../utils";
+import { normalizeElementTypeName, normalizeTypeName } from "../utils";
 import parseDataType from "./dataTypes/parseDataType";
 
 export interface RawSpecifier {
@@ -77,8 +77,8 @@ export default class ElementTypeSpecifier {
       } else {
         // The simpler variety of lists- no child "elementTypeSpecifier NameTypeSpecifier" elements
         const elementType = attrs.elementType;
-        const [namespace, typeName] = normalizeElementTypeName(elementType);
-        const dataType = parseDataType(namespace, typeName);
+        const [namespace, normalizedTypeName] = normalizeElementTypeName(elementType);
+        const dataType = parseDataType(namespace, normalizedTypeName);
 
         this.memberVariables.push(
           new MemberVariable(dataType, parentElementName, true)
@@ -92,6 +92,7 @@ export default class ElementTypeSpecifier {
   static convertSpecifierToDataType(specifier: RawSpecifier): DataType {
     const { $: specifierAttrs } = specifier;
     const { name, modelName } = specifierAttrs;
-    return parseDataType(modelName, name);
+    const normalizedName = normalizeTypeName(name);
+    return parseDataType(modelName, normalizedName);
   }
 }
