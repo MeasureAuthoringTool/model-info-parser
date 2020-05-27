@@ -41,6 +41,12 @@ jobs:
       - name: Execute test coverage
         run: npm run-script coverage
 
+      - name: Store the HTML coverage report as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage/lcov-report
+
       - name: Upload code coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
         with:
