@@ -4,7 +4,6 @@
 # - build the source code
 # - run tests and capture code coverage
 # - upload the code coverage report to Codacy
-# - notify slack of failing test cases
 
 name: Unit Test Coverage Continuous Integration
 
@@ -31,16 +30,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install node dependencies
-      - run: npm ci
+        run: npm ci
 
       - name: Lint the source code
-      - run: npm run-script lint
+        run: npm run-script lint
 
       - name: Build the source code
-      - run: npm run build
+        run: npm run build
 
       - name: Execute test coverage
-      - run: npm coverage
+        run: npm coverage
 
       - name: Upload code coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
