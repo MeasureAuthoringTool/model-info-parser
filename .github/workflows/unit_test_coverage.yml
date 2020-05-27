@@ -1,0 +1,49 @@
+# This workflow will do the following:
+# - perform a clean install of node dependencies
+# - lint the source code for errors
+# - build the source code
+# - run tests and capture code coverage
+# - upload the code coverage report to Codacy
+# - notify slack of failing test cases
+
+name: Unit Test Coverage Continuous Integration
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install node dependencies
+      - run: npm ci
+
+      - name: Lint the source code
+      - run: npm run-script lint
+
+      - name: Build the source code
+      - run: npm run build
+
+      - name: Execute test coverage
+      - run: npm coverage
+
+      - name: Upload code coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/lcov.info

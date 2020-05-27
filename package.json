@@ -11,7 +11,7 @@
     "prebuild": "rm -rf dist; rm -rf generated",
     "build": "tsc",
     "generateTypeScript": "ts-node src/generateTypeScript.ts",
-    "tslint": "npx tslint -c tslint.json '**/*.ts'",
+    "lint": "npx tslint -c tslint.json '**/*.ts'",
     "test": "npx jest",
     "coverage": "npx jest --coverage"
   },
