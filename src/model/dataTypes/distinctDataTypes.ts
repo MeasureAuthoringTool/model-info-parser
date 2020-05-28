@@ -1,29 +1,29 @@
 import _ from "lodash";
-import MemberVariable from "./MemberVariable";
-import DataType from "./DataType";
-import { containsPrimitive } from "./primitiveDataTypes";
 import ComplexDataType from "./ComplexDataType";
+import IDataType from "./IDataType";
+import MemberVariable from "./MemberVariable";
+import { containsPrimitive } from "./primitiveDataTypes";
 
 // We use this to remove the type being declared from the list of things to import
 // Some classes reference themselves as member variables
-function typeMatch(type: DataType, normalizedName: string, namespace: string) {
+function typeMatch(type: IDataType, normalizedName: string, namespace: string) {
   return type.namespace === namespace && type.normalizedName === normalizedName;
 }
 
 export default function distinctDataTypes(
   input: Array<MemberVariable>,
-  baseDataType: DataType | null,
+  baseDataType: IDataType | null,
   normalizedName: string,
   namespace: string
-): Array<DataType> {
-  const initial: Array<DataType> = [];
+): Array<IDataType> {
+  const initial: Array<IDataType> = [];
 
   if (baseDataType && !baseDataType.systemType) {
     initial.push(baseDataType);
   }
 
-  const allDataTypes: Array<DataType> = input.reduce(
-    (accumulator, currentMemberVar) => {
+  const allDataTypes: Array<IDataType> = input.reduce(
+    (accumulator: Array<IDataType>, currentMemberVar) => {
       accumulator.push(currentMemberVar.dataType);
       return accumulator;
     },

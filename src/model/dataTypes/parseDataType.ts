@@ -1,5 +1,5 @@
-import DataType from "./DataType";
 import ComplexDataType from "./ComplexDataType";
+import IDataType from "./IDataType";
 import SystemBoolean from "./system/SystemBoolean";
 import SystemDate from "./system/SystemDate";
 import SystemDateTime from "./system/SystemDateTime";
@@ -8,7 +8,7 @@ import SystemInteger from "./system/SystemInteger";
 import SystemString from "./system/SystemString";
 import SystemTime from "./system/SystemTime";
 
-export default function parseDataType(ns, normalizedTypeName): DataType {
+export default function parseDataType(ns: string, normalizedTypeName: string): IDataType {
   if (ns === "FHIR") {
     // We treat "FHIR.string" and "FHIR.boolean" differently because they are reserved TS keywords.
     // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to "number"
