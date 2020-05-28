@@ -5,7 +5,7 @@
 # - run tests and capture code coverage
 # - upload the code coverage report to Codacy
 
-name: Unit Test Coverage Continuous Integration
+name: Continuous Integration
 
 on:
   push:
