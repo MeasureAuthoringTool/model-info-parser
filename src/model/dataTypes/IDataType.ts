@@ -1,4 +1,4 @@
-export default interface DataType {
+export default interface IDataType {
   namespace: string;
   typeName: string;
   systemType: boolean;

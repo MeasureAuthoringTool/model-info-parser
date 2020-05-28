@@ -9,7 +9,31 @@
       "spaces",
       2
     ],
-    "no-console": false
+    "interface-name": true,
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-console": false,
+    "ordered-imports": true,
+    "semicolon": [
+      true,
+      "always"
+    ]
   },
-  "rulesDirectory": []
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ]
+  }
 }

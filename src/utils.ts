@@ -1,4 +1,6 @@
-export function normalizeElementTypeName(elementType): [string, string] {
+export function normalizeElementTypeName(
+  elementType: string
+): [string, string] {
   const tokens = elementType.split(/\./);
 
   if (tokens.length < 2) {
@@ -12,7 +14,7 @@ export function normalizeElementTypeName(elementType): [string, string] {
   return [ns, name];
 }
 
-export function normalizeTypeName(typeName): string {
+export function normalizeTypeName(typeName: string): string {
   const regex = /[\.\s]*/gi;
   return typeName.replace(regex, "");
 }
