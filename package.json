@@ -1,9 +1,12 @@
 {
   "name": "model-info-parser",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "This is a library to parse a modelinfo.xml specification file and generate libraries conforming to that specification.",
   "main": "dist/generateTypeScript.js",
-  "repository": "git@github.com:MeasureAuthoringTool/model-info-parser.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MeasureAuthoringTool/model-info-parser.git"
+  },
   "files": [
     "dist/**/*"
   ],
@@ -16,7 +19,7 @@
     "coverage": "npx jest --coverage"
   },
   "bin": {
-    "generateTypeScript": "dist/generateTypeScript.js"
+    "generateTypeScript": "dist/src/generateTypeScript.js"
   },
   "keywords": [],
   "author": "SemanticBits sb-mat-help@semanticbits.com",
@@ -41,25 +44,17 @@
     "typescript": "^3.9.3"
   },
   "contributors": [
-    {
-      "name": "Andrew Bird",
-      "email": "andrew.bird@semanticbits.com"
-    },
-    {
-      "name": "Ashok Dongare",
-      "email": "ashok.dongare@semanticbits.com"
-    },
-    {
-      "name": "Joseph Kotanchik",
-      "email": "joseph.kotanchik@semanticbits.com"
-    },
-    {
-      "name": "Rohit Kandimalla",
-      "email": "rohit.kandimalla@semanticbits.com"
-    },
-    {
-      "name": "Serhii Ilin",
-      "email": "serhii.ilin@semanticbits.com"
-    }
-  ]
+    "Andrew Bird <andrew.bird@semanticbits.com>",
+    "Ashok Dongare <ashok.dongare@semanticbits.com>",
+    "Joseph Kotanchik <joseph.kotanchik@semanticbits.com>",
+    "Rohit Kandimalla <rohit.kandimalla@semanticbits.com>",
+    "Serhii Ilin <serhii.ilin@semanticbits.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/MeasureAuthoringTool/model-info-parser/issues"
+  },
+  "homepage": "https://github.com/MeasureAuthoringTool/model-info-parser#readme",
+  "directories": {
+    "test": "test"
+  }
 }
