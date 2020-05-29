@@ -4,6 +4,7 @@
 # - build the source code
 # - run tests and capture code coverage
 # - upload the code coverage report to Codacy
+# - upload the code coverage report to Codecov
 
 name: Continuous Integration
 
@@ -15,19 +16,16 @@ on:
 
 jobs:
   build:
+    name: Checkout, install, lint, build and test with coverage
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '14.x'
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -35,9 +33,8 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-node-${{ matrix.node-version }}-
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
@@ -54,17 +51,37 @@ jobs:
       - name: Execute test coverage
         run: npm run-script coverage
 
-      - name: Store the HTML coverage report as an artifact
+      - name: Store the coverage report as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-report
-          path: coverage/lcov-report
+          name: coverage
+          path: coverage/lcov.info
+
+  upload-codacy-coverage:
+    name: Upload code coverage to Codacy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage
 
       - name: Upload code coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/lcov.info
+
+  upload-codecov-coverage:
+    name: Upload code coveage to Codecov
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage
 
       - name: Upload code coverage to Codecov
         uses: codecov/codecov-action@v1
@@ -73,4 +90,3 @@ jobs:
           fail_ci_if_error: true # optional (default = false)
 #          flags: unittests # optional
 #          name: codecov-umbrella # optional
-
