@@ -1,6 +1,6 @@
 {
   "name": "model-info-parser",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "This is a library to parse a modelinfo.xml specification file and generate libraries conforming to that specification.",
   "main": "dist/generateTypeScript.js",
   "repository": "git@github.com:MeasureAuthoringTool/model-info-parser.git",
@@ -35,7 +35,7 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
-    "ts-node": "^8.10.1",
+    "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.3"
