@@ -1,8 +1,8 @@
 import {exec} from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import parser from "../src/parser";
 import { mongoidPrimitiveTypes } from "../src/model/dataTypes/primitiveDataTypes";
+import parser from "../src/parser";
 
 describe('generateMongoidTypes', () => {
 
