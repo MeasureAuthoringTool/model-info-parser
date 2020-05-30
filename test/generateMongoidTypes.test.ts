@@ -12,12 +12,12 @@ describe('generateMongoidTypes', () => {
     exec(`rm -rf ${path.resolve(modelDir)}`);
   });
 
-  interface Result {
+  interface IResult {
     code: number;
     error: any;
   }
 
-  function cli(): Promise<Result> {
+  function cli(): Promise<IResult> {
     return new Promise(resolve => {
       exec(`ts-node ${path.resolve("./src/generateMongoidTypes.ts")}`,
         (error: any, stdout: any, stderr: any) => { resolve({
