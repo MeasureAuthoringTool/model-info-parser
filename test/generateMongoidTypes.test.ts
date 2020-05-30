@@ -12,12 +12,7 @@ describe('generateMongoidTypes', () => {
     exec(`rm -rf ${path.resolve(modelDir)}`);
   });
 
-  interface IResult {
-    code: number;
-    error: any;
-  }
-
-  function cli(): Promise<IResult> {
+  function generateMongoids(): Promise<{code: number, error: any}> {
     return new Promise(resolve => {
       exec(`ts-node ${path.resolve("./src/generateMongoidTypes.ts")}`,
         (error: any, stdout: any, stderr: any) => { resolve({
@@ -27,14 +22,14 @@ describe('generateMongoidTypes', () => {
   }
 
   test('Should generate mongoid models successfully', async() => {
-    const result = await  cli();
+    const result = await  generateMongoids();
     expect(result.code).toBe(0);
     expect(result.error).toBe(null);
   });
 
-  test('should have a mongoid model for each typeinfo', async() => {
-    const modelinfoFile = `${path.resolve("./resources/fhir-modelinfo-4.0.1.xml")}`;
-    const { complexTypes } = await parser(modelinfoFile) as any;
+  test('Should have a mongoid model for each typeinfo', async() => {
+    const modelInfoFile = `${path.resolve("./resources/fhir-modelinfo-4.0.1.xml")}`;
+    const { complexTypes } = await parser(modelInfoFile) as any;
     complexTypes.map((typeInfo: { name: any; }) => {
       // skip the primitives
       if (!mongoidPrimitiveTypes[typeInfo.name]) {
