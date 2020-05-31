@@ -1,4 +1,4 @@
-import {exec} from 'child_process';
+import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { mongoidPrimitiveTypes } from "../src/model/dataTypes/primitiveDataTypes";
@@ -29,7 +29,7 @@ describe('generateMongoidTypes', () => {
   });
 
   test('Should have a mongoid model for each typeinfo', async() => {
-    const modelInfoFile = `${path.resolve("./resources/fhir-modelinfo-4.0.1.xml")}`;
+    const modelInfoFile = path.resolve('./resources/fhir-modelinfo-4.0.1.xml');
     const { complexTypes } = await parser(modelInfoFile);
     complexTypes.forEach((typeInfo: { name: any; }) => {
       // skip the primitives
