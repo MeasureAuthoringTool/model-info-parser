@@ -32,7 +32,7 @@ describe('generateMongoidTypes', () => {
 
   test('Should have a mongoid model for each typeinfo', async() => {
     const modelInfoFile = `${path.resolve(modelInfoPath)}`;
-    const { complexTypes } = await parser(modelInfoFile) as any;
+    const { complexTypes } = await parser(modelInfoFile);
     complexTypes.forEach((typeInfo: { name: any; }) => {
       // skip the primitives
       if (!mongoidPrimitiveTypes[typeInfo.name]) {
