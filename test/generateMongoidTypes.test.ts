@@ -7,8 +7,6 @@ import parser from "../src/parser";
 describe('generateMongoidTypes', () => {
 
   const modelDir = './generated/mongoid';
-  const modelInfoPath = './resources/fhir-modelinfo-4.0.1.xml';
-  const generatorScriptPath = './src/generateMongoidTypes.ts';
 
   // remove models after all tests have been run
   afterAll(() => {
@@ -17,7 +15,7 @@ describe('generateMongoidTypes', () => {
 
   function generateMongoids(): Promise<{ code: number, error: any }> {
     return new Promise(resolve => {
-      exec(`ts-node ${path.resolve(generatorScriptPath)}`,
+      exec(`ts-node ${path.resolve("./src/generateMongoidTypes.ts")}`,
         (error: any, stdout: any, stderr: any) => { resolve({
           code: error && error.code ? error.code : 0, error});
         });
@@ -31,7 +29,7 @@ describe('generateMongoidTypes', () => {
   });
 
   test('Should have a mongoid model for each typeinfo', async() => {
-    const modelInfoFile = `${path.resolve(modelInfoPath)}`;
+    const modelInfoFile = `${path.resolve("./resources/fhir-modelinfo-4.0.1.xml")}`;
     const { complexTypes } = await parser(modelInfoFile);
     complexTypes.forEach((typeInfo: { name: any; }) => {
       // skip the primitives
