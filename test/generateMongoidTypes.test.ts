@@ -1,4 +1,4 @@
-import {exec} from 'child_process';
+import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { mongoidPrimitiveTypes } from "../src/model/dataTypes/primitiveDataTypes";
@@ -7,14 +7,17 @@ import parser from "../src/parser";
 describe('generateMongoidTypes', () => {
 
   const modelDir = './generated/mongoid';
+  const modelInfoPath = './resources/fhir-modelinfo-4.0.1.xml';
+  const generatorScriptPath = './src/generateMongoidTypes.ts';
+
   // remove models after all tests have been run
   afterAll(() => {
     exec(`rm -rf ${path.resolve(modelDir)}`);
   });
 
-  function generateMongoids(): Promise<{code: number, error: any}> {
+  function generateMongoids(): Promise<{ code: number, error: any }> {
     return new Promise(resolve => {
-      exec(`ts-node ${path.resolve("./src/generateMongoidTypes.ts")}`,
+      exec(`ts-node ${path.resolve(generatorScriptPath)}`,
         (error: any, stdout: any, stderr: any) => { resolve({
           code: error && error.code ? error.code : 0, error});
         });
@@ -28,9 +31,9 @@ describe('generateMongoidTypes', () => {
   });
 
   test('Should have a mongoid model for each typeinfo', async() => {
-    const modelInfoFile = `${path.resolve("./resources/fhir-modelinfo-4.0.1.xml")}`;
+    const modelInfoFile = `${path.resolve(modelInfoPath)}`;
     const { complexTypes } = await parser(modelInfoFile) as any;
-    complexTypes.map((typeInfo: { name: any; }) => {
+    complexTypes.forEach((typeInfo: { name: any; }) => {
       // skip the primitives
       if (!mongoidPrimitiveTypes[typeInfo.name]) {
         const file = fs.readFileSync(path.resolve(`${modelDir}/fhir/${typeInfo.name}.rb`));
@@ -38,5 +41,4 @@ describe('generateMongoidTypes', () => {
       }
     });
   });
-
 });
