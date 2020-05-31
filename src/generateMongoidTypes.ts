@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { program } from "commander";
-import { version } from "../package.json";
-import MongoidTypeGenerator from "./generators/MongoidTypeGenerator";
-import parser from "./parser";
+import { program } from 'commander';
+import { version } from '../package.json';
+import MongoidTypeGenerator from './generators/MongoidTypeGenerator';
+import parser from './parser';
+
 /*
 FHIR JSON Spec
 http://hl7.org/fhir/json.html
@@ -15,7 +16,7 @@ program.version(version);
 // Default is the FHIR modelinfo.xml file in resources
 program.requiredOption(
   "-f, --modelinfo-file <file>",
-  "modelinfo.xml file being parsed",
+  'modelinfo.xml file being parsed',
   `${__dirname}/../resources/fhir-modelinfo-4.0.1.xml`
 );
 
@@ -23,7 +24,7 @@ program.requiredOption(
 // Default is /generated/mongoid/{namespace} e.g. /generated/mongoid/fhir
 program.requiredOption(
   "-o, --output-directory <file>",
-  "output directory for generated code",
+  'output directory for generated code',
   `${__dirname}/../generated/mongoid`
 );
 
@@ -48,9 +49,9 @@ const main = async () => {
 
 main()
   .then((result) => {
-    console.log("Done");
+    console.log('Done');
   })
   .catch((err) => {
-    console.error("ERROR");
+    console.error('ERROR');
     console.error(err);
   });

@@ -1,8 +1,8 @@
-import FileWriter from "../FileWriter";
-import { mongoidPrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
-import TypeInfo from "../model/TypeInfo";
-import classTemplate from "../templates/rubymongoid/classTemplate";
-import IGenerator from "./IGenerator";
+import FileWriter from '../FileWriter';
+import { mongoidPrimitiveTypes } from '../model/dataTypes/primitiveDataTypes';
+import TypeInfo from '../model/TypeInfo';
+import classTemplate from '../templates/rubymongoid/classTemplate';
+import IGenerator from './IGenerator';
 
 export default class MongoidTypeGenerator implements IGenerator {
   constructor(private baseDirectory: string) {}

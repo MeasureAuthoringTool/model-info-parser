@@ -1,6 +1,6 @@
-import IDataType from "../../model/dataTypes/IDataType";
-import Element from "../../model/Element";
-import Handlebars from "./registerPartials";
+import IDataType from '../../model/dataTypes/IDataType';
+import Element from '../../model/Element';
+import Handlebars from './registerPartials';
 
 export const source = `module {{namespace}}
   class {{name}}{{#if baseFhirType}} < {{#removeNamespace baseFhirType }}{{/removeNamespace}}{{/if}}
