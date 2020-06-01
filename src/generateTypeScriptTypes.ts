@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-import { program } from "commander";
-import { version } from "../package.json";
-import TypeScriptGenerator from "./generators/TypeScriptGenerator";
-import parser from "./parser";
-
 /*
 FHIR JSON Spec
 https://www.hl7.org/fhir/DSTU2/json.html
@@ -30,48 +25,19 @@ Might need to store a static, type layout in the class definition to help with c
 
  */
 
-program.version(version);
-
-// Get the location of the modelinfo.xml file from CLI args
-// Default is the FHIR modelinfo.xml file in resources
-program.requiredOption(
-  "-f, --modelinfo-file <file>",
-  "modelinfo.xml file being parsed",
-  `${__dirname}/../resources/fhir-modelinfo-4.0.1.xml`
-);
-
-// Get the output directory from CLI args
-// Default is /generated/{namespace} e.g. /generated/FHIR
-program.requiredOption(
-  "-o, --output-directory <file>",
-  "output directory for generated code",
-  `${__dirname}/../generated`
-);
-
-const { modelinfoFile, outputDirectory } = program;
-
-console.log(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
+import GeneratorProgram from "./GeneratorProgram";
 
 const main = async () => {
-  const modelInfo = await parser(modelinfoFile);
-
-  const { complexTypes } = modelInfo;
-
-  const generator = new TypeScriptGenerator(outputDirectory);
-
-  const promises = complexTypes.map(async (typeInfo) => {
-    const generated = await generator.generate(typeInfo);
-    return generated;
-  });
-
-  const generatedTypes = await Promise.all(promises);
+  const program = new GeneratorProgram();
+  await program.generateTypes(false);
 };
 
 main()
   .then((result) => {
-    console.log("Done");
+    console.log('Done');
   })
   .catch((err) => {
-    console.error("ERROR");
+    console.error('ERROR');
     console.error(err);
   });
+
