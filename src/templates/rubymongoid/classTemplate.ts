@@ -4,7 +4,7 @@ import Handlebars from './registerPartials';
 
 export const source = `module {{namespace}}
   class {{name}}{{#if baseFhirType}} < {{#removeNamespace baseFhirType }}{{/removeNamespace}}{{/if}}
-    include Mongoid::Document {{this.testthis}}
+    include Mongoid::Document
     field :typeName, type: String, default: '{{name}}'
     {{#each memberVariables}}
     {{#if this.dataType.primitive}}{{> primitiveMember member=this}}{{else}}{{> complexMember member=this}}{{/if}}
