@@ -31,7 +31,7 @@ describe('generateTypescriptTypes', () => {
   test('Should have a fhir typescript class for each typeinfo', async() => {
     const { complexTypes } = await parser(modelInfoFile);
     complexTypes.forEach((typeInfo: { name: any; }) => {
-      const file = fs.readFileSync(`${modelDir}/fhir/${typeInfo.name}.ts`);
+      const file = fs.readFileSync(`${modelDir}/FHIR/${typeInfo.name}.ts`);
       expect(file).toBeDefined();
     });
   });
