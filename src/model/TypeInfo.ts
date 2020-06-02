@@ -40,7 +40,6 @@ export default class TypeInfo {
   primitive: boolean;
   isReservedKeyword: boolean; // Used to filter out "string" and "boolean" types
   memberVariables: Array<MemberVariable>;
-  aliasType: boolean = false;
   isBlacklisted: boolean; // Used to filter out unnecessarily difficult types we don't know how to deal with
 
   constructor(raw: IRawTypeInfo) {
@@ -67,25 +66,6 @@ export default class TypeInfo {
     rawElementsArr.forEach((rawElement) => {
       this.elements.push(new Element(rawElement));
     });
-
-    // No data members, just an alias to the parent type
-    if (this.elements.length === 0) {
-      this.aliasType = true;
-    }
-
-    // Just a single member, whose name is "value"
-    if (this.elements.length === 1 && this.elements[0].name === "value") {
-      const [valueElement] = this.elements;
-
-      if (valueElement.memberVariables.length === 1) {
-        // Just a simple alias type
-        this.aliasType = true;
-        this.baseDataType = valueElement.memberVariables[0].dataType;
-      } else {
-        // Leave the field alone.
-        // The value can be a choice of types. Look at Contract.Term.Offer.Answer as an example
-      }
-    }
 
     this.memberVariables = this.elements.reduce(
       (accumulator: Array<MemberVariable>, currentElement) => {

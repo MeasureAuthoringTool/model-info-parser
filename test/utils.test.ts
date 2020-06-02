@@ -24,6 +24,11 @@ describe('utils', () => {
       expect(normalizeElementTypeName("foo.bar.baz")).toStrictEqual(["foo", "barbaz"]);
       expect(normalizeElementTypeName("foo.bar.baz.bot")).toStrictEqual(["foo", "barbazbot"]);
     });
+
+    test("it converts primitive type names to their proper name", () => {
+      expect(normalizeElementTypeName("FHIR.instant")).toStrictEqual(["FHIR", "PrimitiveInstant"]);
+      expect(normalizeElementTypeName("bar.base64Binary")).toStrictEqual(["bar", "PrimitiveBase64Binary"]);
+    });
   });
 
   describe("normalizeTypeName()", () => {
@@ -40,10 +45,20 @@ describe('utils', () => {
       expect(normalizeTypeName(".Foo...Bar.")).toBe("FooBar");
     });
 
+    test("it strips underscores from names", () => {
+      expect(normalizeTypeName("Foo_Bar")).toBe("FooBar");
+      expect(normalizeTypeName("_Foo__Bar_")).toBe("FooBar");
+    });
+
     test("it strips whitespace from names", () => {
       expect(normalizeTypeName("Foo Bar")).toBe("FooBar");
       expect(normalizeTypeName(" Foo   Bar ")).toBe("FooBar");
       expect(normalizeTypeName("\t Foo \n Bar ")).toBe("FooBar");
+    });
+
+    test("converts primitive type names to their proper name", () => {
+      expect(normalizeTypeName("dateTime")).toBe("PrimitiveDateTime");
+      expect(normalizeTypeName("positiveInt")).toBe("PrimitivePositiveInt");
     });
   });
 });

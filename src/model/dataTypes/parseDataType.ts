@@ -8,18 +8,12 @@ import SystemInteger from "./system/SystemInteger";
 import SystemString from "./system/SystemString";
 import SystemTime from "./system/SystemTime";
 
-export default function parseDataType(ns: string, normalizedTypeName: string): IDataType {
+export default function parseDataType(
+  ns: string,
+  normalizedTypeName: string
+): IDataType {
   if (ns === "FHIR") {
-    // We treat "FHIR.string" and "FHIR.boolean" differently because they are reserved TS keywords.
-    // The other "system" types get generated as type aliases. E.g. "FHIR.integer" is just an alias to "number"
-    switch (normalizedTypeName) {
-      case "string":
-        return new SystemString();
-      case "boolean":
-        return new SystemBoolean();
-      default:
-        return new ComplexDataType(ns, normalizedTypeName);
-    }
+    return new ComplexDataType(ns, normalizedTypeName);
   }
 
   if (ns !== "System") {

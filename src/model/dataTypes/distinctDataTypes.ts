@@ -41,15 +41,20 @@ export default function distinctDataTypes(
     return accumulator;
   }, initial);
 
-  // We need to check if any of the members are primitives. If so, we should add the Extension to the list of imports
-  // (unless we're looking at Extension, itself, or it's already been added)
-  if (
-    normalizedName !== "Extension" &&
-    containsPrimitive(allDataTypes) &&
-    !result.find((type) => type.typeName === "Extension")
-  ) {
-    result.push(new ComplexDataType("FHIR", "Extension"));
-  }
+  result.sort((t1: IDataType, t2: IDataType): number => {
+    const name1 = t1.normalizedName.toUpperCase();
+    const name2 = t2.normalizedName.toUpperCase();
+
+    if (name1 < name2) {
+      return -1;
+    }
+    if (name1 > name2) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
 
   return result;
 }

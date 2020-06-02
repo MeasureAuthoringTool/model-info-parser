@@ -1,20 +1,23 @@
+import { convertPrimitiveName } from "./model/dataTypes/primitiveDataTypes";
+
 export function normalizeElementTypeName(
   elementType: string
 ): [string, string] {
-  const tokens = elementType.split(/\./);
+  const periodIndex = elementType.indexOf(".");
 
-  if (tokens.length < 2) {
+  if (periodIndex === -1) {
     throw new Error(`Invalid elementType encountered: ${elementType}`);
   }
-  const [ns, ...typeArr] = tokens;
-  const name = typeArr.reduce(
-    (accumulator, currentToken) => accumulator + currentToken,
-    ""
-  );
+
+  const ns = elementType.substring(0, periodIndex);
+  let name = elementType.substring(periodIndex, elementType.length);
+
+  name = normalizeTypeName(name);
   return [ns, name];
 }
 
 export function normalizeTypeName(typeName: string): string {
-  const regex = /[\.\s]*/gi;
-  return typeName.replace(regex, "");
+  const regex = /[\._\s]*/gi;
+  const name = typeName.replace(regex, "");
+  return convertPrimitiveName(name);
 }

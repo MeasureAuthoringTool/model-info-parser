@@ -1,3 +1,4 @@
+import _ from "lodash";
 import IDataType from "./IDataType";
 
 export const primitiveTypeNames = [
@@ -25,7 +26,11 @@ export const primitiveTypeNames = [
 ];
 
 export function primitiveTypeCheck(name: string): boolean {
-  return primitiveTypeNames.includes(name);
+  const convertedName = convertPrimitiveName(name);
+
+  const convertedNameArray: Array<string> = primitiveTypeNames.map(x => convertPrimitiveName(x));
+
+  return convertedNameArray.includes(convertedName);
 }
 
 /**
@@ -38,4 +43,12 @@ export function containsPrimitive(distinctTypes: Array<IDataType>): boolean {
     primitiveTypeCheck(type.typeName)
   );
   return !!firstPrimitive;
+}
+
+export function convertPrimitiveName(name: string): string {
+  if (primitiveTypeNames.includes(name)) {
+    const upperName = _.upperFirst(name);
+    return `Primitive${upperName}`;
+  }
+  return name;
 }

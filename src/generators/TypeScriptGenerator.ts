@@ -1,20 +1,13 @@
 import FileWriter from "../FileWriter";
 import TypeInfo from "../model/TypeInfo";
 import classTemplate from "../templates/typescript/classTemplate";
-import typeAliasTemplate from "../templates/typescript/typeAliasTemplate";
 import IGenerator from "./IGenerator";
 
 export default class TypeScriptGenerator implements IGenerator {
   constructor(private baseDirectory: string) {}
 
   async generate(typeInfo: TypeInfo): Promise<string> {
-    let contents: string;
-
-    if (typeInfo.aliasType) {
-      contents = typeAliasTemplate(typeInfo);
-    } else {
-      contents = classTemplate(typeInfo);
-    }
+    const contents: string = classTemplate(typeInfo);
 
     const { namespace, name } = typeInfo;
     const fileName = `${name}.ts`;
