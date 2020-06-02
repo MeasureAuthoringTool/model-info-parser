@@ -1,8 +1,12 @@
 #!/usr/bin/env node
+import GeneratorProgram from "./GeneratorProgram";
+import TypeScriptGenerator from "./generators/TypeScriptGenerator";
+import { program } from "commander";
 
 /*
 FHIR JSON Spec
 https://www.hl7.org/fhir/DSTU2/json.html
+
 // TODO what about Value Sets?
 - Look at Address in modelinfo. It has an AddressType element (which has a value, of type string -> alias to string)
 - But in the spec, you see that "type" on "Address" is defined as a "code", and seems to be a ValueSet of type AddressType
@@ -22,22 +26,22 @@ Might need to store a static, type layout in the class definition to help with c
 // See https://www.hl7.org/fhir/json.html
 
 // TODO what about "contextRelationship" and "context"? (I think it's like a Resource referencing another resource
-
  */
 
-import GeneratorProgram from "./GeneratorProgram";
+// Get the output directory from CLI args
+// Default is /generated/typescript/{namespace} e.g. /generated/mongoid/fhir
+program.requiredOption(
+  "-o, --output-directory <file>",
+  "output directory for generated code",
+  `./generated/typescript`
+);
 
-const main = async () => {
-  const program = new GeneratorProgram();
-  await program.generateTypes(false);
-};
-
-main()
-  .then((result) => {
-    console.log('Done');
+new GeneratorProgram(new TypeScriptGenerator())
+  .generateTypes()
+  .then((result: Array<string>) => {
+    console.log(`Successfully generated ${result.length} types`);
   })
   .catch((err) => {
-    console.error('ERROR');
+    console.error("ERROR");
     console.error(err);
   });
-
