@@ -1,23 +1,23 @@
 #!/usr/bin/env node
-
-
-/*
-FHIR JSON Spec
-http://hl7.org/fhir/json.html
- */
-
+import { program } from "commander";
 import GeneratorProgram from "./GeneratorProgram";
+import MongoidTypeGenerator from "./generators/MongoidTypeGenerator";
 
-const main = async () => {
-  const program = new GeneratorProgram();
-  await program.generateTypes(true);
-};
 
-main()
-  .then((result) => {
-    console.log('Done');
+// Get the output directory from CLI args
+// Default is /generated/mongoid/{namespace} e.g. /generated/mongoid/fhir
+program.requiredOption(
+  "-o, --output-directory <file>",
+  "output directory for generated code",
+  `./generated/mongoid`
+);
+
+new GeneratorProgram(new MongoidTypeGenerator())
+  .generateTypes()
+  .then((result: Array<string>) => {
+    console.log(`Successfully generated ${result.length} types`);
   })
   .catch((err) => {
-    console.error('ERROR');
+    console.error("ERROR");
     console.error(err);
   });

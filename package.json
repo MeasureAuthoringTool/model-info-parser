@@ -13,15 +13,15 @@
   "scripts": {
     "prebuild": "rm -rf dist; rm -rf generated",
     "build": "tsc",
-    "generateTypeScriptTypes": "ts-node src/generateTypeScriptTypes.ts --output-directory='./generated/typescript'",
-    "generateMongoidTypes": "ts-node src/generateMongoidTypes.ts --output-directory='./generated/mongoid'",
+    "generateTypeScriptTypes": "ts-node src/generateTypeScriptTypes.ts",
+    "generateMongoidTypes": "ts-node src/generateMongoidTypes.ts",
     "lint": "npx tslint -c tslint.json '**/*.ts'",
     "test": "npx jest",
     "coverage": "npx jest --coverage"
   },
   "bin": {
-    "generateTypeScriptTypes": "dist/src/generateTypeScriptTypes.js --output-directory='./generated/typescript'",
-    "generateMongoidTypes": "dist/src/generateMongoidTypes.js --output-directory='./generated/mongoid'"
+    "generateTypeScriptTypes": "dist/src/generateTypeScriptTypes.js",
+    "generateMongoidTypes": "dist/src/generateMongoidTypes.js"
   },
   "keywords": [],
   "author": "SemanticBits sb-mat-help@semanticbits.com",
