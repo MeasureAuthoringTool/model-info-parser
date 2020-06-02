@@ -1,7 +1,7 @@
 #!/usr/bin/env node
+import { program } from "commander";
 import GeneratorProgram from "./GeneratorProgram";
 import TypeScriptGenerator from "./generators/TypeScriptGenerator";
-import { program } from "commander";
 
 /*
 FHIR JSON Spec
