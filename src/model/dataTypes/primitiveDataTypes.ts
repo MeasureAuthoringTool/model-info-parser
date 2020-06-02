@@ -25,6 +25,30 @@ export const primitiveTypeNames = [
   "xhtml", // not on documentation page
 ];
 
+export const mongoidPrimitiveTypes: {[name: string]: string} = {
+  'base64Binary': 'String',
+  'boolean': 'Boolean',
+  'canonical': 'String',
+  'code': 'String',
+  'date': 'Date',
+  'dateTime': 'DateTime',
+  'decimal': 'BigDecimal',
+  'id': 'String',
+  'instant': 'DateTime',
+  'integer': 'Integer',
+  'markdown': 'String',
+  'oid': 'String',
+  'positiveInt': 'Integer',
+  'question': 'String',
+  'string': 'String',
+  'time': 'Time',
+  'unsignedInt': 'Integer',
+  'uri': 'String',
+  'url': 'String',
+  'uuid': 'String',
+  'xhtml': 'String'
+};
+
 export function primitiveTypeCheck(name: string): boolean {
   const convertedName = convertPrimitiveName(name);
 

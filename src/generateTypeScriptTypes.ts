@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-
 import { program } from "commander";
-import { version } from "../package.json";
+import GeneratorProgram from "./GeneratorProgram";
 import TypeScriptGenerator from "./generators/TypeScriptGenerator";
-import parser from "./parser";
 
 /*
 FHIR JSON Spec
 https://www.hl7.org/fhir/DSTU2/json.html
+
 // TODO what about Value Sets?
 - Look at Address in modelinfo. It has an AddressType element (which has a value, of type string -> alias to string)
 - But in the spec, you see that "type" on "Address" is defined as a "code", and seems to be a ValueSet of type AddressType
@@ -27,49 +26,20 @@ Might need to store a static, type layout in the class definition to help with c
 // See https://www.hl7.org/fhir/json.html
 
 // TODO what about "contextRelationship" and "context"? (I think it's like a Resource referencing another resource
-
  */
 
-program.version(version);
-
-// Get the location of the modelinfo.xml file from CLI args
-// Default is the FHIR modelinfo.xml file in resources
-program.requiredOption(
-  "-f, --modelinfo-file <file>",
-  "modelinfo.xml file being parsed",
-  `${__dirname}/../resources/fhir-modelinfo-4.0.1.xml`
-);
-
 // Get the output directory from CLI args
-// Default is /generated/{namespace} e.g. /generated/FHIR
+// Default is /generated/typescript/{namespace} e.g. /generated/mongoid/fhir
 program.requiredOption(
   "-o, --output-directory <file>",
   "output directory for generated code",
-  `${__dirname}/../generated`
+  `./generated/typescript`
 );
 
-const { modelinfoFile, outputDirectory } = program;
-
-console.log(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
-
-const main = async () => {
-  const modelInfo = await parser(modelinfoFile);
-
-  const { complexTypes } = modelInfo;
-
-  const generator = new TypeScriptGenerator(outputDirectory);
-
-  const promises = complexTypes.map(async (typeInfo) => {
-    const generated = await generator.generate(typeInfo);
-    return generated;
-  });
-
-  const generatedTypes = await Promise.all(promises);
-};
-
-main()
-  .then((result) => {
-    console.log("Done");
+new GeneratorProgram(new TypeScriptGenerator())
+  .generateTypes()
+  .then((result: Array<string>) => {
+    console.log(`Successfully generated ${result.length} types`);
   })
   .catch((err) => {
     console.error("ERROR");
