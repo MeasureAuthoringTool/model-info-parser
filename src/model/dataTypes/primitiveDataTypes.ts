@@ -1,3 +1,4 @@
+import _ from "lodash";
 import IDataType from "./IDataType";
 
 export const primitiveTypeNames = [
@@ -24,8 +25,36 @@ export const primitiveTypeNames = [
   "xhtml", // not on documentation page
 ];
 
+export const mongoidPrimitiveTypes: {[name: string]: string} = {
+  'base64Binary': 'String',
+  'boolean': 'Boolean',
+  'canonical': 'String',
+  'code': 'String',
+  'date': 'Date',
+  'dateTime': 'DateTime',
+  'decimal': 'BigDecimal',
+  'id': 'String',
+  'instant': 'DateTime',
+  'integer': 'Integer',
+  'markdown': 'String',
+  'oid': 'String',
+  'positiveInt': 'Integer',
+  'question': 'String',
+  'string': 'String',
+  'time': 'Time',
+  'unsignedInt': 'Integer',
+  'uri': 'String',
+  'url': 'String',
+  'uuid': 'String',
+  'xhtml': 'String'
+};
+
 export function primitiveTypeCheck(name: string): boolean {
-  return primitiveTypeNames.includes(name);
+  const convertedName = convertPrimitiveName(name);
+
+  const convertedNameArray: Array<string> = primitiveTypeNames.map(x => convertPrimitiveName(x));
+
+  return convertedNameArray.includes(convertedName);
 }
 
 /**
@@ -38,4 +67,12 @@ export function containsPrimitive(distinctTypes: Array<IDataType>): boolean {
     primitiveTypeCheck(type.typeName)
   );
   return !!firstPrimitive;
+}
+
+export function convertPrimitiveName(name: string): string {
+  if (primitiveTypeNames.includes(name)) {
+    const upperName = _.upperFirst(name);
+    return `Primitive${upperName}`;
+  }
+  return name;
 }
