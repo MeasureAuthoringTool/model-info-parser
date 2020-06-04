@@ -84,6 +84,12 @@ export default class TypeInfo {
     this.isBlacklisted = blacklistedTypes.includes(this.fhirName);
     this.primitive = primitiveTypeCheck(this.name);
 
+    // Check if we're looking at "Resource". We need to inject a string property, "resourceType" to conform to the spec
+    if (this.namespace === "FHIR" && this.name === "Resource") {
+      // Add the "resourceType" property (just like Element)
+      this.memberVariables.push(new MemberVariable(SystemStringInstance, "resourceType"));
+    }
+
     // Check if we're looking at "Extension". We have to treat that differently to prevent circular dependencies
     if (this.namespace === "FHIR" && this.name === "Extension") {
       // Remove "Element" from the list of imports
@@ -98,7 +104,7 @@ export default class TypeInfo {
       this.memberVariables.push(new MemberVariable(SystemStringInstance, "id"));
 
       // Add an Array of Extensions to itself (just like Element)
-      const extensionDataType = new ComplexDataType("FHIR", "Extension");
+      const extensionDataType = ComplexDataType.getInstance("FHIR", "Extension");
       this.memberVariables.push(
         new MemberVariable(extensionDataType, "extension", true)
       );

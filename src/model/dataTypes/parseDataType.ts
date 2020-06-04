@@ -13,7 +13,7 @@ export default function parseDataType(
   normalizedTypeName: string
 ): IDataType {
   if (ns === "FHIR") {
-    return new ComplexDataType(ns, normalizedTypeName);
+    return ComplexDataType.getInstance(ns, normalizedTypeName);
   }
 
   if (ns !== "System") {
