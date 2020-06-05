@@ -31,15 +31,25 @@ const blacklistedTypes = [
 
 export default class TypeInfo {
   fhirName: string;
+
   name: string;
+
   namespace: string;
+
   baseFhirType: string;
+
   baseDataType: IDataType | null;
+
   elements: Array<Element>;
+
   distinctTypes: Array<IDataType>;
+
   primitive: boolean;
+
   isReservedKeyword: boolean; // Used to filter out "string" and "boolean" types
+
   memberVariables: Array<MemberVariable>;
+
   isBlacklisted: boolean; // Used to filter out unnecessarily difficult types we don't know how to deal with
 
   constructor(raw: IRawTypeInfo) {

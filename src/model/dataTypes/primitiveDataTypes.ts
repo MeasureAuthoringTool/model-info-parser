@@ -76,6 +76,14 @@ export const mongoidPrimitiveTypes: { [name: string]: string } = {
   xhtml: "String",
 };
 
+export function convertPrimitiveName(name: string): string {
+  if (primitiveTypeNames.includes(name)) {
+    const upperName = _.upperFirst(name);
+    return `Primitive${upperName}`;
+  }
+  return name;
+}
+
 export function primitiveTypeCheck(name: string): boolean {
   const convertedName = convertPrimitiveName(name);
 
@@ -96,12 +104,4 @@ export function containsPrimitive(distinctTypes: Array<IDataType>): boolean {
     primitiveTypeCheck(type.typeName)
   );
   return !!firstPrimitive;
-}
-
-export function convertPrimitiveName(name: string): string {
-  if (primitiveTypeNames.includes(name)) {
-    const upperName = _.upperFirst(name);
-    return `Primitive${upperName}`;
-  }
-  return name;
 }

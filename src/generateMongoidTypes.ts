@@ -2,7 +2,7 @@
 import { program } from "commander";
 import GeneratorProgram from "./GeneratorProgram";
 import MongoidTypeGenerator from "./generators/MongoidTypeGenerator";
-
+import logger from "./logger";
 
 // Get the output directory from CLI args
 // Default is /generated/mongoid/{namespace} e.g. /generated/mongoid/fhir
@@ -12,12 +12,13 @@ program.requiredOption(
   `./generated/mongoid`
 );
 
-new GeneratorProgram(new MongoidTypeGenerator())
+new GeneratorProgram(MongoidTypeGenerator)
   .generateTypes()
   .then((result: Array<string>) => {
-    console.log(`Successfully generated ${result.length} types`);
+    logger.info(`Successfully generated ${result.length} types`);
+    return true;
   })
   .catch((err) => {
-    console.error("ERROR");
-    console.error(err);
+    logger.error("ERROR");
+    logger.error(err);
   });

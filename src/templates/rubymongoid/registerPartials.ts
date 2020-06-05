@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars';
 import { getMongoidPrimitive, removeNamespace } from '../helpers/templateHelpers';
-import { source as mongoidComplexMember } from './complexMemberTemplate';
-import { source as mongoidSystemMember } from './systemMemberTemplate';
+import complexMemberTemplate from './complexMemberTemplate';
+import systemMemberTemplate from './systemMemberTemplate';
 
-Handlebars.registerPartial('mongoidComplexMember', mongoidComplexMember);
-Handlebars.registerPartial('mongoidSystemMember', mongoidSystemMember);
+Handlebars.registerPartial('mongoidComplexMember', complexMemberTemplate);
+Handlebars.registerPartial('mongoidSystemMember', systemMemberTemplate);
 
 Handlebars.registerHelper('removeNamespace', removeNamespace);
 Handlebars.registerHelper('getMongoidPrimitive', getMongoidPrimitive);

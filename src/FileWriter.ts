@@ -1,12 +1,14 @@
 import { promises as fsPromises } from "fs";
+import logger from "./logger";
 
 export default class FileWriter {
-  private fullPath: string;
-  private fullFileName: string;
+  private readonly fullPath: string;
+
+  private readonly fullFileName: string;
 
   constructor(
     private contents: string,
-    private baseDirectory: string,
+    baseDirectory: string,
     private subDir: string | null,
     private fileName: string
   ) {
@@ -17,12 +19,12 @@ export default class FileWriter {
     this.fullFileName = `${this.fullPath}/${this.fileName}`;
   }
 
-  async writeFile() {
+  async writeFile(): Promise<void> {
     try {
       await fsPromises.mkdir(this.fullPath, { recursive: true });
       await fsPromises.writeFile(this.fullFileName, this.contents);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       throw new Error(`Unable to write file ${this.fullFileName}`);
     }
   }

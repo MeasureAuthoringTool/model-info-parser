@@ -1,37 +1,32 @@
-import { exec } from 'child_process';
-import fs from 'fs';
-import parser from '../src/parser';
+import fs from "fs";
+import parser from "../src/parser";
+import execPromise from "./execPromise";
 
-describe('generateTypescriptTypes', () => {
+describe("generateTypescriptTypes", () => {
+  const modelDir = "./test/typescript";
+  const modelInfoFile = "./resources/fhir-modelinfo-4.0.1.xml";
+  const generatorScript = "./src/generateTypeScriptTypes.ts";
 
-  const modelDir = './test/typescript';
-  const modelInfoFile = './resources/fhir-modelinfo-4.0.1.xml';
-  const generatorScript = './src/generateTypeScriptTypes.ts';
-
-  // remove models after all tests have been run
-  afterAll(() => {
-    exec(`rm -rf ${modelDir}`);
+  // remove models after tests have been run
+  afterEach(async () => {
+    await execPromise(`rm -rf ${modelDir}`);
   });
 
-  function generateTypescript(): Promise<{ code: number, error: any }> {
-    return new Promise(resolve => {
-      exec(`ts-node ${generatorScript} --output-directory=${modelDir}`,
-        (error: any, stdout: any, stderr: any) => { resolve({
-          code: error && error.code ? error.code : 0, error});
-        });
-    });
+  async function generateTypeScript(): Promise<string> {
+    const command = `npx ts-node ${generatorScript} --output-directory=${modelDir}`;
+    return execPromise(command);
   }
 
-  test('Should generate fhir types in typescript successfully', async() => {
-    const result = await  generateTypescript();
-    expect(result.code).toBe(0);
-    expect(result.error).toBe(null);
-  });
-
-  test('Should have a fhir typescript class for each typeinfo', async() => {
+  test("Should generate fhir types in typescript successfully", async () => {
     const { complexTypes } = await parser(modelInfoFile);
-    complexTypes.forEach((typeInfo: { name: any; }) => {
-      const file = fs.readFileSync(`${modelDir}/FHIR/${typeInfo.name}.ts`);
+    const result = await generateTypeScript();
+
+    expect(result).toMatch(
+      /info: Parsing .* and writing to .*\ninfo: Successfully generated \d+ types/
+    );
+
+    complexTypes.forEach((typeInfo: { name: string }) => {
+      const file = fs.readFileSync(`${modelDir}/classes/FHIR/${typeInfo.name}.ts`);
       expect(file).toBeDefined();
     });
   });

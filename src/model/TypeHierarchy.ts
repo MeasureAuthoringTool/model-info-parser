@@ -5,9 +5,9 @@ import ComplexDataType from "./dataTypes/ComplexDataType";
  * The key is {{namespace}}.{{typeName}} of a type. The value is a Set of
  * its children
  */
-type HierarchyMap = {
+interface IHierarchyMap {
   [key: string]: Set<ComplexDataType>;
-};
+}
 
 /**
  * This class aims to represent a hierarchy of types defined in a modelinfo file.
@@ -16,13 +16,13 @@ type HierarchyMap = {
  * This helps us figure that out.
  */
 export default class TypeHierarchy {
-  public typeMap: HierarchyMap = {};
+  public typeMap: IHierarchyMap = {};
 
   static buildKey(type: ComplexDataType): string {
     return `${type.namespace}.${type.typeName}`;
   }
 
-  public addType(type: ComplexDataType, parent: ComplexDataType|null) {
+  public addType(type: ComplexDataType, parent: ComplexDataType|null): void {
     const key = TypeHierarchy.buildKey(type);
 
     // Add new type if it doesn't already exist

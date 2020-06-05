@@ -1,5 +1,4 @@
-import { IRawTypeInfo } from "./TypeInfo";
-import TypeInfo from "./TypeInfo";
+import TypeInfo, { IRawTypeInfo } from "./TypeInfo";
 
 export const typeName = "ns4:modelInfo";
 export const typeInfoTypeName = "ns4:typeInfo";
@@ -16,8 +15,11 @@ export interface IRawModelInfo {
 
 export default class ModelInfo {
   name: string;
+
   version: string;
+
   types: Array<TypeInfo>;
+
   // "complexTypes" is a misnomer: we generate type alias definitions for primitives too.
   // The only types we omit are reserved TS keywords: boolean and string
   complexTypes: Array<TypeInfo>;

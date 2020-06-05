@@ -1,6 +1,5 @@
 import IDataType from "../../../model/dataTypes/IDataType";
 import MemberVariable from "../../../model/dataTypes/MemberVariable";
-import Element from "../../../model/Element";
 import Handlebars from "../registerPartials";
 
 export const source = `{{> interfaceImport dataType=this }}

@@ -1,8 +1,7 @@
 import { normalizeElementTypeName } from "../utils";
 import MemberVariable from "./dataTypes/MemberVariable";
 import parseDataType from "./dataTypes/parseDataType";
-import ElementTypeSpecifier from "./ElementTypeSpecifier";
-import { IRawElementTypeSpecifier } from "./ElementTypeSpecifier";
+import ElementTypeSpecifier, { IRawElementTypeSpecifier } from "./ElementTypeSpecifier";
 
 export interface IRawElement {
   $: {
@@ -32,7 +31,7 @@ export default class Element {
       this.memberVariables = elementTypeSpecifier.memberVariables;
     } else {
       // Simple element def
-      const elementType = attrs.elementType;
+      const {elementType} = attrs;
       const [namespace, normalizedTypeName] = normalizeElementTypeName(elementType);
       const dataType = parseDataType(namespace, normalizedTypeName);
       this.memberVariables = [new MemberVariable(dataType, this.name, false)];

@@ -1,5 +1,4 @@
 import _ from "lodash";
-import ComplexDataType from "./ComplexDataType";
 import IDataType from "./IDataType";
 import MemberVariable from "./MemberVariable";
 
@@ -11,7 +10,7 @@ export function typeMatch(
   type: IDataType,
   normalizedName: string,
   namespace: string
-) {
+): boolean {
   return type.namespace === namespace && type.normalizedName === normalizedName;
 }
 
@@ -69,11 +68,12 @@ export function removeDuplicateDataTypes(
  * the type doing the imports is not added to itself, and that the result is sorted
  */
 export function safeAddTypeImport(
-  dataTypes: Array<IDataType>,
+  dataTypesIn: Array<IDataType>,
   typeToAdd: IDataType,
   normalizedName: string,
   namespace: string
 ): Array<IDataType> {
+  let dataTypes = dataTypesIn;
   // Add new type to the list of data types
   dataTypes.push(typeToAdd);
 

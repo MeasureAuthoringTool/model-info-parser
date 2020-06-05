@@ -2,6 +2,7 @@
 import { program } from "commander";
 import GeneratorProgram from "./GeneratorProgram";
 import TypeScriptGenerator from "./generators/TypeScriptGenerator";
+import logger from "./logger";
 
 // Get the output directory from CLI args
 // Default is /generated/typescript/{namespace} e.g. /generated/mongoid/fhir
@@ -11,12 +12,13 @@ program.requiredOption(
   `./generated/typescript`
 );
 
-new GeneratorProgram(new TypeScriptGenerator())
+new GeneratorProgram(TypeScriptGenerator)
   .generateTypes()
   .then((result: Array<string>) => {
-    console.log(`Successfully generated ${result.length} types`);
+    logger.info(`Successfully generated ${result.length} types`);
+    return true;
   })
   .catch((err) => {
-    console.error("ERROR");
-    console.error(err);
+    logger.error("ERROR");
+    logger.error(err);
   });

@@ -1,5 +1,11 @@
 import { convertPrimitiveName } from "./model/dataTypes/primitiveDataTypes";
 
+export function normalizeTypeName(typeName: string): string {
+  const regex = /[._\s]*/gi;
+  const name = typeName.replace(regex, "");
+  return convertPrimitiveName(name);
+}
+
 export function normalizeElementTypeName(
   elementType: string
 ): [string, string] {
@@ -14,10 +20,4 @@ export function normalizeElementTypeName(
 
   name = normalizeTypeName(name);
   return [ns, name];
-}
-
-export function normalizeTypeName(typeName: string): string {
-  const regex = /[\._\s]*/gi;
-  const name = typeName.replace(regex, "");
-  return convertPrimitiveName(name);
 }

@@ -1,37 +1,32 @@
-import { exec } from 'child_process';
-import fs from 'fs';
-import { mongoidPrimitiveTypes } from '../src/model/dataTypes/primitiveDataTypes';
-import parser from '../src/parser';
+import fs from "fs";
+import { mongoidPrimitiveTypes } from "../src/model/dataTypes/primitiveDataTypes";
+import parser from "../src/parser";
+import execPromise from "./execPromise";
 
-describe('generateMongoidTypes', () => {
+describe("generateMongoidTypes", () => {
+  const modelDir = "./test/mongoid";
+  const modelInfoFile = "./resources/fhir-modelinfo-4.0.1.xml";
+  const generatorScript = "./src/generateMongoidTypes.ts";
 
-  const modelDir = './test/mongoid';
-  const modelInfoFile = './resources/fhir-modelinfo-4.0.1.xml';
-  const generatorScript = './src/generateMongoidTypes.ts';
-
-  // remove models after all tests have been run
-  afterAll(() => {
-    exec(`rm -rf ${modelDir}`);
+  // remove models after tests have been run
+  afterEach(async () => {
+    await execPromise(`rm -rf ${modelDir}`);
   });
 
-  function generateMongoids(): Promise<{ code: number, error: any }> {
-    return new Promise(resolve => {
-      exec(`ts-node ${generatorScript} --output-directory=${modelDir}`,
-        (error: any, stdout: any, stderr: any) => { resolve({
-          code: error && error.code ? error.code : 0, error});
-        });
-    });
+  async function generateMongoids(): Promise<string> {
+    const command = `npx ts-node ${generatorScript} --output-directory=${modelDir}`;
+    return execPromise(command);
   }
 
-  test('Should generate mongoid models successfully', async() => {
-    const result = await  generateMongoids();
-    expect(result.code).toBe(0);
-    expect(result.error).toBe(null);
-  });
-
-  test('Should have a mongoid model for each typeinfo', async() => {
+  test("Should generate mongoid models successfully", async () => {
     const { complexTypes } = await parser(modelInfoFile);
-    complexTypes.forEach((typeInfo: { name: any; }) => {
+    const result = await generateMongoids();
+
+    expect(result).toMatch(
+      /info: Parsing .* and writing to .*\ninfo: Successfully generated \d+ types/
+    );
+
+    complexTypes.forEach((typeInfo: { name: string }) => {
       // skip the primitives
       if (!mongoidPrimitiveTypes[typeInfo.name]) {
         const file = fs.readFileSync(`${modelDir}/fhir/${typeInfo.name}.rb`);

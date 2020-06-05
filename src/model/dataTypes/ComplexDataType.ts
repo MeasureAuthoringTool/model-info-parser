@@ -4,24 +4,27 @@ import { primitiveTypeCheck } from "./primitiveDataTypes";
 
 // This cache is a map of namespace strings, whose objects are a map of types under that namespace
 // E.g.: { "FHIR": { "Account": { /* Account obj }, "Activity": { /* Activity Obj */ } }
-type CachedNamespace = {
+interface ICachedNamespace {
   [key: string]: ComplexDataType;
-};
-type CacheType = {
-  [key: string]: CachedNamespace;
-};
+}
+interface ICacheType {
+  [key: string]: ICachedNamespace;
+}
 
 export default class ComplexDataType implements IDataType {
-  private static cache: CacheType = {};
+  private static cache: ICacheType = {};
+
   public readonly systemType: boolean = false;
+
   public normalizedName: string;
+
   public primitive: boolean;
 
   public static getInstance(
     namespace: string,
     typeName: string
   ): ComplexDataType {
-    let cachedNamespace: CachedNamespace = ComplexDataType.cache[namespace];
+    let cachedNamespace: ICachedNamespace = ComplexDataType.cache[namespace];
 
     // If namespace not found, create and add to cache
     if (!cachedNamespace) {
