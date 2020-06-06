@@ -26,12 +26,11 @@ export enum TypeSpecifier {
 }
 
 export default class ElementTypeSpecifier {
-  private readonly parentElementName: string;
   readonly specifierType: TypeSpecifier;
+
   readonly memberVariables: Array<MemberVariable>;
 
   constructor(parentElementName: string, raw: IRawElementTypeSpecifier) {
-    this.parentElementName = parentElementName;
     const { $: attrs } = raw;
 
     const type = attrs["xsi:type"];
@@ -79,7 +78,7 @@ export default class ElementTypeSpecifier {
         if (!attrs.elementType) {
           throw new Error('Missing expected "elementType" attribute');
         }
-        const elementType = attrs.elementType;
+        const {elementType} = attrs;
         const [namespace, normalizedTypeName] = normalizeElementTypeName(
           elementType
         );
@@ -90,7 +89,8 @@ export default class ElementTypeSpecifier {
         );
       }
     } else {
-      throw new Error(`Unsupported TypeSpecifier ${this.specifierType}`);
+      const typeString: string = this.specifierType;
+      throw new Error(`Unsupported TypeSpecifier ${typeString}`);
     }
   }
 

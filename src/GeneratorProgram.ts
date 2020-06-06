@@ -1,6 +1,7 @@
 import { program } from "commander";
 import { version } from "../package.json";
 import IGenerator from "./generators/IGenerator";
+import logger from "./logger";
 import parser from "./parser";
 
 export default class GeneratorProgram {
@@ -20,21 +21,21 @@ export default class GeneratorProgram {
   }
 
   async generateTypes(): Promise<Array<string>> {
-    const { modelinfoFile, outputDirectory } = program;
+    const modelinfoFile: string = program.modelinfoFile as string;
+    const outputDirectory: string = program.outputDirectory as string;
 
-    console.log(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
+    logger.info(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
 
     const modelInfo = await parser(modelinfoFile);
     const { complexTypes } = modelInfo;
 
     const promises = complexTypes.map(async (typeInfo) => {
-      const generated = await this.generator.generate(
+      return this.generator(
         typeInfo,
         outputDirectory
       );
-      return generated;
     });
 
-    return await Promise.all(promises);
+    return Promise.all(promises);
   }
 }
