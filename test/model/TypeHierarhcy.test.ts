@@ -1,22 +1,22 @@
-import ComplexDataType from "../../src/model/dataTypes/ComplexDataType";
+import DataType from "../../src/model/dataTypes/DataType";
 import TypeHierarchy from "../../src/model/TypeHierarchy";
 
 describe("TypeHierarchy", () => {
-  let type1: ComplexDataType;
-  let type2: ComplexDataType;
-  let type3: ComplexDataType;
-  let type4: ComplexDataType;
-  let parentType1: ComplexDataType;
-  let parentType2: ComplexDataType;
+  let type1: DataType;
+  let type2: DataType;
+  let type3: DataType;
+  let type4: DataType;
+  let parentType1: DataType;
+  let parentType2: DataType;
   let hierarchy: TypeHierarchy;
 
   beforeEach(() => {
-    type1 = ComplexDataType.getInstance("ns", "type1");
-    type2 = ComplexDataType.getInstance("ns", "type2");
-    type3 = ComplexDataType.getInstance("ns", "type3");
-    type4 = ComplexDataType.getInstance("ns", "type4");
-    parentType1 = ComplexDataType.getInstance("ns", "parentType1");
-    parentType2 = ComplexDataType.getInstance("ns", "parentType2");
+    type1 = DataType.getInstance("ns", "type1", "/tmp");
+    type2 = DataType.getInstance("ns", "type2", "/tmp");
+    type3 = DataType.getInstance("ns", "type3", "/tmp");
+    type4 = DataType.getInstance("ns", "type4", "/tmp");
+    parentType1 = DataType.getInstance("ns", "parentType1", "/tmp");
+    parentType2 = DataType.getInstance("ns", "parentType2", "/tmp");
     hierarchy = new TypeHierarchy();
   });
 

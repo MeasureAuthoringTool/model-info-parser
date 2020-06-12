@@ -1,13 +1,5 @@
-import IDataType from "../IDataType";
+import DataType from "../DataType";
 
-export default class SystemBoolean implements IDataType {
-  public readonly namespace: string = "System";
+const SystemBoolean = DataType.getInstance("System", "boolean", `${__dirname}/system`);
 
-  public readonly typeName: string = "boolean";
-
-  public readonly normalizedName: string = "boolean";
-
-  public readonly systemType: boolean = true;
-
-  public readonly primitive: boolean = true;
-}
+export default SystemBoolean;

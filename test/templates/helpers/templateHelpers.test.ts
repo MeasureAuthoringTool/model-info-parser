@@ -1,7 +1,4 @@
-import {
-  getMongoidPrimitive,
-  removeNamespace,
-} from "../../../src/templates/helpers/templateHelpers";
+import { getMongoidPrimitive } from "../../../src/templates/helpers/templateHelpers";
 
 describe("templateHelpers", () => {
   describe("getMongoidPrimitive()", () => {
@@ -27,13 +24,6 @@ describe("templateHelpers", () => {
       expect(getMongoidPrimitive("url")).toEqual("String");
       expect(getMongoidPrimitive("uuid")).toEqual("String");
       expect(getMongoidPrimitive("xhtml")).toEqual("String");
-    });
-  });
-
-  describe("removeNamespace()", () => {
-    test("Should return type without namespace if type is qualified with namespace", () => {
-      expect(removeNamespace("FHIR.Resource")).toEqual("Resource");
-      expect(removeNamespace("DomainResource")).toEqual("DomainResource");
     });
   });
 });

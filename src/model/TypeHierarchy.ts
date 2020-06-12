@@ -1,4 +1,4 @@
-import ComplexDataType from "./dataTypes/ComplexDataType";
+import DataType from "./dataTypes/DataType";
 
 /**
  * The type of the internal map used to represent the hierarchy.
@@ -6,7 +6,7 @@ import ComplexDataType from "./dataTypes/ComplexDataType";
  * its children
  */
 interface IHierarchyMap {
-  [key: string]: Set<ComplexDataType>;
+  [key: string]: Set<DataType>;
 }
 
 /**
@@ -18,16 +18,16 @@ interface IHierarchyMap {
 export default class TypeHierarchy {
   public typeMap: IHierarchyMap = {};
 
-  static buildKey(type: ComplexDataType): string {
+  static buildKey(type: DataType): string {
     return `${type.namespace}.${type.typeName}`;
   }
 
-  public addType(type: ComplexDataType, parent: ComplexDataType|null): void {
+  public addType(type: DataType, parent: DataType|null): void {
     const key = TypeHierarchy.buildKey(type);
 
     // Add new type if it doesn't already exist
     if (!this.typeMap[key]) {
-      this.typeMap[key] = new Set<ComplexDataType>();
+      this.typeMap[key] = new Set<DataType>();
     }
 
     if (parent) {
@@ -37,7 +37,7 @@ export default class TypeHierarchy {
 
       // Register parent if not already present
       if (!children) {
-        children = new Set<ComplexDataType>();
+        children = new Set<DataType>();
         this.typeMap[parentKey] = children;
       }
 
@@ -49,10 +49,10 @@ export default class TypeHierarchy {
    * Recursively gather all the children for a given type
    * @param type
    */
-  public getAllChildrenFor(type: ComplexDataType): Array<ComplexDataType> {
+  public getAllChildrenFor(type: DataType): Array<DataType> {
     const key = TypeHierarchy.buildKey(type);
     const immediateChildren = this.typeMap[key] || new Set();
-    let result: Array<ComplexDataType> = Array.from(immediateChildren);
+    let result: Array<DataType> = Array.from(immediateChildren);
 
     immediateChildren.forEach((child) => {
       const grandChildren = this.getAllChildrenFor(child);

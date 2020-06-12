@@ -1,15 +1,7 @@
-import IDataType from "../IDataType";
+import DataType from "../DataType";
 
 // TODO this should use a better "big nubmer" system like https://github.com/jtobey/javascript-bignum
 // See https://www.hl7.org/fhir/json.html
-export default class SystemDecimal implements IDataType {
-  public readonly namespace: string = "System";
+const SystemDecimal = DataType.getInstance("System", "number", `${__dirname}/system`);
 
-  public readonly typeName: string = "number";
-
-  public readonly normalizedName: string = "number";
-
-  public readonly systemType: boolean = true;
-
-  public readonly primitive: boolean = true;
-}
+export default SystemDecimal;

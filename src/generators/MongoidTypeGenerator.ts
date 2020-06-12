@@ -1,25 +1,34 @@
 import FileWriter from "../FileWriter";
 import { mongoidPrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
-import TypeInfo from "../model/TypeInfo";
-import classTemplate from "../templates/rubymongoid/classTemplate";
+import classTemplate, {
+  ITemplateContext,
+} from "../templates/rubymongoid/classTemplate";
 import IGenerator from "./IGenerator";
+import FilePath from "../model/dataTypes/FilePath";
+import EntityDefinition from "../model/dataTypes/EntityDefinition";
 
 async function generate(
-  typeInfo: TypeInfo,
-  baseDirectory: string
+  entityDefinition: EntityDefinition,
+  baseDirectory: FilePath
 ): Promise<string> {
   // skip type creation for primitives
-  if (mongoidPrimitiveTypes[typeInfo.name]) {
+  if (mongoidPrimitiveTypes[entityDefinition.dataType.typeName]) {
     return "";
   }
 
-  const contents: string = classTemplate(typeInfo);
-  const { namespace, name } = typeInfo;
-  const fileName = `${name}.rb`;
+  const templateInput: ITemplateContext = {
+    dataType: entityDefinition.dataType,
+    parentDataType: entityDefinition.parentDataType,
+    memberVariables: entityDefinition.memberVariables,
+  };
+
+  const contents: string = classTemplate(templateInput);
+  const { namespace, normalizedName } = entityDefinition.dataType;
+  const fileName = `${normalizedName}.rb`;
 
   const writer = new FileWriter(
     contents,
-    baseDirectory,
+    baseDirectory.value,
     namespace.toLowerCase(),
     fileName
   );

@@ -1,8 +1,9 @@
-import TypeInfo from "../model/TypeInfo";
+import EntityDefinition from "../model/dataTypes/EntityDefinition";
+import FilePath from "../model/dataTypes/FilePath";
 
 type IGenerator = (
-  typeInfoIn: TypeInfo,
-  baseDirectory: string
+  entityDefinition: EntityDefinition,
+  baseDirectory: FilePath
 ) => Promise<string>;
 
 export default IGenerator;

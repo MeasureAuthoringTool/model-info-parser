@@ -15,9 +15,9 @@ export function normalizeElementTypeName(
     throw new Error(`Invalid elementType encountered: ${elementType}`);
   }
 
-  const ns = elementType.substring(0, periodIndex);
-  let name = elementType.substring(periodIndex, elementType.length);
+  const namespace = elementType.substring(0, periodIndex);
+  let typeName = elementType.substring(periodIndex, elementType.length);
 
-  name = normalizeTypeName(name);
-  return [ns, name];
+  typeName = normalizeTypeName(typeName);
+  return [namespace, typeName];
 }

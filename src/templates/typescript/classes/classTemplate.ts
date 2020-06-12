@@ -1,18 +1,20 @@
-import IDataType from "../../../model/dataTypes/IDataType";
 import MemberVariable from "../../../model/dataTypes/MemberVariable";
 import Handlebars from "../registerPartials";
+import DataType from "../../../model/dataTypes/DataType";
+import EntityMetadata from "../../../model/dataTypes/EntityMetadata";
+import EntityImports from "../../../model/dataTypes/EntityImports";
 
 export const source = `{{> classImport dataType=this }}
-export default class {{ name }}{{# if baseDataType }} extends {{ baseDataType.typeName }}{{/ if }} {
-  static readonly baseType: string = "{{ baseFhirType }}";
-  static readonly namespace: string = "{{ namespace }}";
-  static readonly typeName: string = "{{ fhirName }}";{{# if memberVariables }}
+export default class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ parentDataType.normalizedName }}{{/ if }} {
+  static readonly baseType: string = "{{ metadata.parentTypeName }}";
+  static readonly namespace: string = "{{ metadata.namespace }}";
+  static readonly typeName: string = "{{ metadata.originalTypeName }}";{{# if memberVariables }}
   {{# each memberVariables }}
   {{> complexMember member=this }}
 
   {{/ each }}
 {{/ if }}
-{{# if primitive }}
+{{# if dataType.primitive }}
 
   {{> primitiveParse }}
   {{ else }}
@@ -23,13 +25,11 @@ export default class {{ name }}{{# if baseDataType }} extends {{ baseDataType.ty
 `;
 
 export interface ITemplateContext {
-  distinctTypes: Array<IDataType>;
-  name: string;
-  baseDataType: IDataType | null;
-  baseFhirType: string;
-  namespace: string;
-  fhirName: string;
+  dataType: DataType;
+  parentDataType: DataType | null;
+  metadata: EntityMetadata;
   memberVariables: Array<MemberVariable>;
+  imports: EntityImports;
 }
 
 export default Handlebars.compile<ITemplateContext>(source);

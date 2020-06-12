@@ -1,5 +1,4 @@
-import ComplexDataType from "./ComplexDataType";
-import IDataType from "./IDataType";
+import DataType from "./DataType";
 import SystemBoolean from "./system/SystemBoolean";
 import SystemDate from "./system/SystemDate";
 import SystemDateTime from "./system/SystemDateTime";
@@ -7,13 +6,32 @@ import SystemDecimal from "./system/SystemDecimal";
 import SystemInteger from "./system/SystemInteger";
 import SystemString from "./system/SystemString";
 import SystemTime from "./system/SystemTime";
+import FilePath from "./FilePath";
 
-export default function parseDataType(
+function parseDataType(
   ns: string,
-  normalizedTypeName: string
-): IDataType {
+  normalizedTypeName: string,
+  baseDir: string
+): DataType;
+function parseDataType(
+  ns: string,
+  normalizedTypeName: string,
+  baseDir: FilePath
+): DataType;
+function parseDataType(
+  ns: string,
+  normalizedTypeName: string,
+  baseDirIn: FilePath | string
+): DataType {
+  let baseDir: FilePath;
+  if (baseDirIn instanceof FilePath) {
+    baseDir = baseDirIn;
+  } else {
+    baseDir = FilePath.getInstance(baseDirIn);
+  }
+
   if (ns === "FHIR") {
-    return ComplexDataType.getInstance(ns, normalizedTypeName);
+    return DataType.getInstance(ns, normalizedTypeName, baseDir);
   }
 
   if (ns !== "System") {
@@ -23,20 +41,22 @@ export default function parseDataType(
   // Handle the "System" namespace types
   switch (normalizedTypeName) {
     case "Boolean":
-      return new SystemBoolean();
+      return SystemBoolean;
     case "Date":
-      return new SystemDate();
+      return SystemDate;
     case "Decimal":
-      return new SystemDecimal();
+      return SystemDecimal;
     case "DateTime":
-      return new SystemDateTime();
+      return SystemDateTime;
     case "Integer":
-      return new SystemInteger();
+      return SystemInteger;
     case "String":
-      return new SystemString();
+      return SystemString;
     case "Time":
-      return new SystemTime();
+      return SystemTime;
     default:
       throw new Error(`Unrecognized System type: ${normalizedTypeName}`);
   }
 }
+
+export default parseDataType;

@@ -1,0 +1,33 @@
+import Predicate from "./core/Predicate";
+import DataType from "../model/dataTypes/DataType";
+
+interface BlacklistItem {
+  namespace: string;
+  name: string;
+}
+
+export default class BlacklistedTypesPredicate extends Predicate<DataType> {
+  public static INSTANCE = new BlacklistedTypesPredicate();
+
+  public static blacklistedTypes: Array<BlacklistItem> = [
+    { namespace: "FHIR", name: "allowedUnits" },
+    {
+      namespace: "FHIR",
+      name: "DataElement constraint on ElementDefinition data type",
+    },
+  ];
+
+  // eslint-disable-next-line class-methods-use-this
+  evaluate(input: DataType): boolean {
+    const { typeName, namespace } = input;
+    const blacklistPredicate = (dataType: BlacklistItem) => {
+      return dataType.name === typeName && dataType.namespace === namespace;
+    };
+
+    return (
+      BlacklistedTypesPredicate.blacklistedTypes.findIndex(
+        blacklistPredicate
+      ) !== -1
+    );
+  }
+}
