@@ -1,10 +1,10 @@
 import ElementFactory, {
   ElementXml,
   ElementTypeSpecifierXml,
-} from "../../../src/model/modelinfo/ElementFactory";
-import ChoiceElement from "../../../src/model/modelinfo/ChoiceElement";
-import ListElement from "../../../src/model/modelinfo/ListElement";
-import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
+} from "../../../src/model/modelInfo/ElementFactory";
+import ChoiceElement from "../../../src/model/modelInfo/ChoiceElement";
+import ListElement from "../../../src/model/modelInfo/ListElement";
+import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
 
 describe("ElementFactory", () => {
   let choiceSpecifier: ElementTypeSpecifierXml;

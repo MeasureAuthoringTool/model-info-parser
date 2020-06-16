@@ -5,7 +5,7 @@ import EntityMetadata from "../../../src/model/dataTypes/EntityMetadata";
 import EntityImports from "../../../src/model/dataTypes/EntityImports";
 import FilePath from "../../../src/model/dataTypes/FilePath";
 import ModelInfo from "../../../src/model/modelInfo/ModelInfo";
-import TypeInfo from "../../../src/model/modelinfo/TypeInfo";
+import TypeInfo from "../../../src/model/modelInfo/TypeInfo";
 import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
 import TruePredicate from "../../../src/collectionUtils/core/TruePredicate";
 import AddMemberVariableTransformer from "../../../src/collectionUtils/AddMemberVariableTransformer";

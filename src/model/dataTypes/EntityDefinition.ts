@@ -2,7 +2,7 @@ import DataType from "./DataType";
 import EntityImports from "./EntityImports";
 import EntityMetadata from "./EntityMetadata";
 import MemberVariable from "./MemberVariable";
-import TypeInfo from "../modelinfo/TypeInfo";
+import TypeInfo from "../modelInfo/TypeInfo";
 import FilePath from "./FilePath";
 import distinctDataTypes from "./distinctDataTypes";
 import Predicate from "../../collectionUtils/core/Predicate";

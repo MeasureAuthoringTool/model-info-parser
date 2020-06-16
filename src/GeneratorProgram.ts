@@ -8,7 +8,7 @@ import EntityCollection from "./model/dataTypes/EntityCollection";
 import TransformedPredicate from "./collectionUtils/core/TransformedPredicate";
 import ExtractDataTypeTransformer from "./collectionUtils/ExtractDataTypeTransformer";
 import BlacklistedTypesPredicate from "./collectionUtils/BlacklistedTypesPredicate";
-import ModelInfo from "./model/modelinfo/ModelInfo";
+import ModelInfo from "./model/modelInfo/ModelInfo";
 import AddResourceTypeFieldTransformer from "./collectionUtils/AddResourceTypeFieldTransformer";
 import ModifyExtensionTypeTransformer from "./collectionUtils/ModifyExtensionTypeTransformer";
 import EntityDefinition from "./model/dataTypes/EntityDefinition";

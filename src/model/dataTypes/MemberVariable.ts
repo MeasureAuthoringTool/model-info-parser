@@ -1,8 +1,8 @@
 import DataType from "./DataType";
-import Element from "../modelinfo/Element";
-import ChoiceElement from "../modelinfo/ChoiceElement";
-import ListElement from "../modelinfo/ListElement";
-import SimpleElement from "../modelinfo/SimpleElement";
+import Element from "../modelInfo/Element";
+import ChoiceElement from "../modelInfo/ChoiceElement";
+import ListElement from "../modelInfo/ListElement";
+import SimpleElement from "../modelInfo/SimpleElement";
 import FilePath from "./FilePath";
 
 export default class MemberVariable {

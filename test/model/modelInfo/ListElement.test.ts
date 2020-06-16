@@ -1,4 +1,4 @@
-import ListElement from "../../../src/model/modelinfo/ListElement";
+import ListElement from "../../../src/model/modelInfo/ListElement";
 
 describe("ListElement", () => {
   test("constructor", () => {

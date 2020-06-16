@@ -3,10 +3,10 @@ import EntityDefinition from "../../../src/model/dataTypes/EntityDefinition";
 import EntityImports from "../../../src/model/dataTypes/EntityImports";
 import EntityMetadata from "../../../src/model/dataTypes/EntityMetadata";
 import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
-import Element from "../../../src/model/modelinfo/Element";
-import ListElement from "../../../src/model/modelinfo/ListElement";
-import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
-import TypeInfo from "../../../src/model/modelinfo/TypeInfo";
+import Element from "../../../src/model/modelInfo/Element";
+import ListElement from "../../../src/model/modelInfo/ListElement";
+import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
+import TypeInfo from "../../../src/model/modelInfo/TypeInfo";
 import FilePath from "../../../src/model/dataTypes/FilePath";
 import IsDataTypePredicate from "../../../src/collectionUtils/IsDataTypePredicate";
 

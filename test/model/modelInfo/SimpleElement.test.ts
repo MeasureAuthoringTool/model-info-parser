@@ -1,4 +1,4 @@
-import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
+import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
 
 describe("SimpleElement", () => {
   test("constructor", () => {

@@ -1,6 +1,6 @@
 import ChoiceElement, {
   ChoiceType,
-} from "../../../src/model/modelinfo/ChoiceElement";
+} from "../../../src/model/modelInfo/ChoiceElement";
 
 describe("ChoiceElement", () => {
   test("constructor", () => {

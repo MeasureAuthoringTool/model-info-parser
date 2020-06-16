@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import xml2js from "xml2js";
-import ModelInfo, { ModelInfoXml } from "./model/modelinfo/ModelInfo";
+import ModelInfo, { ModelInfoXml } from "./model/modelInfo/ModelInfo";
 import logger from "./logger";
 
 export default class ModelInfoParser {

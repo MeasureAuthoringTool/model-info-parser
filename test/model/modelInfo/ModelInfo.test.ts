@@ -1,12 +1,12 @@
 import xml2js from "xml2js";
 import ModelInfo, {
   ModelInfoXml,
-} from "../../../src/model/modelinfo/ModelInfo";
-import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
-import TypeInfo from "../../../src/model/modelinfo/TypeInfo";
-import { ElementXml } from "../../../src/model/modelinfo/ElementFactory";
-import ChoiceElement from "../../../src/model/modelinfo/ChoiceElement";
-import ListElement from "../../../src/model/modelinfo/ListElement";
+} from "../../../src/model/modelInfo/ModelInfo";
+import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
+import TypeInfo from "../../../src/model/modelInfo/TypeInfo";
+import { ElementXml } from "../../../src/model/modelInfo/ElementFactory";
+import ChoiceElement from "../../../src/model/modelInfo/ChoiceElement";
+import ListElement from "../../../src/model/modelInfo/ListElement";
 
 describe("ModelInfo", () => {
   describe("constructor", () => {

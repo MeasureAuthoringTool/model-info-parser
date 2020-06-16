@@ -1,5 +1,5 @@
 import EntityDefinition from "./EntityDefinition";
-import ModelInfo from "../modelinfo/ModelInfo";
+import ModelInfo from "../modelInfo/ModelInfo";
 import FilePath from "./FilePath";
 import Predicate from "../../collectionUtils/core/Predicate";
 import Transformer from "../../collectionUtils/core/Transformer";

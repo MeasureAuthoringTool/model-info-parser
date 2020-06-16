@@ -1,6 +1,6 @@
-import TypeInfo, { TypeInfoXml } from "../../../src/model/modelinfo/TypeInfo";
-import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
-import { ElementXml } from "../../../src/model/modelinfo/ElementFactory";
+import TypeInfo, { TypeInfoXml } from "../../../src/model/modelInfo/TypeInfo";
+import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
+import { ElementXml } from "../../../src/model/modelInfo/ElementFactory";
 
 describe("TypeInfo", () => {
   test("constructor", () => {
