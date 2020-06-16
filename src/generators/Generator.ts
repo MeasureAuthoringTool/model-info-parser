@@ -1,9 +1,9 @@
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import FilePath from "../model/dataTypes/FilePath";
 
-type IGenerator = (
+type Generator = (
   entityDefinition: EntityDefinition,
   baseDirectory: FilePath
 ) => Promise<string>;
 
-export default IGenerator;
+export default Generator;

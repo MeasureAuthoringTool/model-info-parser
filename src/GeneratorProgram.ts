@@ -1,7 +1,7 @@
 import { program } from "commander";
 import path from "path";
 import { version } from "../package.json";
-import IGenerator from "./generators/IGenerator";
+import Generator from "./generators/Generator";
 import logger from "./logger";
 import ModelInfoParser from "./ModelInfoParser";
 import EntityCollection from "./model/dataTypes/EntityCollection";
@@ -14,7 +14,7 @@ import ModifyExtensionTypeTransformer from "./collectionUtils/ModifyExtensionTyp
 import EntityDefinition from "./model/dataTypes/EntityDefinition";
 
 export default class GeneratorProgram {
-  constructor(private generator: IGenerator) {
+  constructor(private generator: Generator) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args

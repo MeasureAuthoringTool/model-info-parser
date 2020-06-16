@@ -9,7 +9,7 @@ import interfaceTemplate, {
   TemplateContext as InterfaceTemplateContext,
 } from "../templates/typescript/interfaces/interfaceTemplate";
 import typeAliasTemplate from "../templates/typescript/typeAliases/typeAliasTemplate";
-import IGenerator from "./IGenerator";
+import Generator from "./Generator";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityImports from "../model/dataTypes/EntityImports";
@@ -126,5 +126,5 @@ async function generate(
   return classContents;
 }
 
-const typeCheck: IGenerator = generate;
+const typeCheck: Generator = generate;
 export default typeCheck;

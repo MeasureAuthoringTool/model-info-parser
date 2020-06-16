@@ -3,7 +3,7 @@ import { mongoidPrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
 import classTemplate, {
   TemplateContext,
 } from "../templates/rubymongoid/classTemplate";
-import IGenerator from "./IGenerator";
+import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 
@@ -36,5 +36,5 @@ async function generate(
   return contents;
 }
 
-const typeCheck: IGenerator = generate;
+const typeCheck: Generator = generate;
 export default typeCheck;
