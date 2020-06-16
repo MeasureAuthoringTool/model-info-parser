@@ -5,7 +5,7 @@ import DataType from "./dataTypes/DataType";
  * The key is {{namespace}}.{{typeName}} of a type. The value is a Set of
  * its children
  */
-interface IHierarchyMap {
+interface HierarchyMap {
   [key: string]: Set<DataType>;
 }
 
@@ -16,7 +16,7 @@ interface IHierarchyMap {
  * This helps us figure that out.
  */
 export default class TypeHierarchy {
-  public typeMap: IHierarchyMap = {};
+  public typeMap: HierarchyMap = {};
 
   static buildKey(type: DataType): string {
     return `${type.namespace}.${type.typeName}`;

@@ -1,10 +1,10 @@
 import xml2js from "xml2js";
 import ModelInfo, {
-  IModelInfoXml,
+  ModelInfoXml,
 } from "../../../src/model/modelinfo/ModelInfo";
 import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
 import TypeInfo from "../../../src/model/modelinfo/TypeInfo";
-import { IElementXml } from "../../../src/model/modelinfo/ElementFactory";
+import { ElementXml } from "../../../src/model/modelinfo/ElementFactory";
 import ChoiceElement from "../../../src/model/modelinfo/ChoiceElement";
 import ListElement from "../../../src/model/modelinfo/ListElement";
 
@@ -28,10 +28,10 @@ describe("ModelInfo", () => {
   });
 
   describe("createTypeInfo()", () => {
-    let input: IModelInfoXml;
+    let input: ModelInfoXml;
 
     beforeEach(() => {
-      const element1: IElementXml = {
+      const element1: ElementXml = {
         $: {
           name: "memberName1",
           elementType: "elNamespace1.elTypeName1",
@@ -104,9 +104,9 @@ describe("ModelInfo", () => {
 
     test("it can parse an XML string and return object tree", async () => {
       const parser = new xml2js.Parser();
-      const parsedXml: IModelInfoXml = (await parser.parseStringPromise(
+      const parsedXml: ModelInfoXml = (await parser.parseStringPromise(
         xmlInput
-      )) as IModelInfoXml;
+      )) as ModelInfoXml;
       const modelInfo = ModelInfo.createModelInfo(parsedXml);
 
       expect(modelInfo.name).toBe("FHIR");

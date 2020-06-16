@@ -1,7 +1,7 @@
 import FileWriter from "../FileWriter";
 import { mongoidPrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
 import classTemplate, {
-  ITemplateContext,
+  TemplateContext,
 } from "../templates/rubymongoid/classTemplate";
 import IGenerator from "./IGenerator";
 import FilePath from "../model/dataTypes/FilePath";
@@ -16,7 +16,7 @@ async function generate(
     return "";
   }
 
-  const templateInput: ITemplateContext = {
+  const templateInput: TemplateContext = {
     dataType: entityDefinition.dataType,
     parentDataType: entityDefinition.parentDataType,
     memberVariables: entityDefinition.memberVariables,

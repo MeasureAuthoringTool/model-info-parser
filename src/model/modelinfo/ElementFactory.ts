@@ -14,7 +14,7 @@ import { normalizeElementTypeName } from "../../utils";
  *   <ns4:elementTypeSpecifier xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="ClaimResponse.Item"/>
  * </ns4:elementTypeSpecifier>
  */
-export interface ISimpleSpecifierXml {
+export interface SimpleSpecifierXml {
   $: {
     modelName: string;
     name: string;
@@ -32,24 +32,24 @@ export interface ISimpleSpecifierXml {
  * Or:
  * <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
  */
-export interface IElementTypeSpecifierXml {
+export interface ElementTypeSpecifierXml {
   $: {
     "xsi:type": string;
     elementType?: string;
   };
-  "ns4:choice"?: Array<ISimpleSpecifierXml>;
-  "ns4:elementTypeSpecifier"?: Array<ISimpleSpecifierXml>;
+  "ns4:choice"?: Array<SimpleSpecifierXml>;
+  "ns4:elementTypeSpecifier"?: Array<SimpleSpecifierXml>;
 }
 
 /**
  * This interface defines how an Element's XML comes from xml2js
  */
-export interface IElementXml {
+export interface ElementXml {
   $: {
     name: string;
     elementType?: string;
   };
-  "ns4:elementTypeSpecifier"?: Array<IElementTypeSpecifierXml>;
+  "ns4:elementTypeSpecifier"?: Array<ElementTypeSpecifierXml>;
 }
 
 /**
@@ -57,7 +57,7 @@ export interface IElementXml {
  * into one of the 3 different Element types: SimpleElement, ChoiceElement or ListElement
  */
 export default class ElementFactory {
-  public static createElement(input: IElementXml): Element {
+  public static createElement(input: ElementXml): Element {
     const { $: attrs } = input;
     const { name, elementType } = attrs;
     const specifierElementArray = input["ns4:elementTypeSpecifier"];
@@ -73,7 +73,7 @@ export default class ElementFactory {
       throw new Error("Cannot parse invalid Element XML");
     }
 
-    const specifier: IElementTypeSpecifierXml = specifierElementArray[0];
+    const specifier: ElementTypeSpecifierXml = specifierElementArray[0];
     const { $: specifierAttrs } = specifier;
     const specifierElementType = specifierAttrs.elementType;
     const specifierType = specifierAttrs["xsi:type"];

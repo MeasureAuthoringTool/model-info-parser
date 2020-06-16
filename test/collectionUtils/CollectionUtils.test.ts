@@ -1,6 +1,6 @@
 import ContainsExtensionPredicate from "./testImpls/ContainsExtensionPredicate";
 import CollectionUtils from "../../src/collectionUtils/CollectionUtils";
-import ExtractValueTransformer, { IValue } from "./testImpls/ExtractValueTransformer";
+import ExtractValueTransformer, { ValueHolder } from "./testImpls/ExtractValueTransformer";
 
 describe("CollectionUtils", () => {
   describe("#select()", () => {
@@ -36,13 +36,13 @@ describe("CollectionUtils", () => {
   describe("#transform()", () => {
     const transformer = ExtractValueTransformer.INSTANCE;
     it("should handle an empty array", () => {
-      const input: Array<IValue> = [];
+      const input: Array<ValueHolder> = [];
       const result = CollectionUtils.transform(input, transformer);
       expect(result).toBeArrayOfSize(0);
     });
 
     it("should return an array of transformed values", () => {
-      const input: Array<IValue> = [{
+      const input: Array<ValueHolder> = [{
         value: "hi"
       }, {
         value: "world"

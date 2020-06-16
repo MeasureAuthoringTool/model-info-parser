@@ -14,10 +14,10 @@ export const source = `module {{ dataType.namespace }}
 end
 `;
 
-export interface ITemplateContext {
+export interface TemplateContext {
   dataType: DataType;
   parentDataType: DataType | null;
   memberVariables: Array<MemberVariable>;
 }
 
-export default Handlebars.compile<ITemplateContext>(source);
+export default Handlebars.compile<TemplateContext>(source);

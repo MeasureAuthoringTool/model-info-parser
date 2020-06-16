@@ -20,7 +20,7 @@ export default interface I{{ dataType.normalizedName }}{{# if parentDataType }} 
 }
 `;
 
-export interface ITemplateContext {
+export interface TemplateContext {
   dataType: DataType;
   parentDataType: DataType | null;
   metadata: EntityMetadata;
@@ -28,4 +28,4 @@ export interface ITemplateContext {
   imports: EntityImports;
 }
 
-export default Handlebars.compile<ITemplateContext>(source);
+export default Handlebars.compile<TemplateContext>(source);

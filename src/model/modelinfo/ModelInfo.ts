@@ -1,12 +1,12 @@
-import TypeInfo, { ITypeInfoXml } from "./TypeInfo";
+import TypeInfo, { TypeInfoXml } from "./TypeInfo";
 
-export interface IModelInfoXml {
+export interface ModelInfoXml {
   ["ns4:modelInfo"]: {
     $: {
       name: string;
       version: string;
     };
-    ["ns4:typeInfo"]?: Array<ITypeInfoXml>;
+    ["ns4:typeInfo"]?: Array<TypeInfoXml>;
   };
 }
 
@@ -22,14 +22,14 @@ export default class ModelInfo {
     public types: Array<TypeInfo>
   ) {}
 
-  static createModelInfo(input: IModelInfoXml): ModelInfo {
+  static createModelInfo(input: ModelInfoXml): ModelInfo {
     const modelInfoBase = input["ns4:modelInfo"];
     const { $: attrs } = modelInfoBase;
-    const typeInfoArray: Array<ITypeInfoXml> = modelInfoBase["ns4:typeInfo"] || [];
+    const typeInfoArray: Array<TypeInfoXml> = modelInfoBase["ns4:typeInfo"] || [];
     const { name, version } = attrs;
 
     const types: Array<TypeInfo> = typeInfoArray.reduce(
-      (accumulator: Array<TypeInfo>, currentTypeXml: ITypeInfoXml) => {
+      (accumulator: Array<TypeInfo>, currentTypeXml: TypeInfoXml) => {
         const typeInfo: TypeInfo = TypeInfo.createTypeInfo(currentTypeXml);
         accumulator.push(typeInfo);
         return accumulator;

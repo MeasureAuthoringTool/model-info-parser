@@ -1,15 +1,15 @@
 import ElementFactory, {
-  IElementXml,
-  IElementTypeSpecifierXml,
+  ElementXml,
+  ElementTypeSpecifierXml,
 } from "../../../src/model/modelinfo/ElementFactory";
 import ChoiceElement from "../../../src/model/modelinfo/ChoiceElement";
 import ListElement from "../../../src/model/modelinfo/ListElement";
 import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
 
 describe("ElementFactory", () => {
-  let choiceSpecifier: IElementTypeSpecifierXml;
-  let listSpecifier: IElementTypeSpecifierXml;
-  let alternateListSpecifier: IElementTypeSpecifierXml;
+  let choiceSpecifier: ElementTypeSpecifierXml;
+  let listSpecifier: ElementTypeSpecifierXml;
+  let alternateListSpecifier: ElementTypeSpecifierXml;
 
   beforeEach(() => {
     choiceSpecifier = {
@@ -57,7 +57,7 @@ describe("ElementFactory", () => {
 
   describe("createElement()", () => {
     it("should create a SimpleElement", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
           elementType: "namespace.typeName",
@@ -72,7 +72,7 @@ describe("ElementFactory", () => {
     });
 
     it("should create a ListElement", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "listName",
         },
@@ -87,7 +87,7 @@ describe("ElementFactory", () => {
     });
 
     it("should create a ListElement using the alternate syntax", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "alternateListName",
         },
@@ -105,7 +105,7 @@ describe("ElementFactory", () => {
       const namedArray =
         alternateListSpecifier["ns4:elementTypeSpecifier"] || [];
       namedArray.push(namedArray[0]);
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "alternateListName",
         },
@@ -120,7 +120,7 @@ describe("ElementFactory", () => {
       const namedArray =
         alternateListSpecifier["ns4:elementTypeSpecifier"] || [];
       namedArray.length = 0;
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "alternateListName",
         },
@@ -132,7 +132,7 @@ describe("ElementFactory", () => {
     });
 
     it("should create a ChoiceElement", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "listName",
         },
@@ -150,7 +150,7 @@ describe("ElementFactory", () => {
     });
 
     it("should reject missing elementTypeSpecifiers", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
         },
@@ -161,7 +161,7 @@ describe("ElementFactory", () => {
     });
 
     it("should reject empty elementTypeSpecifiers", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
         },
@@ -173,7 +173,7 @@ describe("ElementFactory", () => {
     });
 
     it("should reject too many elementTypeSpecifiers", () => {
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
         },
@@ -186,7 +186,7 @@ describe("ElementFactory", () => {
 
     it("should reject elementTypeSpecifiers of the wrong type", () => {
       listSpecifier.$["xsi:type"] = "something invalid";
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
         },
@@ -201,7 +201,7 @@ describe("ElementFactory", () => {
 
     it("should reject choice specifiers with no choices", () => {
       choiceSpecifier["ns4:choice"] = [];
-      const input: IElementXml = {
+      const input: ElementXml = {
         $: {
           name: "memberName",
         },

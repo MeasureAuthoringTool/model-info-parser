@@ -1,6 +1,6 @@
-import TypeInfo, { ITypeInfoXml } from "../../../src/model/modelinfo/TypeInfo";
+import TypeInfo, { TypeInfoXml } from "../../../src/model/modelinfo/TypeInfo";
 import SimpleElement from "../../../src/model/modelinfo/SimpleElement";
-import { IElementXml } from "../../../src/model/modelinfo/ElementFactory";
+import { ElementXml } from "../../../src/model/modelinfo/ElementFactory";
 
 describe("TypeInfo", () => {
   test("constructor", () => {
@@ -20,17 +20,17 @@ describe("TypeInfo", () => {
   });
 
   describe("createTypeInfo()", () => {
-    let input: ITypeInfoXml;
+    let input: TypeInfoXml;
 
     beforeEach(() => {
-      const element1: IElementXml = {
+      const element1: ElementXml = {
         $: {
           name: "memberName1",
           elementType: "elNamespace1.elTypeName1",
         },
       };
 
-      const element2: IElementXml = {
+      const element2: ElementXml = {
         $: {
           name: "memberName2",
           elementType: "elNamespace2.elTypeName2",

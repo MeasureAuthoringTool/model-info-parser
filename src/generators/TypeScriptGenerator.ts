@@ -3,10 +3,10 @@ import DataType from "../model/dataTypes/DataType";
 import { safeAddTypeImport } from "../model/dataTypes/distinctDataTypes";
 import { primitiveTypeJsonMapping } from "../model/dataTypes/primitiveDataTypes";
 import classTemplate, {
-  ITemplateContext as IClassTemplateContext,
+  TemplateContext as ClassTemplateContext,
 } from "../templates/typescript/classes/classTemplate";
 import interfaceTemplate, {
-  ITemplateContext as IInterfaceTemplateContext,
+  TemplateContext as InterfaceTemplateContext,
 } from "../templates/typescript/interfaces/interfaceTemplate";
 import typeAliasTemplate from "../templates/typescript/typeAliases/typeAliasTemplate";
 import IGenerator from "./IGenerator";
@@ -18,7 +18,7 @@ async function generate(
   entityDefinition: EntityDefinition,
   baseDirectory: FilePath
 ): Promise<string> {
-  const classTemplateInput: IClassTemplateContext = {
+  const classTemplateInput: ClassTemplateContext = {
     dataType: entityDefinition.dataType,
     parentDataType: entityDefinition.parentDataType,
     metadata: entityDefinition.metadata,
@@ -71,7 +71,7 @@ async function generate(
       new EntityImports(distinctTypes)
     );
   }
-  const interfaceTemplateInput: IInterfaceTemplateContext = {
+  const interfaceTemplateInput: InterfaceTemplateContext = {
     dataType: interfaceEntityDefinition.dataType,
     parentDataType: interfaceEntityDefinition.parentDataType,
     metadata: interfaceEntityDefinition.metadata,

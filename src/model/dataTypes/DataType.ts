@@ -1,4 +1,3 @@
-import IDataType from "./IDataType";
 import { normalizeTypeName } from "../../utils";
 import { primitiveTypeCheck } from "./primitiveDataTypes";
 import FilePath from "./FilePath";
@@ -8,7 +7,7 @@ import FilePath from "./FilePath";
  * They are implemented using a singleton pattern for easy comparison.
  * Each unique DataType instance is cached by its absolute path.
  */
-export default class DataType implements IDataType {
+export default class DataType {
   private static cache: { [key: string]: DataType } = {};
 
   // Overloaded getInstance method
@@ -17,11 +16,13 @@ export default class DataType implements IDataType {
     typeName: string,
     baseDir: string
   ): DataType;
+
   public static getInstance(
     namespace: string,
     typeName: string,
     baseDir: FilePath
   ): DataType;
+
   public static getInstance(
     namespace: string,
     typeName: string,

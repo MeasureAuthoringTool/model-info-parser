@@ -29,10 +29,12 @@ export default class MemberVariable {
     elements: Array<Element>,
     baseDir: string
   ): Array<MemberVariable>;
+
   public static createMemberVariables(
     elements: Array<Element>,
     baseDir: FilePath
   ): Array<MemberVariable>;
+
   public static createMemberVariables(
     elements: Array<Element>,
     baseDirIn: FilePath | string
@@ -63,10 +65,12 @@ export default class MemberVariable {
     element: Element,
     baseDir: FilePath
   ): Array<MemberVariable>;
+
   public static createMemberVariable(
     element: Element,
     baseDir: string
   ): Array<MemberVariable>;
+
   public static createMemberVariable(
     element: Element,
     baseDirIn: FilePath | string
@@ -107,10 +111,9 @@ export default class MemberVariable {
     }
 
     if (element instanceof ChoiceElement) {
-      const choiceElement: ChoiceElement = element;
-      const { name, choices } = choiceElement;
+      const { name, choices } = element;
 
-      const results: Array<MemberVariable> = choices.map((choice) => {
+      return choices.map((choice) => {
         const variableName = `${name}${choice.typeName}`;
         const dataType = DataType.getInstance(
           choice.namespace,
@@ -119,8 +122,6 @@ export default class MemberVariable {
         );
         return new MemberVariable(dataType, variableName, false);
       });
-
-      return results;
     }
 
     throw new Error("Unrecognized Element type");

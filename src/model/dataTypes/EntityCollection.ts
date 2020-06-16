@@ -15,10 +15,12 @@ export default class EntityCollection {
     modelInfo: ModelInfo,
     baseDirIn: FilePath
   ): EntityCollection;
+
   public static createEntityCollection(
     modelInfo: ModelInfo,
     baseDirIn: string
   ): EntityCollection;
+
   public static createEntityCollection(
     modelInfo: ModelInfo,
     baseDirIn: string | FilePath

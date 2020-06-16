@@ -70,10 +70,12 @@ export default class EntityDefinition {
     typeInfo: TypeInfo,
     baseDir: string
   ): EntityDefinition;
+
   static createEntityDefinition(
     typeInfo: TypeInfo,
     baseDir: FilePath
   ): EntityDefinition;
+
   static createEntityDefinition(
     typeInfo: TypeInfo,
     baseDirIn: FilePath | string

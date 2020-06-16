@@ -1,7 +1,7 @@
 import TransformedPredicate from "../../../src/collectionUtils/core/TransformedPredicate";
 import AppendTransformer from "../testImpls/AppendTransformer";
 import ContainsExtensionPredicate  from "../testImpls/ContainsExtensionPredicate";
-import ExtractValueTransformer, { IValue }  from "../testImpls/ExtractValueTransformer";
+import ExtractValueTransformer, { ValueHolder }  from "../testImpls/ExtractValueTransformer";
 
 describe("TransformedPredicate", () => {
   it("should transform an object before evaluating the predicate against it", () => {
@@ -16,7 +16,7 @@ describe("TransformedPredicate", () => {
     const transformer = new ExtractValueTransformer();
     const predicate = new ContainsExtensionPredicate("!");
 
-    const transformedPredicate = new TransformedPredicate<IValue, string>(transformer, predicate);
+    const transformedPredicate = new TransformedPredicate<ValueHolder, string>(transformer, predicate);
     expect(transformedPredicate.evaluate({ value: "Awesome" })).toBeFalse();
     expect(transformedPredicate.evaluate({ value: "Awesome!" })).toBeTrue();
   });

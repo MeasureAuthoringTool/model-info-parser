@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import xml2js from "xml2js";
-import ModelInfo, { IModelInfoXml } from "./model/modelinfo/ModelInfo";
+import ModelInfo, { ModelInfoXml } from "./model/modelinfo/ModelInfo";
 import logger from "./logger";
 
 export default class ModelInfoParser {
@@ -12,9 +12,9 @@ export default class ModelInfoParser {
     try {
       const rawFile = await fs.readFile(modelInfoFileName);
 
-      const parsedXml: IModelInfoXml = (await ModelInfoParser.parser.parseStringPromise(
+      const parsedXml: ModelInfoXml = (await ModelInfoParser.parser.parseStringPromise(
         rawFile
-      )) as IModelInfoXml;
+      )) as ModelInfoXml;
 
       return ModelInfo.createModelInfo(parsedXml);
     } catch (err) {

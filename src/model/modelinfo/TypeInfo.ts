@@ -1,5 +1,5 @@
 import Element from "./Element";
-import ElementFactory, { IElementXml } from "./ElementFactory";
+import ElementFactory, { ElementXml } from "./ElementFactory";
 import { normalizeElementTypeName } from "../../utils";
 
 /**
@@ -11,13 +11,13 @@ import { normalizeElementTypeName } from "../../utils";
  *   <ns4:element name="value" elementType="System.String"/>
  * </ns4:typeInfo>
  */
-export interface ITypeInfoXml {
+export interface TypeInfoXml {
   $: {
     name: string;
     namespace: string;
     baseType: string;
   };
-  ["ns4:element"]?: Array<IElementXml>;
+  ["ns4:element"]?: Array<ElementXml>;
 }
 
 /**
@@ -33,7 +33,7 @@ export default class TypeInfo {
     public readonly elements: Array<Element>
   ) {}
 
-  static createTypeInfo(input: ITypeInfoXml): TypeInfo {
+  static createTypeInfo(input: TypeInfoXml): TypeInfo {
     const { $: attrs } = input;
     const elementArray = input["ns4:element"] || [];
     const { name, namespace, baseType } = attrs;
@@ -50,7 +50,7 @@ export default class TypeInfo {
     }
 
     const elements: Array<Element> = elementArray.reduce(
-      (accumulator: Array<Element>, currentElXml: IElementXml) => {
+      (accumulator: Array<Element>, currentElXml: ElementXml) => {
         const element: Element = ElementFactory.createElement(currentElXml);
         accumulator.push(element);
         return accumulator;

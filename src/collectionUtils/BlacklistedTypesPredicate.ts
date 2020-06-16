@@ -20,7 +20,7 @@ export default class BlacklistedTypesPredicate extends Predicate<DataType> {
   // eslint-disable-next-line class-methods-use-this
   evaluate(input: DataType): boolean {
     const { typeName, namespace } = input;
-    const blacklistPredicate = (dataType: BlacklistItem) => {
+    const blacklistPredicate = (dataType: BlacklistItem): boolean => {
       return dataType.name === typeName && dataType.namespace === namespace;
     };
 
