@@ -1,11 +1,20 @@
 import { program } from "commander";
+import path from "path";
 import { version } from "../package.json";
-import IGenerator from "./generators/IGenerator";
+import Generator from "./generators/Generator";
 import logger from "./logger";
-import parser from "./parser";
+import ModelInfoParser from "./ModelInfoParser";
+import EntityCollection from "./model/dataTypes/EntityCollection";
+import TransformedPredicate from "./collectionUtils/core/TransformedPredicate";
+import ExtractDataTypeTransformer from "./collectionUtils/ExtractDataTypeTransformer";
+import BlacklistedTypesPredicate from "./collectionUtils/BlacklistedTypesPredicate";
+import ModelInfo from "./model/modelInfo/ModelInfo";
+import AddResourceTypeFieldTransformer from "./collectionUtils/AddResourceTypeFieldTransformer";
+import ModifyExtensionTypeTransformer from "./collectionUtils/ModifyExtensionTypeTransformer";
+import EntityDefinition from "./model/dataTypes/EntityDefinition";
 
 export default class GeneratorProgram {
-  constructor(private generator: IGenerator) {
+  constructor(private generator: Generator) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args
@@ -22,19 +31,49 @@ export default class GeneratorProgram {
 
   async generateTypes(): Promise<Array<string>> {
     const modelinfoFile: string = program.modelinfoFile as string;
-    const outputDirectory: string = program.outputDirectory as string;
+    let outputDirectory: string = program.outputDirectory as string;
+
+    if (!path.isAbsolute(outputDirectory)) {
+      logger.info(`Redirecting relative directory ${outputDirectory}`);
+      outputDirectory = path.normalize(`${__dirname}/../${outputDirectory}`);
+    }
 
     logger.info(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
 
-    const modelInfo = await parser(modelinfoFile);
-    const { complexTypes } = modelInfo;
+    // Parse the modelinfo.xml file into the ModelInfo type representation
+    const otherModelInfo: ModelInfo = await ModelInfoParser.parseModelInfoXmlFile(
+      modelinfoFile
+    );
 
-    const promises = complexTypes.map(async (typeInfo) => {
-      return this.generator(
-        typeInfo,
-        outputDirectory
-      );
-    });
+    // Convert the XML representation into an EntityCollection of types
+    let entityCollection = EntityCollection.createEntityCollection(
+      otherModelInfo,
+      outputDirectory
+    );
+
+    // Remove the blacklisted types from the collection
+    const blacklistPredicate = new TransformedPredicate(
+      ExtractDataTypeTransformer.INSTANCE,
+      BlacklistedTypesPredicate.INSTANCE
+    );
+    entityCollection = entityCollection.selectRejected(blacklistPredicate);
+
+    // Add a "resourceType" member to the Resource entity
+    entityCollection = entityCollection.transform(
+      new AddResourceTypeFieldTransformer()
+    );
+
+    // Modify the "FHIR.Extension" type to no longer extend FHIR.Element (to prevent circular dependencies)
+    entityCollection = entityCollection.transform(
+      new ModifyExtensionTypeTransformer()
+    );
+
+    // Execute the generator for each entity
+    const promises = entityCollection.entities.map(
+      async (entity: EntityDefinition) => {
+        return this.generator(entity, entityCollection.baseDir);
+      }
+    );
 
     return Promise.all(promises);
   }

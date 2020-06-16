@@ -52,6 +52,14 @@ jobs:
       - name: Execute test coverage
         run: npm run-script coverage
 
+      - name: Upload code coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: coverage/lcov.info
+          fail_ci_if_error: true # optional (default = false)
+      #          flags: unittests # optional
+      #          name: codecov-umbrella # optional
+
       - name: Store the coverage report as an artifact
         uses: actions/upload-artifact@v2
         with:
@@ -73,21 +81,3 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: lcov.info
-
-  upload-codecov-coverage:
-    name: Upload code coveage to Codecov
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: coverage
-
-      - name: Upload code coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: lcov.info
-          fail_ci_if_error: true # optional (default = false)
-#          flags: unittests # optional
-#          name: codecov-umbrella # optional

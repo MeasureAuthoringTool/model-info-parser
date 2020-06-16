@@ -7,11 +7,11 @@ type I{{ name }} = {{# unless isRootType }}I{{/ unless}}{{ baseTypeName }};
 export default I{{ name }}; 
 `;
 
-export interface ITemplateContext {
+export interface TemplateContext {
   isRootType: boolean;
   baseTypeName: string;
   name: string;
   namespace: string;
 }
 
-export default Handlebars.compile<ITemplateContext>(source);
+export default Handlebars.compile<TemplateContext>(source);
