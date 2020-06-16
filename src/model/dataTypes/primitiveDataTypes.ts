@@ -52,27 +52,14 @@ export const primitiveTypeJsonMapping: { [key: string]: string } = {
 };
 
 export const mongoidPrimitiveTypes: { [name: string]: string } = {
-  base64Binary: "String",
-  boolean: "Boolean",
-  canonical: "String",
-  code: "String",
-  date: "Date",
-  dateTime: "DateTime",
-  decimal: "BigDecimal",
-  id: "String",
-  instant: "DateTime",
-  integer: "Integer",
-  markdown: "String",
-  oid: "String",
-  positiveInt: "Integer",
-  question: "String",
+  Boolean: "Boolean",
+  Date: "Date",
+  DateTime: "DateTime",
+  Decimal: "BigDecimal",
+  Integer: "Integer",
+  String: "String",
   string: "String",
-  time: "Time",
-  unsignedInt: "Integer",
-  uri: "String",
-  url: "String",
-  uuid: "String",
-  xhtml: "String",
+  Time: "Time"
 };
 
 export function convertPrimitiveName(name: string): string {

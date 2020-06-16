@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
 import GeneratorProgram from "./GeneratorProgram";
-import MongoidTypeGenerator from "./generators/MongoidTypeGenerator";
+import MongoidTypeGenerator, { generateModelExporter } from "./generators/MongoidTypeGenerator";
 import logger from "./logger";
 
 // Get the output directory from CLI args
@@ -15,6 +15,10 @@ program.requiredOption(
 new GeneratorProgram(MongoidTypeGenerator)
   .generateTypes()
   .then((result: Array<string>) => {
+    // eslint-disable-next-line promise/no-nesting
+    generateModelExporter(result, program.outputDirectory)
+      .then(() => {return true})
+      .catch(() => { logger.info("Model exporter generated")});
     logger.info(`Successfully generated ${result.length} types`);
     return true;
   })

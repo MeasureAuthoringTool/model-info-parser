@@ -6,6 +6,7 @@ import classTemplate, {
 import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
+import exportModelsTemplate from "../templates/rubymongoid/allMongoidExportTemplate";
 
 async function generate(
   entityDefinition: EntityDefinition,
@@ -33,7 +34,13 @@ async function generate(
     fileName
   );
   await writer.writeFile();
-  return contents;
+  return entityDefinition.dataType.normalizedName;
+}
+
+export async function generateModelExporter(models: Array<string>, baseDirectory: string): Promise<void> {
+  const contents: string = exportModelsTemplate({names: models});
+  const writer = new FileWriter(contents, baseDirectory, null, "models.rb");
+  return writer.writeFile();
 }
 
 const typeCheck: Generator = generate;
