@@ -5,6 +5,15 @@ import ListElement from "../modelInfo/ListElement";
 import SimpleElement from "../modelInfo/SimpleElement";
 import FilePath from "./FilePath";
 
+export const enum RelationshipType {
+  embeds_one = "embeds_one",
+  embeds_many = "embeds_many",
+  belongs_to = "belongs_to",
+  has_one = "has_one",
+  has_many = "has_many",
+  has_and_belongs_to_many = "has_and_belongs_to_many",
+}
+
 export default class MemberVariable {
   public readonly dataType: DataType;
 
@@ -12,14 +21,40 @@ export default class MemberVariable {
 
   public readonly isArray: boolean;
 
-  constructor(dataType: DataType, variableName: string, isArray = false) {
+  public readonly relationshipType: RelationshipType;
+
+  public readonly bidirectional: boolean;
+
+  constructor(
+    dataType: DataType,
+    variableName: string,
+    isArray = false,
+    relationshipType?: RelationshipType,
+    bidirectional = true
+  ) {
     this.dataType = dataType;
     this.variableName = variableName;
     this.isArray = isArray;
+    this.bidirectional = bidirectional;
+
+    // If not specified, default to "embeds_many" for arrays, and "embeds_one" for non-arrays
+    if (!relationshipType) {
+      this.relationshipType = isArray
+        ? RelationshipType.embeds_many
+        : RelationshipType.embeds_one;
+    } else {
+      this.relationshipType = relationshipType;
+    }
   }
 
   public clone(): MemberVariable {
-    return new MemberVariable(this.dataType, this.variableName, this.isArray);
+    return new MemberVariable(
+      this.dataType,
+      this.variableName,
+      this.isArray,
+      this.relationshipType,
+      this.bidirectional
+    );
   }
 
   /**

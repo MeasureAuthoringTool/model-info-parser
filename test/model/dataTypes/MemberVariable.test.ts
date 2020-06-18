@@ -5,7 +5,9 @@ import ChoiceElement, {
 } from "../../../src/model/modelInfo/ChoiceElement";
 import ListElement from "../../../src/model/modelInfo/ListElement";
 import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
-import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
+import MemberVariable, {
+  RelationshipType,
+} from "../../../src/model/dataTypes/MemberVariable";
 import FilePath from "../../../src/model/dataTypes/FilePath";
 import DataType from "../../../src/model/dataTypes/DataType";
 
@@ -88,6 +90,42 @@ describe("MemberVariable", () => {
     it("allows explicit isArray initialization", () => {
       const result = new MemberVariable(systemBool, "testVar", true);
       expect(result.isArray).toBeTrue();
+    });
+
+    it("defaults the relationshipType to embeds_one if isArray is false", () => {
+      const result = new MemberVariable(systemBool, "testVar", false);
+      expect(result.relationshipType).toBe(RelationshipType.embeds_one);
+    });
+
+    it("defaults the relationshipType to embeds_many if isArray is true", () => {
+      const result = new MemberVariable(systemBool, "testVar", true);
+      expect(result.relationshipType).toBe(RelationshipType.embeds_many);
+    });
+
+    it("allows the specification of a custom relationshipType", () => {
+      const result = new MemberVariable(
+        systemBool,
+        "testVar",
+        true,
+        RelationshipType.belongs_to
+      );
+      expect(result.relationshipType).toBe(RelationshipType.belongs_to);
+    });
+
+    it("defaults the bidirectional property to true", () => {
+      const result = new MemberVariable(systemBool, "testVar");
+      expect(result.bidirectional).toBeTrue();
+    });
+
+    it("allows setting the bidirectional property to false", () => {
+      const result = new MemberVariable(
+        systemBool,
+        "testVar",
+        true,
+        RelationshipType.has_and_belongs_to_many,
+        false
+      );
+      expect(result.bidirectional).toBeFalse();
     });
   });
 
@@ -175,12 +213,20 @@ describe("MemberVariable", () => {
 
   describe("clone", () => {
     it("should make a deep copy of the MemberVariable", () => {
-      const original = new MemberVariable(systemBool, "testVar", true);
+      const original = new MemberVariable(
+        systemBool,
+        "testVar",
+        true,
+        RelationshipType.has_many,
+        false
+      );
       const result = original.clone();
       expect(original).not.toBe(result);
       expect(result.dataType).toEqual(systemBool);
       expect(result.variableName).toEqual("testVar");
       expect(result.isArray).toBeTrue();
+      expect(result.relationshipType).toBe(RelationshipType.has_many);
+      expect(result.bidirectional).toBeFalse();
     });
   });
 });
