@@ -10,7 +10,6 @@ export default class ExtractValueTransformer extends Transformer<
 > {
   public static INSTANCE = new ExtractValueTransformer();
 
-  // eslint-disable-next-line class-methods-use-this
   transform(input: ValueHolder): string {
     return input.value;
   }

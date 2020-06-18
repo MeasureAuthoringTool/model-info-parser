@@ -29,12 +29,13 @@ export default class EntityDefinitionBuilder {
   }
 
   public buildEntityDefinition(): EntityDefinition {
+    const { dataType } = this;
     return new EntityDefinition(
-      this.metadata,
-      this.dataType,
+      this.metadata.clone(),
+      dataType,
       this.parentType,
-      this.memberVariables,
-      this.imports
+      [...this.memberVariables],
+      this.imports.clone()
     );
   }
 }
