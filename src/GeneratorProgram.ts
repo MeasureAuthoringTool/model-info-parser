@@ -5,16 +5,12 @@ import Generator from "./generators/Generator";
 import logger from "./logger";
 import ModelInfoParser from "./ModelInfoParser";
 import EntityCollection from "./model/dataTypes/EntityCollection";
-import TransformedPredicate from "./collectionUtils/core/TransformedPredicate";
-import ExtractDataTypeTransformer from "./collectionUtils/ExtractDataTypeTransformer";
-import BlacklistedTypesPredicate from "./collectionUtils/BlacklistedTypesPredicate";
 import ModelInfo from "./model/modelInfo/ModelInfo";
-import AddResourceTypeFieldTransformer from "./collectionUtils/AddResourceTypeFieldTransformer";
-import ModifyExtensionTypeTransformer from "./collectionUtils/ModifyExtensionTypeTransformer";
 import EntityDefinition from "./model/dataTypes/EntityDefinition";
+import Preprocessor from "./preprocessors/Preprocessor";
 
 export default class GeneratorProgram {
-  constructor(private generator: Generator) {
+  constructor(private generator: Generator, private preprocessors: Array<Preprocessor>) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args
@@ -51,22 +47,10 @@ export default class GeneratorProgram {
       outputDirectory
     );
 
-    // Remove the blacklisted types from the collection
-    const blacklistPredicate = new TransformedPredicate(
-      ExtractDataTypeTransformer.INSTANCE,
-      BlacklistedTypesPredicate.INSTANCE
-    );
-    entityCollection = entityCollection.selectRejected(blacklistPredicate);
-
-    // Add a "resourceType" member to the Resource entity
-    entityCollection = entityCollection.transform(
-      new AddResourceTypeFieldTransformer()
-    );
-
-    // Modify the "FHIR.Extension" type to no longer extend FHIR.Element (to prevent circular dependencies)
-    entityCollection = entityCollection.transform(
-      new ModifyExtensionTypeTransformer()
-    );
+    // Execute all of the specified preprocessors
+    entityCollection = this.preprocessors.reduce((accumulator: EntityCollection, preprocessor: Preprocessor) => {
+      return preprocessor.preprocess(accumulator);
+    }, entityCollection);
 
     // Execute the generator for each entity
     const promises = entityCollection.entities.map(

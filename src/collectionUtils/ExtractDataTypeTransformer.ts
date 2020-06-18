@@ -8,7 +8,6 @@ export default class ExtractDataTypeTransformer extends Transformer<
 > {
   public static INSTANCE = new ExtractDataTypeTransformer();
 
-  // eslint-disable-next-line class-methods-use-this
   transform(input: EntityDefinition): DataType {
     return input.dataType;
   }

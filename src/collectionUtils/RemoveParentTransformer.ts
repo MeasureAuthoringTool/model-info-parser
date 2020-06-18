@@ -5,7 +5,6 @@ export default class RemoveParentTransformer extends Transformer<
   EntityDefinition,
   EntityDefinition
 > {
-  // eslint-disable-next-line class-methods-use-this
   public transform(input: EntityDefinition): EntityDefinition {
     if (input.parentDataType === null) {
       return input;

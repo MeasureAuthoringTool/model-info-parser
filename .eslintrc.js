@@ -45,6 +45,7 @@ module.exports = {
           "match": false
         }
       }
-    ]
+    ],
+    "class-methods-use-this": "off"
   },
 };

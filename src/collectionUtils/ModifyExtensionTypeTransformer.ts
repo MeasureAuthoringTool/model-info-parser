@@ -25,7 +25,6 @@ export default class ModifyExtensionTypeTransformer extends Transformer<
   EntityDefinition,
   EntityDefinition
 > {
-  // eslint-disable-next-line class-methods-use-this
   transform(input: EntityDefinition): EntityDefinition {
     // Predicate that checks if an EntityDefinition is for FHIR.Extension
     const extensionEntityPredicate = new TransformedPredicate(
