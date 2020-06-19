@@ -51,10 +51,10 @@ describe("MongoidPreprocessor", () => {
     // Second entity has 2 new members
     expect(entities[1].memberVariables).toBeArrayOfSize(4);
     expect(entities[1].memberVariables[2].relationshipType).toBe(
-      RelationshipType.has_and_belongs_to_many
+      RelationshipType.HasAndBelongsToMany
     );
     expect(entities[1].memberVariables[3].relationshipType).toBe(
-      RelationshipType.has_and_belongs_to_many
+      RelationshipType.HasAndBelongsToMany
     );
     expect(entities[1].memberVariables[2].variableName).toBe("valueSets");
     expect(entities[1].memberVariables[3].variableName).toBe("patients");

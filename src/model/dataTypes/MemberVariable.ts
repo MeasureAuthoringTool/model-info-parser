@@ -6,12 +6,12 @@ import SimpleElement from "../modelInfo/SimpleElement";
 import FilePath from "./FilePath";
 
 export const enum RelationshipType {
-  embeds_one = "embeds_one",
-  embeds_many = "embeds_many",
-  belongs_to = "belongs_to",
-  has_one = "has_one",
-  has_many = "has_many",
-  has_and_belongs_to_many = "has_and_belongs_to_many",
+  EmbedsOne = "embeds_one",
+  EmbedsMany = "embeds_many",
+  BelongsTo = "belongs_to",
+  HasOne = "has_one",
+  HasMany = "has_many",
+  HasAndBelongsToMany = "has_and_belongs_to_many",
 }
 
 export default class MemberVariable {
@@ -40,8 +40,8 @@ export default class MemberVariable {
     // If not specified, default to "embeds_many" for arrays, and "embeds_one" for non-arrays
     if (!relationshipType) {
       this.relationshipType = isArray
-        ? RelationshipType.embeds_many
-        : RelationshipType.embeds_one;
+        ? RelationshipType.EmbedsMany
+        : RelationshipType.EmbedsOne;
     } else {
       this.relationshipType = relationshipType;
     }

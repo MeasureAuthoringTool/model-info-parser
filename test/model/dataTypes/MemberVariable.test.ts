@@ -94,12 +94,12 @@ describe("MemberVariable", () => {
 
     it("defaults the relationshipType to embeds_one if isArray is false", () => {
       const result = new MemberVariable(systemBool, "testVar", false);
-      expect(result.relationshipType).toBe(RelationshipType.embeds_one);
+      expect(result.relationshipType).toBe(RelationshipType.EmbedsOne);
     });
 
     it("defaults the relationshipType to embeds_many if isArray is true", () => {
       const result = new MemberVariable(systemBool, "testVar", true);
-      expect(result.relationshipType).toBe(RelationshipType.embeds_many);
+      expect(result.relationshipType).toBe(RelationshipType.EmbedsMany);
     });
 
     it("allows the specification of a custom relationshipType", () => {
@@ -107,9 +107,9 @@ describe("MemberVariable", () => {
         systemBool,
         "testVar",
         true,
-        RelationshipType.belongs_to
+        RelationshipType.BelongsTo
       );
-      expect(result.relationshipType).toBe(RelationshipType.belongs_to);
+      expect(result.relationshipType).toBe(RelationshipType.BelongsTo);
     });
 
     it("defaults the bidirectional property to true", () => {
@@ -122,7 +122,7 @@ describe("MemberVariable", () => {
         systemBool,
         "testVar",
         true,
-        RelationshipType.has_and_belongs_to_many,
+        RelationshipType.HasOne,
         false
       );
       expect(result.bidirectional).toBeFalse();
@@ -217,7 +217,7 @@ describe("MemberVariable", () => {
         systemBool,
         "testVar",
         true,
-        RelationshipType.has_many,
+        RelationshipType.HasMany,
         false
       );
       const result = original.clone();
@@ -225,7 +225,7 @@ describe("MemberVariable", () => {
       expect(result.dataType).toEqual(systemBool);
       expect(result.variableName).toEqual("testVar");
       expect(result.isArray).toBeTrue();
-      expect(result.relationshipType).toBe(RelationshipType.has_many);
+      expect(result.relationshipType).toBe(RelationshipType.HasMany);
       expect(result.bidirectional).toBeFalse();
     });
   });

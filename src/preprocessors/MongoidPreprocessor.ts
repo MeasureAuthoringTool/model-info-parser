@@ -49,7 +49,7 @@ export default class MongoidPreprocessor extends BasePreprocessor {
       valueSetType,
       "valueSets",
       true,
-      RelationshipType.has_and_belongs_to_many,
+      RelationshipType.HasAndBelongsToMany,
       false
     );
 
@@ -58,7 +58,7 @@ export default class MongoidPreprocessor extends BasePreprocessor {
       patientType,
       "patients",
       true,
-      RelationshipType.has_and_belongs_to_many,
+      RelationshipType.HasAndBelongsToMany,
       false
     );
 
