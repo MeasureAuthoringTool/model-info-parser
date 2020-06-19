@@ -30,22 +30,26 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": ["error"],
     "@typescript-eslint/naming-convention": [
       "error",
+      { selector: "typeLike", format: ["PascalCase"] },
+      { selector: "enumMember", format: ["PascalCase"] },
+      { selector: "variableLike", format: ["camelCase"] },
       {
-        "selector": "interface",
-        "format": ["PascalCase"],
-        "custom": {
-          "regex": "^I[A-Z]",
-          "match": false
-        }
-      }, {
-        "selector": "typeAlias",
-        "format": ["PascalCase"],
-        "custom": {
-          "regex": "^I[A-Z]",
-          "match": false
-        }
-      }
+        selector: "interface",
+        format: ["PascalCase"],
+        custom: {
+          regex: "^I[A-Z]",
+          match: false,
+        },
+      },
+      {
+        selector: "typeAlias",
+        format: ["PascalCase"],
+        custom: {
+          regex: "^I[A-Z]",
+          match: false,
+        },
+      },
     ],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
   },
 };
