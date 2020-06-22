@@ -43,7 +43,6 @@ export const primitiveTypeJsonMapping: { [key: string]: string } = {
   positiveInt: "number",
   question: "string",
   string: "string",
-  String: "String",
   time: "string",
   unsignedInt: "number",
   uri: "string",
