@@ -1,3 +1,4 @@
+import _ from "lodash";
 import DataType from "./DataType";
 import Element from "../modelInfo/Element";
 import ChoiceElement from "../modelInfo/ChoiceElement";
@@ -149,7 +150,7 @@ export default class MemberVariable {
       const { name, choices } = element;
 
       return choices.map((choice) => {
-        const variableName = `${name}${choice.typeName}`;
+        const variableName = `${name}${_.upperFirst(choice.typeName)}`;
         const dataType = DataType.getInstance(
           choice.namespace,
           choice.typeName,

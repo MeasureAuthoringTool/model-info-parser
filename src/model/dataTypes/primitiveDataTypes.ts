@@ -75,6 +75,33 @@ export const mongoidPrimitiveTypes: { [name: string]: string } = {
   xhtml: "String",
 };
 
+/**
+ * This is a mapping of FHIR primitives to their respective JSON representations
+ */
+export const mongoosePrimitiveTypes: { [key: string]: string } = {
+  base64Binary: "String",
+  boolean: "Boolean",
+  canonical: "String",
+  code: "String",
+  date: "Date",
+  dateTime: "DateTime",
+  decimal: "Number",
+  id: "String",
+  instant: "DateTime",
+  integer: "Number",
+  markdown: "String",
+  oid: "String",
+  positiveInt: "Number",
+  question: "String",
+  string: "String",
+  time: "Time",
+  unsignedInt: "Number",
+  uri: "String",
+  url: "String",
+  uuid: "String",
+  xhtml: "String",
+};
+
 export function convertPrimitiveName(name: string): string {
   if (primitiveTypeNames.includes(name)) {
     const upperName = _.upperFirst(name);

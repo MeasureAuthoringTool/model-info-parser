@@ -1,0 +1,1 @@
+export default "{{member.variableName}} : {{#if member.isArray}}[{{/if}}{{# if member.dataType.systemType}}{{# getMongoosePrimitive member.dataType }}{{/ getMongoosePrimitive }}{{ else if member.dataType.primitive  }}{{# getMongoosePrimitive member.dataType }}{{/ getMongoosePrimitive }}{{ else }}{{ member.dataType.normalizedName }}Schema{{/if}}{{#if member.isArray}}]{{/if}}";
