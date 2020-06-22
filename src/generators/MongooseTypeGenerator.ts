@@ -1,6 +1,8 @@
 import FileWriter from "../FileWriter";
 import { mongoosePrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
-import classTemplate, {TemplateContext,} from "../templates/mongoose/classTemplate";
+import classTemplate, {
+  TemplateContext,
+} from "../templates/mongoose/classTemplate";
 import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
@@ -10,7 +12,9 @@ async function generate(
   baseDirectory: FilePath
 ): Promise<string> {
   // TODO: work around primitive type names issue
-  let primitiveTypeName = entityDefinition.dataType.typeName.replace("Primitive", "").toLowerCase();
+  const primitiveTypeName = entityDefinition.dataType.typeName
+    .replace("Primitive", "")
+    .toLowerCase();
   // skip type creation for primitives
   if (mongoosePrimitiveTypes[primitiveTypeName]) {
     return "";
@@ -23,7 +27,7 @@ async function generate(
   };
 
   const contents: string = classTemplate(templateInput);
-  const {namespace, normalizedName} = entityDefinition.dataType;
+  const { namespace, normalizedName } = entityDefinition.dataType;
   const fileName = `${normalizedName}.js`;
 
   const writer = new FileWriter(
