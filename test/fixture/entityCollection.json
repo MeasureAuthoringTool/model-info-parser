@@ -1,0 +1,308 @@
+{
+  "entityCollection": {
+    "entities": [
+      {
+        "metadata": {
+          "namespace": "FHIR",
+          "originalTypeName": "Account",
+          "parentTypeName": "FHIR.DomainResource"
+        },
+        "dataType": {
+          "namespace": "FHIR",
+          "typeName": "Account",
+          "path": {
+            "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Account"
+          },
+          "systemType": false,
+          "normalizedName": "Account",
+          "primitive": false
+        },
+        "parentDataType": {
+          "namespace": "FHIR",
+          "typeName": "DomainResource",
+          "path": {
+            "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/DomainResource"
+          },
+          "systemType": false,
+          "normalizedName": "DomainResource",
+          "primitive": false
+        },
+        "memberVariables": [
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "Identifier",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Identifier"
+              },
+              "systemType": false,
+              "normalizedName": "Identifier",
+              "primitive": false
+            },
+            "variableName": "identifier",
+            "isArray": true,
+            "bidirectional": true,
+            "relationshipType": "embeds_many"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "AccountStatus",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountStatus"
+              },
+              "systemType": false,
+              "normalizedName": "AccountStatus",
+              "primitive": false
+            },
+            "variableName": "status",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "CodeableConcept",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/CodeableConcept"
+              },
+              "systemType": false,
+              "normalizedName": "CodeableConcept",
+              "primitive": false
+            },
+            "variableName": "type",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "string",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+              },
+              "systemType": false,
+              "normalizedName": "PrimitiveString",
+              "primitive": true
+            },
+            "variableName": "name",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "Reference",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+              },
+              "systemType": false,
+              "normalizedName": "Reference",
+              "primitive": false
+            },
+            "variableName": "subject",
+            "isArray": true,
+            "bidirectional": true,
+            "relationshipType": "embeds_many"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "Period",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Period"
+              },
+              "systemType": false,
+              "normalizedName": "Period",
+              "primitive": false
+            },
+            "variableName": "servicePeriod",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "AccountCoverage",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountCoverage"
+              },
+              "systemType": false,
+              "normalizedName": "AccountCoverage",
+              "primitive": false
+            },
+            "variableName": "coverage",
+            "isArray": true,
+            "bidirectional": true,
+            "relationshipType": "embeds_many"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "Reference",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+              },
+              "systemType": false,
+              "normalizedName": "Reference",
+              "primitive": false
+            },
+            "variableName": "owner",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "string",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+              },
+              "systemType": false,
+              "normalizedName": "PrimitiveString",
+              "primitive": true
+            },
+            "variableName": "description",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "AccountGuarantor",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountGuarantor"
+              },
+              "systemType": false,
+              "normalizedName": "AccountGuarantor",
+              "primitive": false
+            },
+            "variableName": "guarantor",
+            "isArray": true,
+            "bidirectional": true,
+            "relationshipType": "embeds_many"
+          },
+          {
+            "dataType": {
+              "namespace": "FHIR",
+              "typeName": "Reference",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+              },
+              "systemType": false,
+              "normalizedName": "Reference",
+              "primitive": false
+            },
+            "variableName": "partOf",
+            "isArray": false,
+            "bidirectional": true,
+            "relationshipType": "embeds_one"
+          }
+        ],
+        "_imports": {
+          "dataTypes": [
+            {
+              "namespace": "FHIR",
+              "typeName": "AccountCoverage",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountCoverage"
+              },
+              "systemType": false,
+              "normalizedName": "AccountCoverage",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "AccountGuarantor",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountGuarantor"
+              },
+              "systemType": false,
+              "normalizedName": "AccountGuarantor",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "AccountStatus",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountStatus"
+              },
+              "systemType": false,
+              "normalizedName": "AccountStatus",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "CodeableConcept",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/CodeableConcept"
+              },
+              "systemType": false,
+              "normalizedName": "CodeableConcept",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "DomainResource",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/DomainResource"
+              },
+              "systemType": false,
+              "normalizedName": "DomainResource",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "Identifier",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Identifier"
+              },
+              "systemType": false,
+              "normalizedName": "Identifier",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "Period",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Period"
+              },
+              "systemType": false,
+              "normalizedName": "Period",
+              "primitive": false
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "string",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+              },
+              "systemType": false,
+              "normalizedName": "PrimitiveString",
+              "primitive": true
+            },
+            {
+              "namespace": "FHIR",
+              "typeName": "Reference",
+              "path": {
+                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+              },
+              "systemType": false,
+              "normalizedName": "Reference",
+              "primitive": false
+            }
+          ]
+        }
+      }
+    ],
+    "baseDir": {
+      "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid"
+    }
+  }
+}
