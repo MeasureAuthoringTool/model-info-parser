@@ -6,7 +6,6 @@ import logger from "./logger";
 import ModelInfoParser from "./ModelInfoParser";
 import EntityCollection from "./model/dataTypes/EntityCollection";
 import ModelInfo from "./model/modelInfo/ModelInfo";
-import EntityDefinition from "./model/dataTypes/EntityDefinition";
 import Preprocessor from "./preprocessors/Preprocessor";
 
 export default class GeneratorProgram {
@@ -52,13 +51,7 @@ export default class GeneratorProgram {
       return preprocessor.preprocess(accumulator);
     }, entityCollection);
 
-    // Execute the generator for each entity
-    const promises = entityCollection.entities.map(
-      async (entity: EntityDefinition) => {
-        return this.generator(entity, entityCollection.baseDir);
-      }
-    );
-
-    return Promise.all(promises);
+    // Execute the generator for entityCollection
+    return this.generator(entityCollection);
   }
 }
