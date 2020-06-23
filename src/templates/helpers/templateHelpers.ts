@@ -1,7 +1,6 @@
 import Handlebars, { HelperOptions } from "handlebars";
 import { reservedWords } from "../../constants";
 import { mongoidPrimitiveTypes } from "../../model/dataTypes/primitiveDataTypes";
-import EntityDefinition from "../../model/dataTypes/EntityDefinition";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
 
