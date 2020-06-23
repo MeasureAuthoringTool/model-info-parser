@@ -10,7 +10,7 @@ describe('generateMongoidTypes', () => {
   });
 
   test('Should generate mongoid models successfully', async() => {
-    const collection = <EntityCollection>JSON.parse(JSON.stringify(entityCollection));
+    const collection = JSON.parse(JSON.stringify(entityCollection)) as EntityCollection;
     const result = await  MongoidTypeGenerator(collection);
     expect(result.length).toEqual(collection.entities.length);
     expect(result[0]).toContain('module FHIR\n' +
