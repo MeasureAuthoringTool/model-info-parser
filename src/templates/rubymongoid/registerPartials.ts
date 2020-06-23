@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars';
 import { getMongoidPrimitive } from '../helpers/templateHelpers';
 import complexMemberTemplate from './complexMemberTemplate';
-import systemMemberTemplate from './systemMemberTemplate';
+import mongoidPrimitiveMember from './primitiveMemberTemplate';
 
 Handlebars.registerPartial('mongoidComplexMember', complexMemberTemplate);
-Handlebars.registerPartial('mongoidSystemMember', systemMemberTemplate);
+Handlebars.registerPartial('mongoidPrimitiveMember', mongoidPrimitiveMember);
 
 Handlebars.registerHelper('getMongoidPrimitive', getMongoidPrimitive);
 

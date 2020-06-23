@@ -1,9 +1,7 @@
-import EntityDefinition from "../model/dataTypes/EntityDefinition";
-import FilePath from "../model/dataTypes/FilePath";
+import EntityCollection from "../model/dataTypes/EntityCollection";
 
 type Generator = (
-  entityDefinition: EntityDefinition,
-  baseDirectory: FilePath
-) => Promise<string>;
+  entityCollection: EntityCollection
+) => Promise<Array<string>>;
 
 export default Generator;
