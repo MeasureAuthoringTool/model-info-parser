@@ -1,4 +1,4 @@
-import Handlebars from './registerPartials';
+import Handlebars from "./registerPartials";
 import DataType from "../../model/dataTypes/DataType";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 
@@ -10,6 +10,26 @@ export const source = `module {{ dataType.namespace }}
     {{> mongoidComplexMember member=this}}
     
     {{/each}}
+    {{# hasReservedKeywords memberVariables }}
+    
+    def as_json(*args)
+      res = super
+      {{# each memberVariables }}
+      {{# isReservedKeyword this.variableName }}
+      res["{{ this.variableName }}"] = res.delete("_{{ this.variableName }}")
+      {{/ isReservedKeyword }}
+      {{/ each }}
+      res
+    end
+    {{/ hasReservedKeywords }}
+
+    def self.transform_json(json_hash)
+      result = Hash.new
+      {{# each memberVariables }}
+      result["{{ prefixVariableName this.variableName }}"] = {{this.dataType.normalizedName}}.transform_json(json_hash["{{this.variableName}}"])
+      {{/ each }}
+      result
+    end
   end
 end
 `;
