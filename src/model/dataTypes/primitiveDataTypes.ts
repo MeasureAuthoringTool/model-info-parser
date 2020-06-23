@@ -67,7 +67,6 @@ export const mongoidPrimitiveTypes: { [name: string]: string } = {
   positiveInt: "Integer",
   question: "String",
   string: "String",
-  String: "String",
   time: "Time",
   unsignedInt: "Integer",
   uri: "String",

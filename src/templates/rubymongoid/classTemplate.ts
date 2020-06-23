@@ -8,7 +8,7 @@ export const source = `module {{ dataType.namespace }}
     include Mongoid::Document
     field :typeName, type: String, default: '{{ dataType.normalizedName }}'
     {{#each memberVariables}}
-    {{#if this.dataType.primitive}}{{> mongoidPrimitiveMember member=this}}{{else}}{{> mongoidComplexMember member=this}}{{/if}}
+    {{#if this.dataType.primitive}}{{> mongoidPrimitiveMember member=this}}{{else if this.dataType.systemType}}{{> mongoidPrimitiveMember member=this}}{{else}}{{> mongoidComplexMember member=this}}{{/if}}
     {{/each}}
   end
 end
