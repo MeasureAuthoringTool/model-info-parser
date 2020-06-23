@@ -13,6 +13,7 @@ import Generator from "./Generator";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityImports from "../model/dataTypes/EntityImports";
+import EntityCollection from "../model/dataTypes/EntityCollection";
 
 async function generate(
   entityDefinition: EntityDefinition,
@@ -126,5 +127,17 @@ async function generate(
   return classContents;
 }
 
-const typeCheck: Generator = generate;
+async function generateModels(
+  entityCollection: EntityCollection
+): Promise<string[]> {
+  const promises = entityCollection.entities.map(
+    async (entity: EntityDefinition) => {
+      return generate(entity, entityCollection.baseDir);
+    }
+  );
+
+  return Promise.all(promises);
+}
+
+const typeCheck: Generator = generateModels;
 export default typeCheck;

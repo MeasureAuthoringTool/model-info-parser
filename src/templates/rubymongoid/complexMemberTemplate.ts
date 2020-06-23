@@ -1,6 +1,3 @@
-export default "{{# isSystemType member.dataType }}" +
-  "{{> mongoidSystemMember member=member }}" +
-  "{{ else }}" +
-  "{{ member.relationshipType }} :{{ prefixVariableName member.variableName }}, class_name: '{{ member.dataType.normalizedName }}'" +
-  "{{/ isSystemType }}" +
+export default "{{ member.relationshipType }} :{{ prefixVariableName member.variableName }}, " +
+  "class_name: '{{ member.dataType.normalizedName }}'" +
   "{{# unless member.bidirectional }}, inverse_of: nil{{/ unless }}";

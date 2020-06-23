@@ -3,12 +3,13 @@ import DataType from "../../model/dataTypes/DataType";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 
 export const source = `module {{ dataType.namespace }}
+  # {{ dataType.namespace }}/{{ dataType.normalizedName }}.rb
   class {{ dataType.normalizedName }}{{# if parentDataType }} < {{ parentDataType.normalizedName }}{{/if}}
     include Mongoid::Document
     field :typeName, type: String, default: '{{ dataType.normalizedName }}'
     {{#each memberVariables}}
     {{> mongoidComplexMember member=this}}
-    
+
     {{/each}}
     {{# hasReservedKeywords memberVariables }}
     
@@ -47,8 +48,7 @@ export const source = `module {{ dataType.namespace }}
     --}}
     {{# isSystemType this.dataType }}
       result["{{ prefixVariableName this.variableName }}"] = json_hash["{{this.variableName}}"]
-      
-    {{~!--
+    {{!--
       Dealing with a non-system type, so we have to convert    
     --}}
     {{ else }}

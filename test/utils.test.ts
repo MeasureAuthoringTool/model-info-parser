@@ -1,7 +1,8 @@
 import { normalizeElementTypeName, normalizeTypeName } from "../src/utils";
+import { convertPrimitiveName } from "../src/model/dataTypes/primitiveDataTypes";
 
-describe('utils', () => {
-  describe('normalizeElementTypeName()', () => {
+describe("utils", () => {
+  describe("normalizeElementTypeName()", () => {
     test("it throws an error on empty string", () => {
       expect(() => {
         normalizeElementTypeName("");
@@ -21,13 +22,25 @@ describe('utils', () => {
     });
 
     test("it handles scenarios with multiple periods", () => {
-      expect(normalizeElementTypeName("foo.bar.baz")).toStrictEqual(["foo", "barbaz"]);
-      expect(normalizeElementTypeName("foo.bar.baz.bot")).toStrictEqual(["foo", "barbazbot"]);
+      expect(normalizeElementTypeName("foo.bar.baz")).toStrictEqual([
+        "foo",
+        "barbaz",
+      ]);
+      expect(normalizeElementTypeName("foo.bar.baz.bot")).toStrictEqual([
+        "foo",
+        "barbazbot",
+      ]);
     });
 
     test("it converts primitive type names to their proper name", () => {
-      expect(normalizeElementTypeName("FHIR.instant")).toStrictEqual(["FHIR", "PrimitiveInstant"]);
-      expect(normalizeElementTypeName("bar.base64Binary")).toStrictEqual(["bar", "PrimitiveBase64Binary"]);
+      expect(normalizeElementTypeName("FHIR.instant")).toStrictEqual([
+        "FHIR",
+        "instant",
+      ]);
+      expect(normalizeElementTypeName("bar.base64Binary")).toStrictEqual([
+        "bar",
+        "base64Binary",
+      ]);
     });
   });
 
@@ -57,10 +70,8 @@ describe('utils', () => {
     });
 
     test("converts primitive type names to their proper name", () => {
-      expect(normalizeTypeName("dateTime")).toBe("PrimitiveDateTime");
-      expect(normalizeTypeName("positiveInt")).toBe("PrimitivePositiveInt");
+      expect(convertPrimitiveName("dateTime")).toBe("PrimitiveDateTime");
+      expect(convertPrimitiveName("positiveInt")).toBe("PrimitivePositiveInt");
     });
   });
 });
-
-

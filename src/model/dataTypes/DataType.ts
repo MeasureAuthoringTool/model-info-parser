@@ -1,5 +1,5 @@
 import { normalizeTypeName } from "../../utils";
-import { primitiveTypeCheck } from "./primitiveDataTypes";
+import { primitiveTypeCheck, convertPrimitiveName } from "./primitiveDataTypes";
 import FilePath from "./FilePath";
 
 /**
@@ -42,10 +42,13 @@ export default class DataType {
     }
 
     const systemType: boolean = namespace === "System";
-    const normalizedName: string = systemType
+    let normalizedName: string = systemType
       ? typeName
       : normalizeTypeName(typeName);
     const primitive: boolean = primitiveTypeCheck(typeName);
+    normalizedName = primitive
+      ? convertPrimitiveName(normalizedName)
+      : normalizedName;
 
     const fullPath = FilePath.getInstance(
       `${baseDir.value}/${namespace}/${normalizedName}`

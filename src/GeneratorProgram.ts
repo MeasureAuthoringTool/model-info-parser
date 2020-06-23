@@ -6,11 +6,13 @@ import logger from "./logger";
 import ModelInfoParser from "./ModelInfoParser";
 import EntityCollection from "./model/dataTypes/EntityCollection";
 import ModelInfo from "./model/modelInfo/ModelInfo";
-import EntityDefinition from "./model/dataTypes/EntityDefinition";
 import Preprocessor from "./preprocessors/Preprocessor";
 
 export default class GeneratorProgram {
-  constructor(private generator: Generator, private preprocessors: Array<Preprocessor>) {
+  constructor(
+    private generator: Generator,
+    private preprocessors: Array<Preprocessor>
+  ) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args
@@ -48,17 +50,14 @@ export default class GeneratorProgram {
     );
 
     // Execute all of the specified preprocessors
-    entityCollection = this.preprocessors.reduce((accumulator: EntityCollection, preprocessor: Preprocessor) => {
-      return preprocessor.preprocess(accumulator);
-    }, entityCollection);
-
-    // Execute the generator for each entity
-    const promises = entityCollection.entities.map(
-      async (entity: EntityDefinition) => {
-        return this.generator(entity, entityCollection.baseDir);
-      }
+    entityCollection = this.preprocessors.reduce(
+      (accumulator: EntityCollection, preprocessor: Preprocessor) => {
+        return preprocessor.preprocess(accumulator);
+      },
+      entityCollection
     );
 
-    return Promise.all(promises);
+    // Execute the generator for entityCollection
+    return this.generator(entityCollection);
   }
 }

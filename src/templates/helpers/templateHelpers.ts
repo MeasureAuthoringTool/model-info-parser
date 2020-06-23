@@ -1,3 +1,4 @@
+import _ from "lodash";
 import Handlebars, { HelperOptions } from "handlebars";
 import { reservedWords } from "../../constants";
 import { mongoidPrimitiveTypes } from "../../model/dataTypes/primitiveDataTypes";
@@ -5,7 +6,7 @@ import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
 
 export function getMongoidPrimitive(type: string): string {
-  return mongoidPrimitiveTypes[type];
+  return mongoidPrimitiveTypes[_.lowerFirst(type)];
 }
 
 Handlebars.registerHelper("getMongoidPrimitive", getMongoidPrimitive);
