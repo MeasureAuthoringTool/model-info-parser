@@ -205,7 +205,7 @@
             "relationshipType": "embeds_one"
           }
         ],
-        "_imports": {
+        "imports": {
           "dataTypes": [
             {
               "namespace": "FHIR",
