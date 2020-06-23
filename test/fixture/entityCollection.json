@@ -11,7 +11,7 @@
           "namespace": "FHIR",
           "typeName": "Account",
           "path": {
-            "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Account"
+            "value": "/generated/mongoid/FHIR/Account"
           },
           "systemType": false,
           "normalizedName": "Account",
@@ -21,7 +21,7 @@
           "namespace": "FHIR",
           "typeName": "DomainResource",
           "path": {
-            "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/DomainResource"
+            "value": "generated/mongoid/FHIR/DomainResource"
           },
           "systemType": false,
           "normalizedName": "DomainResource",
@@ -33,7 +33,7 @@
               "namespace": "FHIR",
               "typeName": "Identifier",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Identifier"
+                "value": "generated/mongoid/FHIR/Identifier"
               },
               "systemType": false,
               "normalizedName": "Identifier",
@@ -49,7 +49,7 @@
               "namespace": "FHIR",
               "typeName": "AccountStatus",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountStatus"
+                "value": "generated/mongoid/FHIR/AccountStatus"
               },
               "systemType": false,
               "normalizedName": "AccountStatus",
@@ -65,7 +65,7 @@
               "namespace": "FHIR",
               "typeName": "CodeableConcept",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/CodeableConcept"
+                "value": "generated/mongoid/FHIR/CodeableConcept"
               },
               "systemType": false,
               "normalizedName": "CodeableConcept",
@@ -81,7 +81,7 @@
               "namespace": "FHIR",
               "typeName": "string",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+                "value": "generated/mongoid/FHIR/PrimitiveString"
               },
               "systemType": false,
               "normalizedName": "PrimitiveString",
@@ -97,7 +97,7 @@
               "namespace": "FHIR",
               "typeName": "Reference",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+                "value": "generated/mongoid/FHIR/Reference"
               },
               "systemType": false,
               "normalizedName": "Reference",
@@ -113,7 +113,7 @@
               "namespace": "FHIR",
               "typeName": "Period",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Period"
+                "value": "generated/mongoid/FHIR/Period"
               },
               "systemType": false,
               "normalizedName": "Period",
@@ -129,7 +129,7 @@
               "namespace": "FHIR",
               "typeName": "AccountCoverage",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountCoverage"
+                "value": "generated/mongoid/FHIR/AccountCoverage"
               },
               "systemType": false,
               "normalizedName": "AccountCoverage",
@@ -145,7 +145,7 @@
               "namespace": "FHIR",
               "typeName": "Reference",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+                "value": "generated/mongoid/FHIR/Reference"
               },
               "systemType": false,
               "normalizedName": "Reference",
@@ -161,7 +161,7 @@
               "namespace": "FHIR",
               "typeName": "string",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+                "value": "generated/mongoid/FHIR/PrimitiveString"
               },
               "systemType": false,
               "normalizedName": "PrimitiveString",
@@ -177,7 +177,7 @@
               "namespace": "FHIR",
               "typeName": "AccountGuarantor",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountGuarantor"
+                "value": "generated/mongoid/FHIR/AccountGuarantor"
               },
               "systemType": false,
               "normalizedName": "AccountGuarantor",
@@ -193,7 +193,7 @@
               "namespace": "FHIR",
               "typeName": "Reference",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+                "value": "generated/mongoid/FHIR/Reference"
               },
               "systemType": false,
               "normalizedName": "Reference",
@@ -211,7 +211,7 @@
               "namespace": "FHIR",
               "typeName": "AccountCoverage",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountCoverage"
+                "value": "generated/mongoid/FHIR/AccountCoverage"
               },
               "systemType": false,
               "normalizedName": "AccountCoverage",
@@ -221,7 +221,7 @@
               "namespace": "FHIR",
               "typeName": "AccountGuarantor",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountGuarantor"
+                "value": "generated/mongoid/FHIR/AccountGuarantor"
               },
               "systemType": false,
               "normalizedName": "AccountGuarantor",
@@ -231,7 +231,7 @@
               "namespace": "FHIR",
               "typeName": "AccountStatus",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/AccountStatus"
+                "value": "generated/mongoid/FHIR/AccountStatus"
               },
               "systemType": false,
               "normalizedName": "AccountStatus",
@@ -241,7 +241,7 @@
               "namespace": "FHIR",
               "typeName": "CodeableConcept",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/CodeableConcept"
+                "value": "generated/mongoid/FHIR/CodeableConcept"
               },
               "systemType": false,
               "normalizedName": "CodeableConcept",
@@ -251,7 +251,7 @@
               "namespace": "FHIR",
               "typeName": "DomainResource",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/DomainResource"
+                "value": "generated/mongoid/FHIR/DomainResource"
               },
               "systemType": false,
               "normalizedName": "DomainResource",
@@ -261,7 +261,7 @@
               "namespace": "FHIR",
               "typeName": "Identifier",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Identifier"
+                "value": "generated/mongoid/FHIR/Identifier"
               },
               "systemType": false,
               "normalizedName": "Identifier",
@@ -271,7 +271,7 @@
               "namespace": "FHIR",
               "typeName": "Period",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Period"
+                "value": "generated/mongoid/FHIR/Period"
               },
               "systemType": false,
               "normalizedName": "Period",
@@ -281,7 +281,7 @@
               "namespace": "FHIR",
               "typeName": "string",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/PrimitiveString"
+                "value": "generated/mongoid/FHIR/PrimitiveString"
               },
               "systemType": false,
               "normalizedName": "PrimitiveString",
@@ -291,7 +291,7 @@
               "namespace": "FHIR",
               "typeName": "Reference",
               "path": {
-                "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid/FHIR/Reference"
+                "value": "generated/mongoid/FHIR/Reference"
               },
               "systemType": false,
               "normalizedName": "Reference",
@@ -302,7 +302,7 @@
       }
     ],
     "baseDir": {
-      "value": "/Users/ashok.dongare/Documents/projects/intellijprojects/model-info-parser/generated/mongoid"
+      "value": "./test/mongoid"
     }
   }
 }

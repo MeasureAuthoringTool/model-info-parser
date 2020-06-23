@@ -1,8 +1,13 @@
+import { exec } from 'child_process';
 import MongoidTypeGenerator from "../src/generators/MongoidTypeGenerator";
 import { entityCollection } from './fixture/entityCollection.json'
 import EntityCollection from "../src/model/dataTypes/EntityCollection";
 
 describe('generateMongoidTypes', () => {
+  const modelDir = './test/mongoid';
+  afterAll(() => {
+    exec(`rm -rf ${modelDir}`);
+  });
 
   test('Should generate mongoid models successfully', async() => {
     const collection = <EntityCollection>JSON.parse(JSON.stringify(entityCollection));
