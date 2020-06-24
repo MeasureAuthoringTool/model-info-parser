@@ -1,7 +1,8 @@
+import _ from "lodash";
 import {mongoosePrimitiveTypes} from "../../model/dataTypes/primitiveDataTypes";
 
 export function getMongoosePrimitive(typeName: string): string {
-  return mongoosePrimitiveTypes[typeName.toLowerCase()];
+  return mongoosePrimitiveTypes[_.lowerFirst(typeName)];
 }
 
 const schemaFunctionRequired = new Set(['DomainResource', 'Resource', 'BackboneElement', 'Element', 'Quantity', 'ElementDefinition']);

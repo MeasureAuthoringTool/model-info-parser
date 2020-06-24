@@ -1,5 +1,4 @@
-import {getMongoidPrimitive} from "../../../src/templates/helpers/templateHelpers";
-import {getMongoosePrimitive} from "../../../src/templates/mongoose/templateHelpers";
+import { getMongoidPrimitive } from "../../../src/templates/helpers/templateHelpers";
 
 describe("templateHelpers", () => {
   describe("getMongoidPrimitive()", () => {
@@ -27,30 +26,4 @@ describe("templateHelpers", () => {
       expect(getMongoidPrimitive("xhtml")).toEqual("String");
     });
   });
-
-  // describe("getMongoosePrimitive()", () => {
-  //   test("Should return equivalent mongoose compatible primitive", () => {
-  //     expect(getMongoosePrimitive("base64Binary")).toEqual("String");
-  //     expect(getMongoosePrimitive("boolean")).toEqual("Boolean");
-  //     expect(getMongoosePrimitive("canonical")).toEqual("String");
-  //     expect(getMongoosePrimitive("code")).toEqual("String");
-  //     expect(getMongoosePrimitive("date")).toEqual("Date");
-  //     expect(getMongoosePrimitive("dateTime")).toEqual("DateTime");
-  //     expect(getMongoosePrimitive("decimal")).toEqual("BigDecimal");
-  //     expect(getMongoosePrimitive("id")).toEqual("String");
-  //     expect(getMongoosePrimitive("instant")).toEqual("DateTime");
-  //     expect(getMongoosePrimitive("integer")).toEqual("Integer");
-  //     expect(getMongoosePrimitive("markdown")).toEqual("String");
-  //     expect(getMongoosePrimitive("oid")).toEqual("String");
-  //     expect(getMongoosePrimitive("positiveInt")).toEqual("Integer");
-  //     expect(getMongoosePrimitive("question")).toEqual("String");
-  //     expect(getMongoosePrimitive("string")).toEqual("String");
-  //     expect(getMongoosePrimitive("time")).toEqual("Time");
-  //     expect(getMongoosePrimitive("unsignedInt")).toEqual("Integer");
-  //     expect(getMongoosePrimitive("uri")).toEqual("String");
-  //     expect(getMongoosePrimitive("url")).toEqual("String");
-  //     expect(getMongoosePrimitive("uuid")).toEqual("String");
-  //     expect(getMongoosePrimitive("xhtml")).toEqual("String");
-  //   });
-  // });
 });

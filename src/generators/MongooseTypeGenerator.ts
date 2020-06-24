@@ -1,13 +1,15 @@
+import _ from "lodash";
 import {promises as fsPromises} from "fs";
 import FileWriter from "../FileWriter";
 import {mongoosePrimitiveTypes} from "../model/dataTypes/primitiveDataTypes";
-import classTemplate, {TemplateContext,} from "../templates/mongoose/classTemplate";
+import classTemplate, {TemplateContext} from "../templates/mongoose/classTemplate";
 import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import EntityCollection from "../model/dataTypes/EntityCollection";
 import exportModelsTemplate from "../templates/mongoose/allMongooseExportTemplate"
 import DataType from "../model/dataTypes/DataType";
+import {getMongoosePrimitive} from "../templates/mongoose/templateHelpers";
 
 
 // Resource files to copy
@@ -20,18 +22,48 @@ const resources: Array<[string, string]> = [
   ["./resources/mongoose/fhir/basetypes/Quantity.notjs", "/fhir/basetypes/Quantity.js"],
 ];
 
+export function isDateTimeImportRequired(typeName: string): boolean {
+  return getMongoosePrimitive(typeName) === "DateTime";
+}
+
+export function isFHIRDateImportRequired(typeName: string): boolean {
+  return getMongoosePrimitive(typeName) === "FHIRDate";
+}
+
+export function prepareImports(entityDefinition: EntityDefinition): string[] {
+  const importsSet: Set<string> = new Set<string>();
+  entityDefinition.imports.dataTypes.forEach(dataType => {
+    if (dataType.primitive || dataType.systemType) {
+      if (isDateTimeImportRequired(dataType.typeName)) {
+        importsSet.add("const DateTime = require('./basetypes/DateTime');")
+      } else if (isFHIRDateImportRequired(dataType.typeName)) {
+        importsSet.add("const FHIRDate = require('./basetypes/FHIRDate');")
+      } else {
+        // Noop
+      }
+    } else {
+      importsSet.add(`const { ${dataType.normalizedName}Schema } = require('./${dataType.normalizedName}');`)
+    }
+  });
+  const imports: string[] = [...importsSet];
+  imports.sort();
+  return imports;
+}
+
 async function generate(
   entityDefinition: EntityDefinition,
   baseDirectory: FilePath
 ): Promise<string> {
-  if (mongoosePrimitiveTypes[entityDefinition.dataType.typeName.toLowerCase()]) {
+  if (mongoosePrimitiveTypes[_.lowerFirst(entityDefinition.dataType.typeName)]) {
     return "";
   }
+  const imports = prepareImports(entityDefinition);
 
   const templateInput: TemplateContext = {
     dataType: entityDefinition.dataType,
     parentDataType: entityDefinition.parentDataType,
     memberVariables: entityDefinition.memberVariables,
+    imports,
   };
 
   const contents: string = classTemplate(templateInput);
@@ -49,7 +81,7 @@ async function generate(
 }
 
 async function generateAllDataElements(dataTypes: Array<DataType>, baseDirectory: FilePath): Promise<void> {
-  const contents: string = exportModelsTemplate({ dataTypes });
+  const contents: string = exportModelsTemplate({dataTypes});
   const writer = new FileWriter(contents, baseDirectory.value, null, "AllDataElements.js");
   await writer.writeFile();
 }

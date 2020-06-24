@@ -1,4 +1,4 @@
-import Handlebars from './registerPartials';
+import Handlebars from "./registerPartials";
 import DataType from "../../model/dataTypes/DataType";
 
 export const source = `{{#each dataTypes}}

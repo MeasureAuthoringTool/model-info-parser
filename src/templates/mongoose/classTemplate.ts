@@ -3,12 +3,8 @@ import DataType from "../../model/dataTypes/DataType";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 
 export const source = `const mongoose = require('mongoose/browser');
-{{#each memberVariables}}
-{{# if this.dataType.systemType}}
-{{else if this.dataType.primitive}}
-{{else}}
-const { {{ this.dataType.normalizedName }}Schema } = require('./{{ this.dataType.normalizedName }}'); 
-{{/if}}
+{{#each imports}}
+{{{this}}}
 {{/each}}
 {{# if parentDataType }}
 const { {{ parentDataType.normalizedName }}SchemaFunction } = require('./{{ parentDataType.normalizedName }}');
@@ -24,7 +20,7 @@ const [Number, String, Boolean] = [
 
 const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new Schema{{/if}}({
 {{#each memberVariables}}
-   {{> mongooseMember member=this}}, 
+   {{> mongooseMember member=this}},
 {{/each}}  
    fhirTitle: { type: String, default: '{{ dataType.normalizedName }}' },
 });
@@ -34,7 +30,8 @@ class {{ dataType.normalizedName }} extends mongoose.Document {
     super(object, {{ dataType.normalizedName }}Schema);
     this._type = 'FHIR::{{ dataType.normalizedName }}';
   }
-}
+};
+
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
 function  {{dataType.normalizedName}}SchemaFunction(add: SchemaDefinition, options: SchemaOptions) {
   const extended = new Schema({
@@ -42,7 +39,7 @@ function  {{dataType.normalizedName}}SchemaFunction(add: SchemaDefinition, optio
 {{# if (eq this.variableName 'id')}}
 
 {{else}}
-   {{> mongooseMember member=this}}, 
+   {{> mongooseMember member=this}},
 {{/if}}
 {{/each}}  
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
@@ -69,12 +66,11 @@ module.exports.{{ dataType.normalizedName }}Schema = {{ dataType.normalizedName 
 module.exports.{{ dataType.normalizedName }} = {{ dataType.normalizedName }};
 `;
 
-
-
 export interface TemplateContext {
   dataType: DataType;
   parentDataType: DataType | null;
   memberVariables: Array<MemberVariable>;
+  imports: string[];
 }
 
 export default Handlebars.compile<TemplateContext>(source);
