@@ -75,15 +75,12 @@ export const mongoidPrimitiveTypes: { [name: string]: string } = {
   xhtml: "String",
 };
 
-/**
- * This is a mapping of FHIR primitives to their respective JSON representations
- */
-export const mongoosePrimitiveTypes: { [key: string]: string } = {
+export const mongoosePrimitiveTypes: { [name: string]: string } = {
   base64Binary: "String",
   boolean: "Boolean",
   canonical: "String",
   code: "String",
-  date: "Date",
+  date: "FHIRDate",
   dateTime: "DateTime",
   decimal: "Number",
   id: "String",
@@ -94,7 +91,7 @@ export const mongoosePrimitiveTypes: { [key: string]: string } = {
   positiveInt: "Number",
   question: "String",
   string: "String",
-  time: "Time",
+  time: "DateTime",
   unsignedInt: "Number",
   uri: "String",
   url: "String",

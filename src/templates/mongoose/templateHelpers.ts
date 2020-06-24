@@ -1,10 +1,7 @@
-import {mongoosePrimitiveTypes} from '../../model/dataTypes/primitiveDataTypes';
-import DataType from "../../model/dataTypes/DataType";
+import {mongoosePrimitiveTypes} from "../../model/dataTypes/primitiveDataTypes";
 
-export function getMongoosePrimitive(type: DataType): string {
-  // TODO: this is a workaround for the typeName holding a normalized name instead of an original name
-  const typeName = type.typeName.replace("Primitive", "").toLowerCase();
-  return mongoosePrimitiveTypes[typeName] || typeName;
+export function getMongoosePrimitive(typeName: string): string {
+  return mongoosePrimitiveTypes[typeName.toLowerCase()];
 }
 
 const schemaFunctionRequired = new Set(['DomainResource', 'Resource', 'BackboneElement', 'Element', 'Quantity', 'ElementDefinition']);
