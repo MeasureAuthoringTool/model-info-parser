@@ -17,7 +17,7 @@ describe("generateMongoidTypes", () => {
     expect(result.length).toEqual(collection.entities.length);
     expect(result[0]).toContain(
       `module FHIR
-  # FHIR/Account.rb
+  # fhir/account.rb
   class Account < DomainResource
     include Mongoid::Document
     field :typeName, type: String, default: 'Account'
