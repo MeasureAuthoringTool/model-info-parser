@@ -1,3 +1,4 @@
+import _ from "lodash";
 import FileWriter from "../FileWriter";
 import classTemplate, {
   TemplateContext,
@@ -39,7 +40,23 @@ export async function generateModelExporter(
   models: Array<string>,
   baseDirectory: FilePath
 ): Promise<void> {
-  const contents: string = exportModelsTemplate({ names: models });
+  // These types need to appear first in the list of exported modules
+  const hoistedModelNames: Array<string> = [
+    "Resource",
+    "DomainResource",
+    "Element",
+    "BackboneElement",
+    "Extension",
+    "Quantity",
+  ];
+
+  // Remove existing occurrences of above types
+  _.remove(models, (name) => hoistedModelNames.includes(name));
+
+  // Add the above names to the front of the array
+  const prependedNames: Array<string> = [...hoistedModelNames, ...models];
+
+  const contents: string = exportModelsTemplate({ names: prependedNames });
   const writer = new FileWriter(
     contents,
     baseDirectory.value,
@@ -58,7 +75,7 @@ async function generateModels(
   const entityNames: string[] = [];
   const promises = entityCollection.entities.map(
     async (entity: EntityDefinition) => {
-      entityNames.push(entity.dataType.typeName);
+      entityNames.push(entity.dataType.normalizedName);
       return generate(entity, entityCollection.baseDir);
     }
   );
