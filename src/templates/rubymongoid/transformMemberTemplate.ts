@@ -8,30 +8,30 @@ export default `{{!--
 
   For complex types, this will emit something like:
   
-  result["address"] = Address.transform_json(json_hash["address"])
+  result['address'] = Address.transform_json(json_hash['address'])
   
   for primitive types, it passes an extra parameter:
    
-  result["name"] = PrimitiveString.transform_json(json_hash["name"], json_hash["_name"])
+  result['name'] = PrimitiveString.transform_json(json_hash['name'], json_hash['_name'])
 --~}}
 
-result["{{ prefixVariableName variableName }}"] = {{ className }}.transform_json(
+result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(
 {{~!--
   If a param1 is specified, use it. Otherwise default to: 
-  json_hash["{{variableName}}"
+  json_hash['{{variableName}}'
 --~}}
 {{~# if param1 ~}}
   {{ param1 }}
 {{~ else ~}}
-  json_hash["{{variableName}}"]
+  json_hash['{{variableName}}']
 {{~/ if ~}}
 
 {{~!--
   Here we may need to append an additional parameter containing the JSON extension data
-  stored in the "_foo" attribute 
+  stored in the '_foo' attribute 
 --}}
 {{~# if primitive ~}}
-  , json_hash["_{{variableName}}"]
+  , json_hash['_{{variableName}}']
 {{~/ if ~}}
 
 {{~!--

@@ -69,4 +69,12 @@ Handlebars.registerHelper("isSystemType", function isSystem(
   return options.inverse(this);
 });
 
+Handlebars.registerHelper("getRobyDoc", function getRobyDoc(
+  dataType: DataType
+): string {
+  const snakeCaseType = _.snakeCase(dataType.normalizedName);
+  const namespace = _.toLower(dataType.namespace);
+  return `${namespace}/${snakeCaseType}.rb`;
+});
+
 export default Handlebars;

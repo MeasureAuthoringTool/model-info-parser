@@ -21,7 +21,7 @@ async function generate(
 
   const contents: string = classTemplate(templateInput);
   const { namespace, normalizedName } = entityDefinition.dataType;
-  const fileName = `${normalizedName}.rb`;
+  const fileName = `${_.snakeCase(normalizedName)}.rb`;
 
   const writer = new FileWriter(
     contents,
@@ -42,12 +42,28 @@ export async function generateModelExporter(
 ): Promise<void> {
   // These types need to appear first in the list of exported modules
   const hoistedModelNames: Array<string> = [
-    "Resource",
-    "DomainResource",
-    "Element",
-    "BackboneElement",
-    "Extension",
-    "Quantity",
+    "resource",
+    "domain_resource",
+    "element",
+    "backbone_element",
+    "extension",
+    "quantity",
+    "primitive_uri",
+    "primitive_string",
+    "primitive_base_64_binary",
+    "primitive_boolean",
+    "primitive_canonical",
+    "primitive_code",
+    "primitive_date",
+    "primitive_date_time",
+    "primitive_decimal",
+    "primitive_id",
+    "primitive_instant",
+    "primitive_integer",
+    "primitive_markdown",
+    "primitive_oid",
+    "primitive_positive_int",
+    "primitive_question",
   ];
 
   // Remove existing occurrences of above types
@@ -75,7 +91,8 @@ async function generateModels(
   const entityNames: string[] = [];
   const promises = entityCollection.entities.map(
     async (entity: EntityDefinition) => {
-      entityNames.push(entity.dataType.normalizedName);
+      const entityName = _.snakeCase(entity.dataType.normalizedName);
+      entityNames.push(entityName);
       return generate(entity, entityCollection.baseDir);
     }
   );
