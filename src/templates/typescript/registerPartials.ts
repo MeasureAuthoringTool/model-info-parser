@@ -1,4 +1,4 @@
-import Handlebars from "handlebars";
+import Handlebars from "../helpers/templateHelpers";
 import classImportTemplate from "./classes/classImportTemplate";
 import complexMemberTemplate from "./classes/complexMemberTemplate";
 import complexParseTemplate from "./classes/complexParseTemplate";

@@ -127,8 +127,9 @@ async function generate(
   return classContents;
 }
 
-
-async function generateModels(entityCollection: EntityCollection): Promise<string[]> {
+async function generateModels(
+  entityCollection: EntityCollection
+): Promise<string[]> {
   const promises = entityCollection.entities.map(
     async (entity: EntityDefinition) => {
       return generate(entity, entityCollection.baseDir);

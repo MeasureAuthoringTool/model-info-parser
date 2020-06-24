@@ -46,7 +46,9 @@ export default class DataType {
       ? typeName
       : normalizeTypeName(typeName);
     const primitive: boolean = primitiveTypeCheck(typeName);
-    normalizedName = primitive? convertPrimitiveName(normalizedName) : normalizedName;
+    normalizedName = primitive
+      ? convertPrimitiveName(normalizedName)
+      : normalizedName;
 
     const fullPath = FilePath.getInstance(
       `${baseDir.value}/${namespace}/${normalizedName}`

@@ -39,7 +39,8 @@ describe("EntityDefinition", () => {
       dataType,
       parentType,
       members,
-      imports
+      imports,
+      "some_collection"
     );
   });
 
@@ -50,6 +51,23 @@ describe("EntityDefinition", () => {
       expect(entityDef.parentDataType).toBe(parentType);
       expect(entityDef.memberVariables).toBe(members);
       expect(entityDef.imports).toBe(imports);
+      expect(entityDef.collectionName).toBe("some_collection");
+    });
+
+    it("should default collectionName to null", () => {
+      entityDef = new EntityDefinition(
+        metadata,
+        dataType,
+        parentType,
+        members,
+        imports
+      );
+      expect(entityDef.metadata).toBe(metadata);
+      expect(entityDef.dataType).toBe(dataType);
+      expect(entityDef.parentDataType).toBe(parentType);
+      expect(entityDef.memberVariables).toBe(members);
+      expect(entityDef.imports).toBe(imports);
+      expect(entityDef.collectionName).toBeNull();
     });
   });
 
@@ -87,6 +105,14 @@ describe("EntityDefinition", () => {
     });
   });
 
+  describe("#setCollectionName()", () => {
+    it("should return a cloned value containing the new collectionName", () => {
+      const result = entityDef.setCollectionName("newName");
+      expect(result).not.toBe(entityDef);
+      expect(result.collectionName).toBe("newName");
+    });
+  });
+
   describe("clone()", () => {
     it("should create a deep copy of the original", () => {
       const original = new EntityDefinition(
@@ -98,6 +124,7 @@ describe("EntityDefinition", () => {
       );
       const result = original.clone();
       expect(result).not.toBe(original);
+      expect(result).toStrictEqual(original);
       expect(result.metadata).not.toBe(metadata);
       expect(result.metadata.originalTypeName).toBe(metadata.originalTypeName);
       expect(result.dataType).toBe(dataType);

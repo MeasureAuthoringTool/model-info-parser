@@ -9,7 +9,10 @@ import ModelInfo from "./model/modelInfo/ModelInfo";
 import Preprocessor from "./preprocessors/Preprocessor";
 
 export default class GeneratorProgram {
-  constructor(private generator: Generator, private preprocessors: Array<Preprocessor>) {
+  constructor(
+    private generator: Generator,
+    private preprocessors: Array<Preprocessor>
+  ) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args
@@ -47,9 +50,12 @@ export default class GeneratorProgram {
     );
 
     // Execute all of the specified preprocessors
-    entityCollection = this.preprocessors.reduce((accumulator: EntityCollection, preprocessor: Preprocessor) => {
-      return preprocessor.preprocess(accumulator);
-    }, entityCollection);
+    entityCollection = this.preprocessors.reduce(
+      (accumulator: EntityCollection, preprocessor: Preprocessor) => {
+        return preprocessor.preprocess(accumulator);
+      },
+      entityCollection
+    );
 
     // Execute the generator for entityCollection
     return this.generator(entityCollection);

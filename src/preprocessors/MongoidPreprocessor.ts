@@ -12,6 +12,7 @@ import IfTransformer from "../collectionUtils/core/IfTransformer";
 import NOPTransformer from "../collectionUtils/core/NOPTransformer";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import ChainedTransformer from "../collectionUtils/core/ChainedTransformer";
+import SetCollectionNameTransformer from "../collectionUtils/SetCollectionNameTransformer";
 
 /**
  * EntityCollection Preprocessor for the Mongoid-specific model generation
@@ -72,16 +73,25 @@ export default class MongoidPreprocessor extends BasePreprocessor {
       patientCollectionMember
     );
 
-    // Chained transformer that performs all modifications
-    const chainedTransformer = new ChainedTransformer(
-      addValueSetsTransformer,
-      addPatientsTransformer
+    // Transformer to set the Measure entity's collectionName property
+    const setMeasureCollectionNameTransformer = new SetCollectionNameTransformer(
+      "fhir_measures"
     );
+
+    // Chained transformer that performs all modifications to Measure type
+    const measureTransformer = new ChainedTransformer(
+      addValueSetsTransformer,
+      addPatientsTransformer,
+      setMeasureCollectionNameTransformer
+    );
+
+    // TODO modify collection name for Patient
+    // TODO modify collection name for ValueSet
 
     // Transformer that only modifies the Measure entity
     const ifTransformer = new IfTransformer(
       measureEntityPredicate,
-      chainedTransformer,
+      measureTransformer,
       new NOPTransformer<EntityDefinition>()
     );
 
