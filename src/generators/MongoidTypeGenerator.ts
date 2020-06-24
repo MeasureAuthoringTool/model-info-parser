@@ -1,5 +1,5 @@
+import _ from "lodash";
 import FileWriter from "../FileWriter";
-import { mongoidPrimitiveTypes } from "../model/dataTypes/primitiveDataTypes";
 import classTemplate, {
   TemplateContext,
 } from "../templates/rubymongoid/classTemplate";
@@ -7,17 +7,12 @@ import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import EntityCollection from "../model/dataTypes/EntityCollection";
-import exportModelsTemplate from "../templates/rubymongoid/allMongoidExportTemplate"
+import exportModelsTemplate from "../templates/rubymongoid/allMongoidExportTemplate";
 
 async function generate(
   entityDefinition: EntityDefinition,
   baseDirectory: FilePath
 ): Promise<string> {
-  // skip type creation for primitives
-  if (mongoidPrimitiveTypes[entityDefinition.dataType.typeName]) {
-    return "";
-  }
-
   const templateInput: TemplateContext = {
     dataType: entityDefinition.dataType,
     parentDataType: entityDefinition.parentDataType,
@@ -26,7 +21,7 @@ async function generate(
 
   const contents: string = classTemplate(templateInput);
   const { namespace, normalizedName } = entityDefinition.dataType;
-  const fileName = `${normalizedName}.rb`;
+  const fileName = `${_.snakeCase(normalizedName)}.rb`;
 
   const writer = new FileWriter(
     contents,
@@ -41,20 +36,63 @@ async function generate(
 /**
  * Generate a common file models.rb to require all mongoid models
  */
-export async function generateModelExporter(models: Array<string>, baseDirectory: FilePath): Promise<void> {
-  const contents: string = exportModelsTemplate({names: models});
-  const writer = new FileWriter(contents, baseDirectory.value, null, "models.rb");
+export async function generateModelExporter(
+  models: Array<string>,
+  baseDirectory: FilePath
+): Promise<void> {
+  // These types need to appear first in the list of exported modules
+  const hoistedModelNames: Array<string> = [
+    "resource",
+    "domain_resource",
+    "element",
+    "backbone_element",
+    "extension",
+    "quantity",
+    "primitive_uri",
+    "primitive_string",
+    "primitive_base_64_binary",
+    "primitive_boolean",
+    "primitive_canonical",
+    "primitive_code",
+    "primitive_date",
+    "primitive_date_time",
+    "primitive_decimal",
+    "primitive_id",
+    "primitive_instant",
+    "primitive_integer",
+    "primitive_markdown",
+    "primitive_oid",
+    "primitive_positive_int",
+    "primitive_question",
+  ];
+
+  // Remove existing occurrences of above types
+  _.remove(models, (name) => hoistedModelNames.includes(name));
+
+  // Add the above names to the front of the array
+  const prependedNames: Array<string> = [...hoistedModelNames, ...models];
+
+  const contents: string = exportModelsTemplate({ names: prependedNames });
+  const writer = new FileWriter(
+    contents,
+    baseDirectory.value,
+    null,
+    "models.rb"
+  );
   await writer.writeFile();
 }
 
 /**
  * Generate all mongoid models
  */
-async function generateModels(entityCollection: EntityCollection): Promise<Array<string>> {
+async function generateModels(
+  entityCollection: EntityCollection
+): Promise<Array<string>> {
   const entityNames: string[] = [];
   const promises = entityCollection.entities.map(
     async (entity: EntityDefinition) => {
-      entityNames.push(entity.dataType.typeName);
+      const entityName = _.snakeCase(entity.dataType.normalizedName);
+      entityNames.push(entityName);
       return generate(entity, entityCollection.baseDir);
     }
   );

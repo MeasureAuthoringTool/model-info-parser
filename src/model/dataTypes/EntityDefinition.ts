@@ -13,7 +13,8 @@ export default class EntityDefinition {
     private _dataType: DataType,
     private _parentDataType: DataType | null,
     private _memberVariables: Array<MemberVariable>,
-    private _imports: EntityImports
+    private _imports: EntityImports,
+    private _collectionName: string | null = null
   ) {}
 
   public get metadata(): EntityMetadata {
@@ -36,6 +37,10 @@ export default class EntityDefinition {
     return this._imports;
   }
 
+  public get collectionName(): string | null {
+    return this._collectionName;
+  }
+
   public clone(): EntityDefinition {
     const newMembers = this.memberVariables.map((member) => member.clone());
 
@@ -44,7 +49,8 @@ export default class EntityDefinition {
       this.dataType,
       this.parentDataType,
       newMembers,
-      this.imports.clone()
+      this.imports.clone(),
+      this.collectionName
     );
   }
 
@@ -63,6 +69,12 @@ export default class EntityDefinition {
   public addMemberVariable(memberVar: MemberVariable): EntityDefinition {
     const result = this.clone();
     result._memberVariables = [...result._memberVariables, memberVar];
+    return result;
+  }
+
+  public setCollectionName(newName: string | null): EntityDefinition {
+    const result = this.clone();
+    result._collectionName = newName;
     return result;
   }
 

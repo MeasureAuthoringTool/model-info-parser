@@ -15,6 +15,7 @@ describe("MongoidPreprocessor", () => {
 
   beforeEach(() => {
     entityBuilder = new EntityDefinitionBuilder();
+    entityBuilder.collectionName = null;
     preprocessor = new MongoidPreprocessor();
 
     entityDefinition = entityBuilder.buildEntityDefinition();
@@ -38,6 +39,8 @@ describe("MongoidPreprocessor", () => {
     expect(entityCollection.entities).toBeArrayOfSize(2);
     expect(entityCollection.entities[0].memberVariables).toBeArrayOfSize(2);
     expect(entityCollection.entities[1].memberVariables).toBeArrayOfSize(2);
+    expect(entityCollection.entities[0].collectionName).toBeNull();
+    expect(entityCollection.entities[1].collectionName).toBeNull();
 
     const result = preprocessor.preprocess(entityCollection);
 
@@ -60,5 +63,8 @@ describe("MongoidPreprocessor", () => {
     expect(entities[1].memberVariables[3].variableName).toBe("patients");
     expect(entities[1].memberVariables[2].bidirectional).toBeFalse();
     expect(entities[1].memberVariables[3].bidirectional).toBeFalse();
+
+    expect(entities[0].collectionName).toBeNull();
+    expect(entities[1].collectionName).toBe("fhir_measures");
   });
 });

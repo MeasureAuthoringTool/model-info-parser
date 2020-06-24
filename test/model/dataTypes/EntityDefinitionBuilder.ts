@@ -15,6 +15,8 @@ export default class EntityDefinitionBuilder {
 
   public imports: EntityImports;
 
+  public collectionName: string | null;
+
   constructor() {
     this.metadata = new EntityMetadata("ns4", "Data.Type", "ns3.Base.Type");
     this.dataType = DataType.getInstance("ns4", "Data.Type", "/tmp");
@@ -26,6 +28,7 @@ export default class EntityDefinitionBuilder {
     const member2 = new MemberVariable(memberType2, "varName2", true);
     this.memberVariables = [member1, member2];
     this.imports = new EntityImports([memberType1, memberType2]);
+    this.collectionName = null;
   }
 
   public buildEntityDefinition(): EntityDefinition {
@@ -35,7 +38,8 @@ export default class EntityDefinitionBuilder {
       dataType,
       this.parentType,
       [...this.memberVariables],
-      this.imports.clone()
+      this.imports.clone(),
+      this.collectionName
     );
   }
 }
