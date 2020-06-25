@@ -132,7 +132,11 @@ describe("templateHelpers", () => {
   describe("getRobyDoc", () => {
     it("should return namespace/datatype.rb string", () => {
       const accountType = DataType.getInstance("FHIR", "Account", "/tmp");
-      const accountCoverageType = DataType.getInstance("FHIR", "AccountCoverage", "/tmp");
+      const accountCoverageType = DataType.getInstance(
+        "FHIR",
+        "AccountCoverage",
+        "/tmp"
+      );
 
       const source = "{{# getRobyDoc this}}{{/ getRobyDoc}}";
       const template = Handlebars.compile(source);

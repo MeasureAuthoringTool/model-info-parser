@@ -38,7 +38,14 @@ export const source = `module {{ dataType.namespace }}
     {{/ isPrimitiveType ~}}
 
     {{!--
-      Loop over each member variable and add the conversion logic from the Measure JSON to 
+      If this is a primitive type, the json_hash isn't really a hash, it's the value
+    --}}
+    {{# isPrimitiveType this.dataType }}
+      result['value'] = json_hash
+    {{~ else ~}}
+
+    {{!--
+      For non-primitive types, loop over each member variable and add the conversion logic from the Measure JSON to 
       the Mongo JSON we're using internally
     --}}
     {{# each memberVariables }}
@@ -64,9 +71,6 @@ export const source = `module {{ dataType.namespace }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
         {{ this.dataType.normalizedName }}.transform_json(var, json_hash['_{{this.variableName}}'][i])
       end 
-    
-      {{> transformMember variableName=this.variableName className=this.dataType.normalizedName }}
-      
     {{ else }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) }
     {{/ isPrimitiveType }}
@@ -79,6 +83,7 @@ export const source = `module {{ dataType.namespace }}
     {{/ if }}
     {{/ isSystemType }}
     {{~/ each }}
+    {{~/ isPrimitiveType }}
 
       result
     end
