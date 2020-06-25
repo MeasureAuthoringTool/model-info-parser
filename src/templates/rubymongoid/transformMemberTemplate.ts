@@ -12,7 +12,7 @@ export default `{{!--
   
   for primitive types, it passes an extra parameter:
    
-  result['name'] = PrimitiveString.transform_json(json_hash['name'], json_hash['_name'])
+  result['name'] = PrimitiveString.transform_json(json_hash['name'], json_hash['_name']) unless json_hash['name'].nil?
 --~}}
 
 result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(
@@ -40,4 +40,4 @@ result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json
 {{~# if param2 ~}}
   , {{ param2 }}
 {{~/ if ~}}
-)`;
+) unless json_hash['{{ variableName }}'].nil?`;
