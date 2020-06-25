@@ -20,9 +20,9 @@ const [Number, String, Boolean] = [
 
 const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new Schema{{/if}}({
 {{#each memberVariables}}
-   {{> mongooseMember member=this}},
+  {{> mongooseMember member=this}},
 {{/each}}  
-   fhirTitle: { type: String, default: '{{ dataType.normalizedName }}' },
+  fhirTitle: { type: String, default: '{{ dataType.normalizedName }}' },
 });
 
 class {{ dataType.normalizedName }} extends mongoose.Document {
@@ -33,13 +33,13 @@ class {{ dataType.normalizedName }} extends mongoose.Document {
 };
 
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
-function  {{dataType.normalizedName}}SchemaFunction(add: SchemaDefinition, options: SchemaOptions) {
+function  {{dataType.normalizedName}}SchemaFunction(add, options) {
   const extended = new Schema({
 {{#each memberVariables}}
 {{# if (eq this.variableName 'id')}}
 
 {{else}}
-   {{> mongooseMember member=this}},
+  {{> mongooseMember member=this}},
 {{/if}}
 {{/each}}  
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
