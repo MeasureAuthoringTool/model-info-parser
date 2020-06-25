@@ -71,9 +71,6 @@ export const source = `module {{ dataType.namespace }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
         {{ this.dataType.normalizedName }}.transform_json(var, json_hash['_{{this.variableName}}'][i])
       end 
-    
-      {{> transformMember variableName=this.variableName className=this.dataType.normalizedName }}
-      
     {{ else }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) }
     {{/ isPrimitiveType }}
