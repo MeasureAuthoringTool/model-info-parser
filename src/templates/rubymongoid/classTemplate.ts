@@ -54,7 +54,7 @@ export const source = `module {{ dataType.namespace }}
       If we're looking at a system type, there is no conversion necessary    
     --}}
     {{# isSystemType this.dataType }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}']
+      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
     {{!--
       Dealing with a non-system type, so we have to convert    
     --}}
@@ -70,9 +70,9 @@ export const source = `module {{ dataType.namespace }}
     {{# isPrimitiveType this.dataType }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
         {{ this.dataType.normalizedName }}.transform_json(var, json_hash['_{{this.variableName}}'][i])
-      end 
+      end unless json_hash['{{ this.variableName }}'].nil?
     {{ else }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) }
+      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) } unless json_hash['{{ this.variableName }}'].nil?
     {{/ isPrimitiveType }}
     {{!--
       If it's not an array, we can transform just the single element
