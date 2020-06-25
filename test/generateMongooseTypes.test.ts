@@ -1,8 +1,5 @@
 import {exec} from 'child_process';
-import MongooseTypeGenerator, {
-  isDateTimeImportRequired,
-  isFHIRDateImportRequired
-} from "../src/generators/MongooseTypeGenerator";
+import MongooseTypeGenerator from "../src/generators/MongooseTypeGenerator";
 import {entityCollection} from './fixture/entityCollectionMongoose.json'
 import EntityCollection from "../src/model/dataTypes/EntityCollection";
 
@@ -37,24 +34,6 @@ describe('generateMongooseTypes', () => {
       '    super(object, AccountSchema);\n' +
       '    this._type = \'FHIR::Account\';\n' +
       '  }\n' +
-      '};');
-  });
-  describe("isDateTimeImportRequired", () => {
-    test("positive", () => {
-      expect(isDateTimeImportRequired("dateTime")).toBeTrue();
-      expect(isDateTimeImportRequired("instant")).toBeTrue();
-      expect(isDateTimeImportRequired("time")).toBeTrue();
-    });
-    test("negative", () => {
-      expect(isDateTimeImportRequired("any")).toBeFalse();
-    });
-  });
-  describe("isFHIRDateImportRequired", () => {
-    test("positive", () => {
-      expect(isFHIRDateImportRequired("date")).toBeTrue();
-    });
-    test("negative", () => {
-      expect(isFHIRDateImportRequired("any")).toBeFalse();
-    });
+      '}');
   });
 });

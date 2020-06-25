@@ -3,12 +3,14 @@ import DataType from "../../model/dataTypes/DataType";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 
 export const source = `const mongoose = require('mongoose/browser');
-{{#each imports}}
-{{{this}}}
-{{/each}}
-{{# if parentDataType }}
-const { {{ parentDataType.normalizedName }}SchemaFunction } = require('./{{ parentDataType.normalizedName }}');
+{{!-- Imports --}}
+{{# each imports}}
+const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
+{{!-- Import parent as SchemaFunction --}}
+{{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
+const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
 {{/if}}
+{{/each}}
 
 const [Schema] = [mongoose.Schema];
 
@@ -19,7 +21,7 @@ const [Number, String, Boolean] = [
 ];
 
 const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new Schema{{/if}}({
-{{#each memberVariables}}
+{{# each memberVariables}}
   {{> mongooseMember member=this}},
 {{/each}}  
   fhirTitle: { type: String, default: '{{ dataType.normalizedName }}' },
@@ -30,12 +32,12 @@ class {{ dataType.normalizedName }} extends mongoose.Document {
     super(object, {{ dataType.normalizedName }}Schema);
     this._type = 'FHIR::{{ dataType.normalizedName }}';
   }
-};
+}
 
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
 function  {{dataType.normalizedName}}SchemaFunction(add, options) {
   const extended = new Schema({
-{{#each memberVariables}}
+{{# each memberVariables}}
 {{# if (eq this.variableName 'id')}}
 
 {{else}}
@@ -70,7 +72,7 @@ export interface TemplateContext {
   dataType: DataType;
   parentDataType: DataType | null;
   memberVariables: Array<MemberVariable>;
-  imports: string[];
+  imports: Array<DataType>;
 }
 
 export default Handlebars.compile<TemplateContext>(source);
