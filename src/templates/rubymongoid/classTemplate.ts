@@ -25,7 +25,7 @@ export const source = `module {{ dataType.namespace }}
     {{/ hasReservedKeywords }}
 
     def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}})
-      result = {}
+      result = {{ dataType.normalizedName }}.new
     {{!--
       If we're transforming a primitive type 'foo', we also need to get the 'id' and 'extension'
       values from the '_foo' attributes and set them accordingly                
@@ -69,7 +69,8 @@ export const source = `module {{ dataType.namespace }}
     --}}
     {{# isPrimitiveType this.dataType }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
-        {{ this.dataType.normalizedName }}.transform_json(var, json_hash['_{{this.variableName}}'][i])
+        extension_hash = json_hash['_{{this.variableName}}'] && json_hash['_{{this.variableName}}'][i]
+        {{ this.dataType.normalizedName }}.transform_json(var, extension_hash)
       end unless json_hash['{{ this.variableName }}'].nil?
     {{ else }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) } unless json_hash['{{ this.variableName }}'].nil?
