@@ -54,7 +54,7 @@ async function generateModels(entityCollection: EntityCollection): Promise<Array
     }
   );
 
-  await generateAllDataElements(entityCollection.entities.map(e => e.dataType), entityCollection.baseDir);
+  await generateAllDataElements(entityCollection.entities.map(e => e.dataType).filter(dt => !dt.systemType && !dt.primitive), entityCollection.baseDir);
   return Promise.all(promises);
 }
 

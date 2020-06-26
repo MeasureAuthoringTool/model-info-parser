@@ -5,10 +5,14 @@ import MemberVariable from "../../model/dataTypes/MemberVariable";
 export const source = `const mongoose = require('mongoose/browser');
 {{!-- Imports --}}
 {{# each imports}}
+{{# if this.systemType}}
+{{else if this.primitive}}
+{{else}}
 const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{!-- Import parent as SchemaFunction --}}
 {{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
 const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
+{{/if}}
 {{/if}}
 {{/each}}
 
@@ -33,9 +37,9 @@ class {{ dataType.normalizedName }} extends mongoose.Document {
     this._type = 'FHIR::{{ dataType.normalizedName }}';
   }
 }
-
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
-function  {{dataType.normalizedName}}SchemaFunction(add, options) {
+
+function {{dataType.normalizedName}}SchemaFunction(add, options) {
   const extended = new Schema({
 {{# each memberVariables}}
 {{# if (eq this.variableName 'id')}}
