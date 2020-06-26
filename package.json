@@ -15,13 +15,15 @@
     "build": "tsc",
     "generateTypeScriptTypes": "ts-node src/generateTypeScriptTypes.ts",
     "generateMongoidTypes": "ts-node src/generateMongoidTypes.ts",
+    "generateMongooseTypes": "ts-node src/generateMongooseTypes.ts",
     "lint": "npx eslint . --ext .js,.ts",
     "test": "npx jest",
     "coverage": "npx jest --coverage"
   },
   "bin": {
     "generateTypeScriptTypes": "dist/src/generateTypeScriptTypes.js",
-    "generateMongoidTypes": "dist/src/generateMongoidTypes.js"
+    "generateMongoidTypes": "dist/src/generateMongoidTypes.js",
+    "generateMongooseTypes": "dist/src/generateMongooseTypes.js"
   },
   "keywords": [],
   "author": "SemanticBits sb-mat-help@semanticbits.com",
