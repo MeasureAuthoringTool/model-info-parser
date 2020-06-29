@@ -10,11 +10,11 @@ export const source = `const mongoose = require('mongoose/browser');
 {{else if this.primitive}}
 {{!-- Skip primitive  --}}
 {{else}}
-const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{!-- Import parent as SchemaFunction --}}
 {{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
 const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
 {{/if}}
+const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{/if}}
 {{/each}}
 
@@ -36,10 +36,10 @@ const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDat
 class {{ dataType.normalizedName }} extends mongoose.Document {
   constructor(object) {
     super(object, {{ dataType.normalizedName }}Schema);
-    this._type = 'FHIR::{{ dataType.normalizedName }}';
+    this.typeName = 'FHIR::{{ dataType.normalizedName }}';
   }
 }
-{{# if (isSchemaFunctionRequired dataType.normalizedName) }}
+{{# if (isMongooseSchemaFunctionRequired dataType.normalizedName) }}
 
 function {{dataType.normalizedName}}SchemaFunction(add, options) {
   const extended = new Schema({
@@ -50,7 +50,7 @@ function {{dataType.normalizedName}}SchemaFunction(add, options) {
     {{> mongooseMember member=this}},
 {{/if}}
 {{/each}}  
-{{# if (isSchemaFunctionRequired dataType.normalizedName) }}
+{{# if (isMongooseSchemaFunctionIdRequired dataType.normalizedName) }}
     id: {
       type: String,
       default() {
@@ -67,7 +67,7 @@ function {{dataType.normalizedName}}SchemaFunction(add, options) {
 }
 {{/if}}
 
-{{# if (isSchemaFunctionRequired dataType.normalizedName) }}
+{{# if (isMongooseSchemaFunctionRequired dataType.normalizedName) }}
 module.exports.{{ dataType.normalizedName }}SchemaFunction = {{ dataType.normalizedName }}SchemaFunction;
 {{/if}}
 module.exports.{{ dataType.normalizedName }}Schema = {{ dataType.normalizedName }}Schema;

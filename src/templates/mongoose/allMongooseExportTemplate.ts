@@ -1,14 +1,16 @@
 import Handlebars from "./registerPartials";
-import DataType from "../../model/dataTypes/DataType";
 
-export const source = `{{#each dataTypes}}
-module.exports.{{this.normalizedName}} = require('./fhir/{{this.normalizedName}}.js').{{this.normalizedName}};
-module.exports.{{this.normalizedName}}Schema = require('./fhir/{{this.normalizedName}}.js').{{this.normalizedName}}Schema;
+export const source = `{{#each names}}
+{{# if (isMongooseSchemaFunctionRequired this) }}
+module.exports.{{ this }}SchemaFunction = require('./fhir/{{ this }}.js').{{ this }}SchemaFunction;
+{{/ if}}
+module.exports.{{ this }}Schema = require('./fhir/{{ this }}.js').{{ this }}Schema;
+module.exports.{{ this }} = require('./fhir/{{ this }}.js').{{ this }};
 {{/each}}
 `;
 
 export interface TemplateContext {
-  dataTypes: Array<DataType>;
+  names: Array<string>;
 }
 
 export default Handlebars.compile<TemplateContext>(source);

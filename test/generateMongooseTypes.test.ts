@@ -32,7 +32,7 @@ describe('generateMongooseTypes', () => {
     expect(result[0]).toContain('class Account extends mongoose.Document {\n' +
       '  constructor(object) {\n' +
       '    super(object, AccountSchema);\n' +
-      '    this._type = \'FHIR::Account\';\n' +
+      '    this.typeName = \'FHIR::Account\';\n' +
       '  }\n' +
       '}');
   });

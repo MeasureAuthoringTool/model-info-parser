@@ -1,9 +1,9 @@
 import {
   eq,
   getMongoosePrimitive,
-  isSchemaFunctionIdRequired,
-  isSchemaFunctionRequired,
-} from "../../../src/templates/mongoose/templateHelpers";
+  isMongooseSchemaFunctionRequired,
+  isMongooseSchemaFunctionIdRequired
+} from "../../../src/templates/helpers/templateHelpers";
 
 describe("templateMongooseHelpers", () => {
   describe("getMongoosePrimitive()", () => {
@@ -32,27 +32,27 @@ describe("templateMongooseHelpers", () => {
     });
   });
 
-  describe("isSchemaFunctionRequired", () => {
+  describe("isMongooseSchemaFunctionRequired", () => {
     test("positive", () => {
-      expect(isSchemaFunctionRequired("DomainResource")).toBeTrue();
-      expect(isSchemaFunctionRequired("Resource")).toBeTrue();
-      expect(isSchemaFunctionRequired("BackboneElement")).toBeTrue();
-      expect(isSchemaFunctionRequired("Element")).toBeTrue();
-      expect(isSchemaFunctionRequired("Quantity")).toBeTrue();
-      expect(isSchemaFunctionRequired("ElementDefinition")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("DomainResource")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("Resource")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("BackboneElement")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("Element")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("Quantity")).toBeTrue();
+      expect(isMongooseSchemaFunctionRequired("ElementDefinition")).toBeTrue();
     });
     test("negative", () => {
-      expect(isSchemaFunctionRequired("NotDomainResource")).toBeFalse();
+      expect(isMongooseSchemaFunctionRequired("NotDomainResource")).toBeFalse();
     });
   });
 
-  describe("isSchemaFunctionIdRequired", () => {
+  describe("isMongooseSchemaFunctionIdRequired", () => {
     test("positive", () => {
-      expect(isSchemaFunctionIdRequired("Resource")).toBeTrue();
-      expect(isSchemaFunctionIdRequired("Element")).toBeTrue();
+      expect(isMongooseSchemaFunctionIdRequired("Resource")).toBeTrue();
+      expect(isMongooseSchemaFunctionIdRequired("Element")).toBeTrue();
     });
     test("negative", () => {
-      expect(isSchemaFunctionRequired("SomethingElse")).toBeFalse();
+      expect(isMongooseSchemaFunctionIdRequired("SomethingElse")).toBeFalse();
     });
   });
 
