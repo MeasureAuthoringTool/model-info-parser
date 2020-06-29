@@ -24,17 +24,23 @@ export const source = `module {{ dataType.namespace }}
     end
     {{/ hasReservedKeywords }}
 
-    def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}})
-      result = {{ dataType.normalizedName }}.new
+    def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target={{ dataType.normalizedName }}.new)
     {{!--
       If we're transforming a primitive type 'foo', we also need to get the 'id' and 'extension'
       values from the '_foo' attributes and set them accordingly                
     --}}
     {{# isPrimitiveType this.dataType }}
+      result = target
       unless extension_hash.nil?
         result['id'] = extension_hash['id']
         result['extension'] = extension_hash['extension'].map { |ext| Extension.transform_json(ext) }
       end
+    {{ else }}
+    {{# if parentDataType }}
+      result = super.transform_json(json_hash, target)
+    {{ else }}
+      result = target
+    {{/ if }}
     {{/ isPrimitiveType ~}}
 
     {{!--

@@ -1,5 +1,10 @@
 import Handlebars from "handlebars";
-import {eq, getMongoosePrimitive, isSchemaFunctionIdRequired, isSchemaFunctionRequired,} from "./templateHelpers";
+import {
+  eq,
+  getMongoosePrimitive,
+  isSchemaFunctionIdRequired,
+  isSchemaFunctionRequired,
+} from "./templateHelpers";
 import mongooseMemberTemplate from "./mongooseMemberTemplate";
 
 Handlebars.registerPartial("mongooseMember", mongooseMemberTemplate);
@@ -11,6 +16,5 @@ Handlebars.registerHelper(
   isSchemaFunctionIdRequired
 );
 Handlebars.registerHelper("eq", eq);
-
 
 export default Handlebars;

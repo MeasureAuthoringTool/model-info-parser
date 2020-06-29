@@ -29,7 +29,9 @@ export default class FilePath {
       // if the cached value and the incoming value are different, that means the cached file and this
       // new file have the same name, but different capitalization
       if (cachedFile.value !== normalizedValue) {
-        throw new Error(`FilePath "${normalizedValue}" cannot overwrite equivalent file "${cachedFile.value}"`);
+        throw new Error(
+          `FilePath "${normalizedValue}" cannot overwrite equivalent file "${cachedFile.value}"`
+        );
       }
 
       return cachedFile;
