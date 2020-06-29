@@ -18,8 +18,11 @@ export default class ChainedTransformer<T> extends Transformer<T, T> {
       throw new Error("Cannot chain 0 transformers together");
     }
 
-    return this.transformers.reduce((accumulator: T, currentTransformer: Transformer<T, T>) => {
-      return currentTransformer.transform(accumulator);
-    }, input);
+    return this.transformers.reduce(
+      (accumulator: T, currentTransformer: Transformer<T, T>) => {
+        return currentTransformer.transform(accumulator);
+      },
+      input
+    );
   }
 }

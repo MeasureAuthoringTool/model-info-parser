@@ -26,7 +26,9 @@ describe("FilePath", () => {
       expect(() => {
         FilePath.getInstance("someString.txt");
         FilePath.getInstance("SomeString.txt");
-      }).toThrow("FilePath \"SomeString.txt\" cannot overwrite equivalent file \"someString.txt\"");
+      }).toThrow(
+        'FilePath "SomeString.txt" cannot overwrite equivalent file "someString.txt"'
+      );
     });
   });
 
@@ -41,7 +43,10 @@ describe("FilePath", () => {
     });
 
     it("should handle duplicates", () => {
-      const arr = [FilePath.getInstance("./same"), FilePath.getInstance("./same")];
+      const arr = [
+        FilePath.getInstance("./same"),
+        FilePath.getInstance("./same"),
+      ];
       expect(FilePath.sortFilePaths(arr)).toBe(arr);
     });
 
@@ -50,7 +55,11 @@ describe("FilePath", () => {
       const bravo = FilePath.getInstance("./Bravo");
       const charlie = FilePath.getInstance("./charlie");
       const arr = [alpha, charlie, bravo];
-      expect(FilePath.sortFilePaths(arr)).toStrictEqual([alpha, bravo, charlie]);
+      expect(FilePath.sortFilePaths(arr)).toStrictEqual([
+        alpha,
+        bravo,
+        charlie,
+      ]);
     });
   });
 

@@ -10,7 +10,11 @@ import Element from "./Element";
  * </ns4:element>
  */
 export default class ListElement extends Element {
-  constructor(public name: string, public namespace: string, public typeName: string) {
+  constructor(
+    public name: string,
+    public namespace: string,
+    public typeName: string
+  ) {
     super(name);
   }
 }

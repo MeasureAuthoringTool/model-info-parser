@@ -13,7 +13,10 @@ export default class CollectionUtils {
     return input.filter((val: T) => !predicate.evaluate(val));
   }
 
-  public static transform<T, K>(input: Array<T>, transformer: Transformer<T, K>): Array<K> {
+  public static transform<T, K>(
+    input: Array<T>,
+    transformer: Transformer<T, K>
+  ): Array<K> {
     return input.map((value: T) => transformer.transform(value));
   }
 }
