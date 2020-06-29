@@ -60,7 +60,7 @@ export const source = `module {{ dataType.namespace }}
       If we're looking at a system type, there is no conversion necessary    
     --}}
     {{# isSystemType this.dataType }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash
+      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
     {{!--
       Dealing with a non-system type, so we have to convert    
     --}}
