@@ -19,12 +19,12 @@ describe('generateMongooseTypes', () => {
       '  identifier: [IdentifierSchema],\n' +
       '  status: AccountStatusSchema,\n' +
       '  type: CodeableConceptSchema,\n' +
-      '  name: String,\n' +
+      '  name: PrimitiveStringSchema,\n' +
       '  subject: [ReferenceSchema],\n' +
       '  servicePeriod: PeriodSchema,\n' +
       '  coverage: [AccountCoverageSchema],\n' +
       '  owner: ReferenceSchema,\n' +
-      '  description: String,\n' +
+      '  description: PrimitiveStringSchema,\n' +
       '  guarantor: [AccountGuarantorSchema],\n' +
       '  partOf: ReferenceSchema,\n' +
       '  fhirTitle: { type: String, default: \'Account\' },\n' +

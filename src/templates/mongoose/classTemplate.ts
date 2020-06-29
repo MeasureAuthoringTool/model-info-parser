@@ -7,17 +7,17 @@ export const source = `const mongoose = require('mongoose/browser');
 {{# each imports}}
 {{# if this.systemType}}
 {{!-- Skip systemType  --}}
-{{else if this.primitive}}
-{{!-- Skip primitive  --}}
 {{else}}
 {{!-- Import parent as SchemaFunction --}}
 {{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
 const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
-{{/if}}
+{{else}}
 const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
+{{/if}}
 {{/if}}
 {{/each}}
 
+{{!-- TODO: remove? It was copied from cqm-fhir-model
 const [Schema] = [mongoose.Schema];
 
 const [Number, String, Boolean] = [
@@ -25,6 +25,7 @@ const [Number, String, Boolean] = [
   mongoose.Schema.Types.String,
   mongoose.Schema.Types.Boolean,
 ];
+--}}
 
 const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new Schema{{/if}}({
 {{# each memberVariables}}
