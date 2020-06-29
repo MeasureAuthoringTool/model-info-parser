@@ -37,7 +37,7 @@ export const source = `module {{ dataType.namespace }}
       end
     {{ else }}
     {{# if parentDataType }}
-      result = super.transform_json(json_hash, target)
+      result = self.superclass.transform_json(json_hash, target)
     {{ else }}
       result = target
     {{/ if }}
