@@ -37,7 +37,7 @@ export const source = `module {{ dataType.namespace }}
       end
     {{ else }}
     {{# if parentDataType }}
-      result = super.transform_json(json_hash, target)
+      result = self.superclass.transform_json(json_hash, target)
     {{ else }}
       result = target
     {{/ if }}
@@ -60,7 +60,7 @@ export const source = `module {{ dataType.namespace }}
       If we're looking at a system type, there is no conversion necessary    
     --}}
     {{# isSystemType this.dataType }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
+      result['{{ prefixVariableName this.variableName }}'] = json_hash
     {{!--
       Dealing with a non-system type, so we have to convert    
     --}}
