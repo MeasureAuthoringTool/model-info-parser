@@ -6,7 +6,9 @@ export const source = `const mongoose = require('mongoose/browser');
 {{!-- Imports --}}
 {{# each imports}}
 {{# if this.systemType}}
+{{!-- Skip systemType  --}}
 {{else if this.primitive}}
+{{!-- Skip primitive  --}}
 {{else}}
 const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{!-- Import parent as SchemaFunction --}}
@@ -43,9 +45,9 @@ function {{dataType.normalizedName}}SchemaFunction(add, options) {
   const extended = new Schema({
 {{# each memberVariables}}
 {{# if (eq this.variableName 'id')}}
-
+{{!-- Skip id field  --}}
 {{else}}
-  {{> mongooseMember member=this}},
+    {{> mongooseMember member=this}},
 {{/if}}
 {{/each}}  
 {{# if (isSchemaFunctionRequired dataType.normalizedName) }}
