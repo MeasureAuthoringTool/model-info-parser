@@ -78,13 +78,13 @@ Handlebars.registerHelper("getRobyDoc", function getRobyDoc(
 });
 
 
-export function getMongoosePrimitive(typeName: string): string {
+export function getMongooseSystemType(typeName: string): string {
   return mongoosePrimitiveTypes[_.lowerFirst(typeName)];
 }
 
-Handlebars.registerHelper("getMongoosePrimitive", getMongoosePrimitive);
+Handlebars.registerHelper("getMongooseSystemType", getMongooseSystemType);
 
-const schemaFunctionRequired = new Set(['DomainResource', 'Resource', 'BackboneElement', 'Element', 'Quantity', 'ElementDefinition']);
+const schemaFunctionRequired = new Set(['DomainResource', 'PrimitiveUri', 'PrimitiveInteger', 'PrimitiveString', 'Resource', 'BackboneElement', 'Element', 'Quantity', 'ElementDefinition']);
 
 export function isMongooseSchemaFunctionRequired(type: string): boolean {
   return schemaFunctionRequired.has(type);

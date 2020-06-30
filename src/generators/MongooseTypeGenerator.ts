@@ -38,12 +38,8 @@ async function generateModelExporter(
 ): Promise<void> {
   // These types need to appear first in the list of exported modules
   const hoistedModelNames: Array<string> = [
-    "Resource",
-    "DomainResource",
-    "Element",
-    "BackboneElement",
     "Extension",
-    "Quantity",
+    "Element",
     "PrimitiveUri",
     "PrimitiveString",
     "PrimitiveBase64Binary",
@@ -60,6 +56,12 @@ async function generateModelExporter(
     "PrimitiveOid",
     "PrimitivePositiveInt",
     "PrimitiveQuestion",
+    "Coding",
+    "Meta",
+    "Resource",
+    "DomainResource",
+    "BackboneElement",
+    "Quantity",
   ];
 
   // Remove existing occurrences of above types

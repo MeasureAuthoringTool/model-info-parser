@@ -9,41 +9,32 @@ export const source = `const mongoose = require('mongoose/browser');
 {{!-- Skip systemType  --}}
 {{else}}
 {{!-- Import parent as SchemaFunction --}}
+const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
 const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
-{{else}}
-const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
 {{/if}}
 {{/if}}
 {{/each}}
 
-{{!-- TODO: remove? It was copied from cqm-fhir-model
-const [Schema] = [mongoose.Schema];
-
-const [Number, String, Boolean] = [
-  mongoose.Schema.Types.Number,
-  mongoose.Schema.Types.String,
-  mongoose.Schema.Types.Boolean,
-];
---}}
-
-const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new Schema{{/if}}({
+const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new mongoose.Schema{{/if}}({
 {{# each memberVariables}}
   {{> mongooseMember member=this}},
 {{/each}}  
-  fhirTitle: { type: String, default: '{{ dataType.normalizedName }}' },
+  typeName: { type: String, default: '{{ dataType.normalizedName }}' },
+  _type: { type: String, default: 'FHIR::{{ dataType.normalizedName }}' },
 });
 
 class {{ dataType.normalizedName }} extends mongoose.Document {
   constructor(object) {
     super(object, {{ dataType.normalizedName }}Schema);
-    this.typeName = 'FHIR::{{ dataType.normalizedName }}';
+    this.typeName = '{{ dataType.normalizedName }}';
+    this._type = 'FHIR::{{ dataType.normalizedName }}';
   }
 }
 {{# if (isMongooseSchemaFunctionRequired dataType.normalizedName) }}
 
 function {{dataType.normalizedName}}SchemaFunction(add, options) {
-  const extended = new Schema({
+  const extended = new mongoose.Schema({
 {{# each memberVariables}}
 {{# if (eq this.variableName 'id')}}
 {{!-- Skip id field  --}}
