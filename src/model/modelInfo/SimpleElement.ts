@@ -7,7 +7,11 @@ import Element from "./Element";
  * <ns4:element name="title" elementType="FHIR.string"/>
  */
 export default class SimpleElement extends Element {
-  constructor(public name: string, public namespace: string, public typeName: string) {
+  constructor(
+    public name: string,
+    public namespace: string,
+    public typeName: string
+  ) {
     super(name);
   }
 }

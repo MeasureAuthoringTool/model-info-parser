@@ -66,5 +66,4 @@ describe("templateMongooseHelpers", () => {
       expect(eq("one", "two")).toBeFalse();
     });
   });
-
 });

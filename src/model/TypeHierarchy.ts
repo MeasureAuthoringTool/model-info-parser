@@ -22,7 +22,7 @@ export default class TypeHierarchy {
     return `${type.namespace}.${type.typeName}`;
   }
 
-  public addType(type: DataType, parent: DataType|null): void {
+  public addType(type: DataType, parent: DataType | null): void {
     const key = TypeHierarchy.buildKey(type);
 
     // Add new type if it doesn't already exist

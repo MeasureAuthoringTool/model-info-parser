@@ -25,7 +25,8 @@ export default class ModelInfo {
   static createModelInfo(input: ModelInfoXml): ModelInfo {
     const modelInfoBase = input["ns4:modelInfo"];
     const { $: attrs } = modelInfoBase;
-    const typeInfoArray: Array<TypeInfoXml> = modelInfoBase["ns4:typeInfo"] || [];
+    const typeInfoArray: Array<TypeInfoXml> =
+      modelInfoBase["ns4:typeInfo"] || [];
     const { name, version } = attrs;
 
     const types: Array<TypeInfo> = typeInfoArray.reduce(

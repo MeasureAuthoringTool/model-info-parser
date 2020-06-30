@@ -21,6 +21,8 @@ describe("TypeScriptPreprocessor", () => {
   });
 
   it("should do nothing extra for now", () => {
-    expect(preprocessor.preprocess(entityCollection)).not.toBe(entityCollection);
+    expect(preprocessor.preprocess(entityCollection)).not.toBe(
+      entityCollection
+    );
   });
 });

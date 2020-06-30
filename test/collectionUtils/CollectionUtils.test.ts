@@ -1,6 +1,8 @@
 import ContainsExtensionPredicate from "./testImpls/ContainsExtensionPredicate";
 import CollectionUtils from "../../src/collectionUtils/CollectionUtils";
-import ExtractValueTransformer, { ValueHolder } from "./testImpls/ExtractValueTransformer";
+import ExtractValueTransformer, {
+  ValueHolder,
+} from "./testImpls/ExtractValueTransformer";
 
 describe("CollectionUtils", () => {
   describe("#select()", () => {
@@ -21,14 +23,20 @@ describe("CollectionUtils", () => {
   describe("#selectRejected()", () => {
     it("should handle an empty input array", () => {
       const predicate = new ContainsExtensionPredicate("!");
-      const result: Array<string> = CollectionUtils.selectRejected([], predicate);
+      const result: Array<string> = CollectionUtils.selectRejected(
+        [],
+        predicate
+      );
       expect(result).toBeArrayOfSize(0);
     });
 
     it("should return elements that do not match a Predicate", () => {
       const predicate = new ContainsExtensionPredicate("!");
       const input = ["one", "two!", "three!", "four"];
-      const result: Array<string> = CollectionUtils.selectRejected(input, predicate);
+      const result: Array<string> = CollectionUtils.selectRejected(
+        input,
+        predicate
+      );
       expect(result).toStrictEqual(["one", "four"]);
     });
   });
@@ -42,11 +50,14 @@ describe("CollectionUtils", () => {
     });
 
     it("should return an array of transformed values", () => {
-      const input: Array<ValueHolder> = [{
-        value: "hi"
-      }, {
-        value: "world"
-      }];
+      const input: Array<ValueHolder> = [
+        {
+          value: "hi",
+        },
+        {
+          value: "world",
+        },
+      ];
       const result = CollectionUtils.transform(input, transformer);
       expect(result).toStrictEqual(["hi", "world"]);
     });
