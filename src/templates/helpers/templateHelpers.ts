@@ -1,7 +1,10 @@
 import _ from "lodash";
 import Handlebars, { HelperOptions } from "handlebars";
 import { reservedWords } from "../../constants";
-import { mongoidPrimitiveTypes } from "../../model/dataTypes/primitiveDataTypes";
+import {
+  mongoidPrimitiveTypes,
+  mongoosePrimitiveTypes,
+} from "../../model/dataTypes/primitiveDataTypes";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
 
@@ -76,5 +79,47 @@ Handlebars.registerHelper("getRobyDoc", function getRobyDoc(
   const namespace = _.toLower(dataType.namespace);
   return `${namespace}/${snakeCaseType}.rb`;
 });
+
+export function getMongooseSystemType(typeName: string): string {
+  return mongoosePrimitiveTypes[_.lowerFirst(typeName)];
+}
+
+Handlebars.registerHelper("getMongooseSystemType", getMongooseSystemType);
+
+const schemaFunctionRequired = new Set([
+  "DomainResource",
+  "PrimitiveUri",
+  "PrimitiveInteger",
+  "PrimitiveString",
+  "Resource",
+  "BackboneElement",
+  "Element",
+  "Quantity",
+  "ElementDefinition",
+]);
+
+export function isMongooseSchemaFunctionRequired(type: string): boolean {
+  return schemaFunctionRequired.has(type);
+}
+
+Handlebars.registerHelper(
+  "isMongooseSchemaFunctionRequired",
+  isMongooseSchemaFunctionRequired
+);
+
+export function isMongooseSchemaFunctionIdRequired(type: string): boolean {
+  return type === "Resource" || type === "Element";
+}
+
+Handlebars.registerHelper(
+  "isMongooseSchemaFunctionIdRequired",
+  isMongooseSchemaFunctionIdRequired
+);
+
+export function eq(arg1: string, arg2: string): boolean {
+  return arg1 === arg2;
+}
+
+Handlebars.registerHelper("eq", eq);
 
 export default Handlebars;
