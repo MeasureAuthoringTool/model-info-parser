@@ -6,7 +6,6 @@ export const source = `module {{ dataType.namespace }}
   # {{# getRobyDoc dataType}}{{/ getRobyDoc}}
   class {{ dataType.normalizedName }}{{# if parentDataType }} < {{ parentDataType.normalizedName }}{{/if}}
     include Mongoid::Document
-    field :typeName, type: String, default: '{{ dataType.normalizedName }}'
     {{#each memberVariables}}
     {{> mongoidComplexMember member=this}}
 
@@ -24,7 +23,7 @@ export const source = `module {{ dataType.namespace }}
     end
     {{/ hasReservedKeywords }}
 
-    def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target={{ dataType.normalizedName }}.new)
+    def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target = {{ dataType.normalizedName }}.new)
     {{!--
       If we're transforming a primitive type 'foo', we also need to get the 'id' and 'extension'
       values from the '_foo' attributes and set them accordingly                

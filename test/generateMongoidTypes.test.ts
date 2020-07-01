@@ -20,7 +20,6 @@ describe("generateMongoidTypes", () => {
   # fhir/account.rb
   class Account < DomainResource
     include Mongoid::Document
-    field :typeName, type: String, default: 'Account'
     embeds_many :identifier, class_name: 'Identifier'
     embeds_one :status, class_name: 'AccountStatus'
     embeds_one :type, class_name: 'CodeableConcept'
