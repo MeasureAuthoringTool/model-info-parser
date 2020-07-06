@@ -1,11 +1,14 @@
 import _ from "lodash";
 import FileWriter from "../FileWriter";
-import classTemplate, {TemplateContext} from "../templates/mongoose/classTemplate";
+import classTemplate, {
+  TemplateContext,
+} from "../templates/mongoose/classTemplate";
 import Generator from "./Generator";
 import FilePath from "../model/dataTypes/FilePath";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import EntityCollection from "../model/dataTypes/EntityCollection";
-import exportModelsTemplate from "../templates/mongoose/allMongooseExportTemplate"
+import exportModelsTemplate from "../templates/mongoose/allModelsTemplate";
+import exportSchemaHeaders from "../templates/mongoose/allModelHeadersTemplate";
 
 async function generate(
   entityDefinition: EntityDefinition,
@@ -19,7 +22,7 @@ async function generate(
   };
 
   const contents: string = classTemplate(templateInput);
-  const {namespace, normalizedName} = entityDefinition.dataType;
+  const { namespace, normalizedName } = entityDefinition.dataType;
   const fileName = `${normalizedName}.js`;
 
   const writer = new FileWriter(
@@ -32,11 +35,7 @@ async function generate(
   return contents;
 }
 
-async function generateModelExporter(
-  models: Array<string>,
-  baseDirectory: FilePath
-): Promise<void> {
-  // These types need to appear first in the list of exported modules
+function prepareAllModelNamesForExport(models: Array<string>): Array<string> {
   const hoistedModelNames: Array<string> = [
     "Extension",
     "Element",
@@ -69,8 +68,29 @@ async function generateModelExporter(
 
   // Add the above names to the front of the array
   const prependedNames: Array<string> = [...hoistedModelNames, ...models];
+  return prependedNames;
+}
 
+async function generateSchemaHeaders(
+  models: Array<string>,
+  baseDirectory: FilePath
+): Promise<void> {
+  const prependedNames = prepareAllModelNamesForExport(models);
+  const contents: string = exportSchemaHeaders({ names: prependedNames });
+  const writer = new FileWriter(
+    contents,
+    baseDirectory.value,
+    null,
+    "fhir/allSchemaHeaders.js"
+  );
+  await writer.writeFile();
+}
 
+async function generateAllModelsExporter(
+  models: Array<string>,
+  baseDirectory: FilePath
+): Promise<void> {
+  const prependedNames = prepareAllModelNamesForExport(models);
   const contents: string = exportModelsTemplate({ names: prependedNames });
   const writer = new FileWriter(
     contents,
@@ -95,7 +115,8 @@ async function generateModels(
     }
   );
 
-  await generateModelExporter(entityNames, entityCollection.baseDir);
+  await generateAllModelsExporter(entityNames, entityCollection.baseDir);
+  await generateSchemaHeaders(entityNames, entityCollection.baseDir);
 
   return Promise.all(promises);
 }

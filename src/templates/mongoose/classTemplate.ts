@@ -2,68 +2,44 @@ import Handlebars from "./registerPartials";
 import DataType from "../../model/dataTypes/DataType";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 
-export const source = `const mongoose = require('mongoose/browser');
-{{!-- Imports --}}
-{{# each imports}}
-{{# if this.systemType}}
-{{!-- Skip systemType  --}}
+export const source = `{{!-- Imports --}}
+{{# each imports}} 
+{{# if this.systemType}}{{!-- Skip systemType  --}}
 {{else}}
-{{!-- Import parent as SchemaFunction --}}
-const { {{ this.normalizedName }}Schema } = require('./{{ this.normalizedName }}');
+{{!-- Import parent schema explicitly to make sure it has been initialized. --}}
 {{# if (eq this.normalizedName @root.parentDataType.normalizedName) }}
-const { {{ @root.parentDataType.normalizedName }}SchemaFunction } = require('./{{ @root.parentDataType.normalizedName }}');
+const { {{ @root.parentDataType.normalizedName }}Schema } = require('./{{ @root.parentDataType.normalizedName }}');
+{{else}}
+const { {{ this.normalizedName }}Schema } = require('./allSchemaHeaders.js');
 {{/if}}
 {{/if}}
 {{/each}}
+{{!-- Imports the header (empty schema placeholder to resolve circular dependencies) --}}
+const { {{ dataType.normalizedName }}Schema } = require('./allSchemaHeaders.js');
+{{!-- Add all parent fields to the schema --}}
 
-const {{ dataType.normalizedName }}Schema = {{# if parentDataType }}{{ parentDataType.normalizedName }}SchemaFunction{{ else }}new mongoose.Schema{{/if}}({
-{{# each memberVariables}}
-  {{> mongooseMember member=this}},
-{{/each}}  
-  typeName: { type: String, default: '{{ dataType.normalizedName }}' },
-  _type: { type: String, default: 'FHIR::{{ dataType.normalizedName }}' },
-});
-
-class {{ dataType.normalizedName }} extends mongoose.Document {
-  constructor(object) {
-    super(object, {{ dataType.normalizedName }}Schema);
-    this.typeName = '{{ dataType.normalizedName }}';
-    this._type = 'FHIR::{{ dataType.normalizedName }}';
-  }
-}
-{{# if (isMongooseSchemaFunctionRequired dataType.normalizedName) }}
-
-function {{dataType.normalizedName}}SchemaFunction(add, options) {
-  const extended = new mongoose.Schema({
-{{# each memberVariables}}
-{{# if (eq this.variableName 'id')}}
-{{!-- Skip id field  --}}
-{{else}}
-    {{> mongooseMember member=this}},
-{{/if}}
-{{/each}}  
+{{# if parentDataType }}
+{{ dataType.normalizedName }}Schema.add({{ this.parentDataType.normalizedName }}Schema);
+{{ dataType.normalizedName }}Schema.remove('id');
 {{# if (isMongooseSchemaFunctionIdRequired dataType.normalizedName) }}
+{{ dataType.normalizedName }}Schema.add({
     id: {
       type: String,
       default() {
         return this._id ? this._id.toString() : mongoose.Types.ObjectId().toString();
-      },
-    },
+      }
+    }
+ });
 {{/if}}
-  }, options);
+{{/if}}
+{{!-- Extend schema definition --}}
+{{ dataType.normalizedName }}Schema.add({
+{{# each memberVariables}}
+  {{> mongooseMember member=this}},
+{{/each}}
+});
 
-  if (add) {
-    extended.add(add);
-  }
-  return extended;
-}
-{{/if}}
-
-{{# if (isMongooseSchemaFunctionRequired dataType.normalizedName) }}
-module.exports.{{ dataType.normalizedName }}SchemaFunction = {{ dataType.normalizedName }}SchemaFunction;
-{{/if}}
 module.exports.{{ dataType.normalizedName }}Schema = {{ dataType.normalizedName }}Schema;
-module.exports.{{ dataType.normalizedName }} = {{ dataType.normalizedName }};
 `;
 
 export interface TemplateContext {
