@@ -35,5 +35,9 @@ result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json
     , json_hash['_{{ variableName }}']
   {{~/ if ~}}
 {{~/ if ~}}
-
-) unless json_hash['{{ variableName }}'].nil?`;
+{{~# if choiceType ~}}
+  ) unless json_hash['{{ jsonChoiceName variableName choiceType }}'].nil?
+{{~ else ~}}
+  ) unless json_hash['{{ variableName }}'].nil?
+{{~/ if ~}}
+`;

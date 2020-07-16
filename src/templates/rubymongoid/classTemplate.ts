@@ -85,11 +85,9 @@ export const source = `module {{ dataType.namespace }}
     --}}
     {{ else }}
     {{# each this.choiceTypes }}
-      # Choice {{ this.typeName }}
       {{> transformMember variableName=../variableName className=this.normalizedName primitive=this.primitive choiceType=this.typeName }}
 
     {{ else }}
-      # No Choice!
       {{> transformMember variableName=this.variableName className=this.dataType.normalizedName primitive=this.dataType.primitive}}
 
     {{/ each }}
