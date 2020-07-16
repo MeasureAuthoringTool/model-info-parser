@@ -42,10 +42,17 @@ export default class DataType {
     }
 
     const systemType: boolean = namespace === "System";
+
+    if (systemType) {
+      return DataType.parseSystemTypes(typeName);
+    }
+
     let normalizedName: string = systemType
       ? typeName
       : normalizeTypeName(typeName);
-    const primitive: boolean = primitiveTypeCheck(typeName);
+    const primitive: boolean = systemType
+      ? false
+      : primitiveTypeCheck(typeName);
     normalizedName = primitive
       ? convertPrimitiveName(normalizedName)
       : normalizedName;
@@ -69,6 +76,61 @@ export default class DataType {
     );
     DataType.cache[fullPath.value] = newDataType;
     return newDataType;
+  }
+
+  private static parseSystemTypes(typeName: string): DataType {
+    let systemTypeName;
+
+    switch (typeName) {
+      case "Boolean":
+        systemTypeName = "boolean";
+        break;
+      case "Date":
+        systemTypeName = "Date";
+        break;
+      case "Decimal":
+        // TODO this should use a better "big nubmer" system like https://github.com/jtobey/javascript-bignum
+        // See https://www.hl7.org/fhir/json.html
+        systemTypeName = "number";
+        break;
+      case "DateTime":
+        systemTypeName = "Date";
+        break;
+      case "Integer":
+        // TODO this should use a better "big nubmer" system like https://github.com/jtobey/javascript-bignum
+        // See https://www.hl7.org/fhir/json.html
+        systemTypeName = "number";
+        break;
+      case "String":
+        systemTypeName = "string";
+        break;
+      case "Time":
+        systemTypeName = "Date";
+        break;
+      default:
+        throw new Error(`Unrecognized System type: ${typeName}`);
+    }
+
+    const fullPath = FilePath.getInstance(`${__dirname}/system/${typeName}`);
+
+    const existingDataType = DataType.cache[fullPath.value];
+
+    if (existingDataType) {
+      return existingDataType;
+    }
+
+    const newSystemType = new DataType(
+      "System",
+      systemTypeName,
+      fullPath,
+      true,
+      systemTypeName,
+      false
+    );
+
+    DataType.cache[fullPath.value] = newSystemType;
+
+    return newSystemType;
   }
 
   private constructor(

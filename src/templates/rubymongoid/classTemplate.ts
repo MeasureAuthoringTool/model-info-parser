@@ -84,8 +84,15 @@ export const source = `module {{ dataType.namespace }}
       If it's not an array, we can transform just the single element
     --}}
     {{ else }}
+    {{# each this.choiceTypes }}
+      # Choice {{ this.typeName }}
+      {{> transformMember variableName=../variableName className=this.normalizedName primitive=this.primitive choiceType=this.typeName }}
+
+    {{ else }}
+      # No Choice!
       {{> transformMember variableName=this.variableName className=this.dataType.normalizedName primitive=this.dataType.primitive}}
-      
+
+    {{/ each }}
     {{/ if }}
     {{/ isSystemType }}
     {{~/ each }}

@@ -1,2 +1,2 @@
-export default `{{ member.variableName }}?: {{# if member.isArray }}Array<{{# unless member.dataType.systemType }}I{{/ unless }}{{ member.dataType.normalizedName }}>;
-{{~ else ~}}{{# unless member.dataType.systemType }}I{{/ unless }}{{ member.dataType.normalizedName }};{{/ if }}`;
+export default "{{ member.variableName }}?: " +
+  "{{# if member.isArray }}Array<{{> choiceType member=member }}>{{ else }}{{> choiceType member=member }}{{/ if }};";

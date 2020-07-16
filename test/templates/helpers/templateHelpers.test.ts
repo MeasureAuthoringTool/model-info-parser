@@ -115,7 +115,7 @@ describe("templateHelpers", () => {
     let template: Handlebars.TemplateDelegate;
 
     beforeEach(() => {
-      systemType = DataType.getInstance("System", "string", "/tmp");
+      systemType = DataType.getInstance("System", "String", "/tmp");
       nonSystemType = DataType.getInstance("ns", "type1", "/tmp");
 
       const source =
@@ -143,6 +143,20 @@ describe("templateHelpers", () => {
 
       expect(template(accountType)).toBe("fhir/account.rb");
       expect(template(accountCoverageType)).toBe("fhir/account_coverage.rb");
+    });
+  });
+
+  describe("jsonChoiceName", () => {
+    it("should produce the json choice name from the variable name and type", () => {
+      const source = "hey {{ jsonChoiceName this.varName this.typeName }}";
+      const template = Handlebars.compile(source);
+
+      expect(
+        template({
+          varName: "var",
+          typeName: "type",
+        })
+      ).toBe("hey varType");
     });
   });
 });

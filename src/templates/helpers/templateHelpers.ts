@@ -7,6 +7,7 @@ import {
 } from "../../model/dataTypes/primitiveDataTypes";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
+import { jsonChoiceName } from "../../utils";
 
 export function getMongoidPrimitive(type: string): string {
   return mongoidPrimitiveTypes[_.lowerFirst(type)];
@@ -121,5 +122,12 @@ export function eq(arg1: string, arg2: string): boolean {
 }
 
 Handlebars.registerHelper("eq", eq);
+
+Handlebars.registerHelper(
+  "jsonChoiceName",
+  (variableName: string, typeName: string): string => {
+    return jsonChoiceName(variableName, typeName);
+  }
+);
 
 export default Handlebars;

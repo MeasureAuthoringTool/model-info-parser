@@ -2,7 +2,7 @@ import {
   eq,
   getMongooseSystemType,
   isMongooseSchemaFunctionRequired,
-  isMongooseSchemaFunctionIdRequired
+  isMongooseSchemaFunctionIdRequired,
 } from "../../../src/templates/helpers/templateHelpers";
 
 describe("templateMongooseHelpers", () => {

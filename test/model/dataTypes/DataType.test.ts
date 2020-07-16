@@ -1,5 +1,12 @@
 import DataType from "../../../src/model/dataTypes/DataType";
 import FilePath from "../../../src/model/dataTypes/FilePath";
+import SystemString from "../../../src/model/dataTypes/system/SystemString";
+import SystemBoolean from "../../../src/model/dataTypes/system/SystemBoolean";
+import SystemDate from "../../../src/model/dataTypes/system/SystemDate";
+import SystemDecimal from "../../../src/model/dataTypes/system/SystemDecimal";
+import SystemDateTime from "../../../src/model/dataTypes/system/SystemDateTime";
+import SystemInteger from "../../../src/model/dataTypes/system/SystemInteger";
+import SystemTime from "../../../src/model/dataTypes/system/SystemTime";
 
 describe("DataType", () => {
   describe("getInstance", () => {
@@ -23,16 +30,21 @@ describe("DataType", () => {
     });
 
     it("should compute the 'systemType' member", () => {
-      const result = DataType.getInstance("System", "SystemType", "/tmp");
+      const result = DataType.getInstance("System", "DateTime", "/tmp");
       expect(result.namespace).toBe("System");
-      expect(result.typeName).toBe("SystemType");
+      expect(result.typeName).toBe("Date");
       expect(result.systemType).toBe(true);
     });
 
     it("should not normalize system type names", () => {
-      const result = DataType.getInstance("System", "String.Type", "/tmp");
+      const result = DataType.getInstance("System", "String", "/tmp");
       expect(result.systemType).toBeTruthy();
-      expect(result.normalizedName).toBe("String.Type");
+      expect(result.normalizedName).toBe("string");
+    });
+
+    it("should not mark system types as primitive", () => {
+      const result = DataType.getInstance("System", "String", "/tmp");
+      expect(result.primitive).toBeFalse();
     });
 
     it("should compute the value of the 'primitive' member", () => {
@@ -48,6 +60,26 @@ describe("DataType", () => {
       expect(type1 === type1Copy).toBeTruthy();
       expect(type1 === differentType).toBeFalsy();
       expect(type1 === differentNamespace).toBeFalsy();
+    });
+
+    it("should recognize system types and use their singleton instances", () => {
+      expect(DataType.getInstance("System", "Boolean", "/tmp")).toBe(
+        SystemBoolean
+      );
+      expect(DataType.getInstance("System", "Date", "/tmp")).toBe(SystemDate);
+      expect(DataType.getInstance("System", "Decimal", "/tmp")).toBe(
+        SystemDecimal
+      );
+      expect(DataType.getInstance("System", "DateTime", "/tmp")).toBe(
+        SystemDateTime
+      );
+      expect(DataType.getInstance("System", "Integer", "/tmp")).toBe(
+        SystemInteger
+      );
+      expect(DataType.getInstance("System", "String", "/tmp")).toBe(
+        SystemString
+      );
+      expect(DataType.getInstance("System", "Time", "/tmp")).toBe(SystemTime);
     });
   });
 });

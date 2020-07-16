@@ -9,6 +9,8 @@ import SimpleElement from "../../../src/model/modelInfo/SimpleElement";
 import TypeInfo from "../../../src/model/modelInfo/TypeInfo";
 import FilePath from "../../../src/model/dataTypes/FilePath";
 import IsDataTypePredicate from "../../../src/collectionUtils/IsDataTypePredicate";
+import MemberVariableByNamePredicate from "../../../src/collectionUtils/MemberVariableByNamePredicate";
+import NOPTransformer from "../../../src/collectionUtils/core/NOPTransformer";
 
 describe("EntityDefinition", () => {
   let parentType: DataType;
@@ -102,6 +104,26 @@ describe("EntityDefinition", () => {
         member2,
         extraMember,
       ]);
+    });
+  });
+
+  describe("#removeMemberVariables()", () => {
+    it("should remove MemberVariables that match the given predicate", () => {
+      const predicate = new MemberVariableByNamePredicate(member1.variableName);
+      const result = entityDef.removeMemberVariables(predicate);
+      expect(result).not.toBe(entityDef);
+      expect(result.memberVariables).toStrictEqual([member2]);
+    });
+  });
+
+  describe("#transformMemberVariables()", () => {
+    it("should execute transformer on all MemberVariables", () => {
+      const noOpTransformer = new NOPTransformer<MemberVariable>();
+      const transformSpy = jest.spyOn(noOpTransformer, "transform");
+
+      const result = entityDef.transformMemberVariables(noOpTransformer);
+      expect(result).not.toBe(entityDef);
+      expect(transformSpy).toHaveBeenCalledTimes(2);
     });
   });
 

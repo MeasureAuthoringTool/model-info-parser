@@ -46,7 +46,7 @@ describe("MongoidPreprocessor", () => {
 
     expect(result).not.toBe(entityCollection);
     const { entities } = result;
-    expect(entities).toBeArrayOfSize(2);
+    expect(entities).toBeArrayOfSize(3);
 
     // First entity unchanged
     expect(entities[0].memberVariables).toBeArrayOfSize(2);
@@ -66,5 +66,9 @@ describe("MongoidPreprocessor", () => {
 
     expect(entities[0].collectionName).toBeNull();
     expect(entities[1].collectionName).toBe("fhir_measures");
+
+    // Third entity is our hand-made FHIR.Type
+    expect(entities[2].dataType.namespace).toBe("FHIR");
+    expect(entities[2].dataType.typeName).toBe("Type");
   });
 });

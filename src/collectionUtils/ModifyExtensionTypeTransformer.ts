@@ -8,9 +8,12 @@ import MemberVariable from "../model/dataTypes/MemberVariable";
 import SystemString from "../model/dataTypes/system/SystemString";
 import Transformer from "./core/Transformer";
 import RemoveImportsTransformer from "./RemoveImportsTransformer";
-import RemoveParentTransformer from "./RemoveParentTransformer";
+import SetParentTransformer from "./SetParentTransformer";
 import AddMemberVariableTransformer from "./AddMemberVariableTransformer";
 import ChainedTransformer from "./core/ChainedTransformer";
+import MemberVariableByNamePredicate from "./MemberVariableByNamePredicate";
+import ClearMemberChoicesTransformer from "./ClearMemberChoicesTransformer";
+import ModifyMemberVariablesTransformer from "./ModifyMemberVariablesTransformer";
 
 /**
  * A Transformer that modifies the FHIR.Extension type to no longer extend FHIR.Element.
@@ -33,10 +36,10 @@ export default class ModifyExtensionTypeTransformer extends Transformer<
     );
 
     // Transformer that removes the Extension's parent type of Element
-    const removeParentTransformer = new RemoveParentTransformer();
+    const removeParentTransformer = new SetParentTransformer(null);
 
     // Transformer that removes the FHIR.Element import from a type
-    const removeElementTransformer = new RemoveImportsTransformer(
+    const removeElementImportTransformer = new RemoveImportsTransformer(
       new IsDataTypePredicate("FHIR", "Element")
     );
 
@@ -54,12 +57,25 @@ export default class ModifyExtensionTypeTransformer extends Transformer<
       extensionMember
     );
 
+    // Transformer that modifies the value MemberVariable to remove its choice types
+    const valueMemberPredicate = new MemberVariableByNamePredicate("value");
+    const clearChoicesTransformer = new ClearMemberChoicesTransformer();
+    const onlyClearValueChoicesTransformer = new IfTransformer(
+      valueMemberPredicate,
+      clearChoicesTransformer,
+      new NOPTransformer<MemberVariable>()
+    );
+    const clearValueChoicesTransformer = new ModifyMemberVariablesTransformer(
+      onlyClearValueChoicesTransformer
+    );
+
     // Chain the transformers together
     const chainedTransformer = new ChainedTransformer<EntityDefinition>(
       removeParentTransformer,
-      removeElementTransformer,
+      removeElementImportTransformer,
       addIdMemberTransformer,
-      addExtensionMemberTransformer
+      addExtensionMemberTransformer,
+      clearValueChoicesTransformer
     );
 
     // Only execute transformer if it matches predicate

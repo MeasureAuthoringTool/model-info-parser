@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export function normalizeTypeName(typeName: string): string {
   const regex = /[._\s]*/gi;
   return typeName.replace(regex, "");
@@ -17,4 +19,9 @@ export function normalizeElementTypeName(
 
   typeName = normalizeTypeName(typeName);
   return [namespace, typeName];
+}
+
+export function jsonChoiceName(variableName: string, typeName: string): string {
+  const upperTypeName = _.upperFirst(typeName);
+  return `${variableName}${normalizeTypeName(upperTypeName)}`;
 }

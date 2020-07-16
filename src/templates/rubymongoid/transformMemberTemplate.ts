@@ -2,8 +2,7 @@ export default `{{!--
   Expects the following parameters:
    variableName - required
    className - required
-   param1 - optional
-   param2 - optional
+   choiceType - required
    primitive - optional
 
   For complex types, this will emit something like:
@@ -14,16 +13,15 @@ export default `{{!--
    
   result['name'] = PrimitiveString.transform_json(json_hash['name'], json_hash['_name']) unless json_hash['name'].nil?
 --~}}
-
 result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(
 {{~!--
-  If a param1 is specified, use it. Otherwise default to: 
-  json_hash['{{variableName}}'
+  If a choiceType is specified, use it. Otherwise default to: 
+  json_hash['{{ variableName }}'
 --~}}
-{{~# if param1 ~}}
-  {{ param1 }}
+{{~# if choiceType ~}}
+  json_hash['{{ jsonChoiceName variableName choiceType }}']
 {{~ else ~}}
-  json_hash['{{variableName}}']
+  json_hash['{{ variableName }}']
 {{~/ if ~}}
 
 {{~!--
@@ -31,13 +29,11 @@ result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json
   stored in the '_foo' attribute 
 --}}
 {{~# if primitive ~}}
-  , json_hash['_{{variableName}}']
+  {{~# if choiceType ~}}
+    , json_hash['_{{ jsonChoiceName variableName choiceType }}']
+  {{~ else ~}}
+    , json_hash['_{{ variableName }}']
+  {{~/ if ~}}
 {{~/ if ~}}
 
-{{~!--
-  If a second parameter is specified, we don't assume we know its format. We just append it
---}}
-{{~# if param2 ~}}
-  , {{ param2 }}
-{{~/ if ~}}
 ) unless json_hash['{{ variableName }}'].nil?`;
