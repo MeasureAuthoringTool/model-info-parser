@@ -4,16 +4,23 @@ import { reservedWords } from "../../constants";
 import {
   mongoidPrimitiveTypes,
   mongoosePrimitiveTypes,
+  typeScriptPrimitiveTypes,
 } from "../../model/dataTypes/primitiveDataTypes";
 import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
 import { jsonChoiceName } from "../../utils";
+
+export function getTypeScriptPrimitive(type: string): string {
+  return typeScriptPrimitiveTypes[_.lowerFirst(type)];
+}
 
 export function getMongoidPrimitive(type: string): string {
   return mongoidPrimitiveTypes[_.lowerFirst(type)];
 }
 
 Handlebars.registerHelper("getMongoidPrimitive", getMongoidPrimitive);
+
+Handlebars.registerHelper("getTypeScriptPrimitive", getTypeScriptPrimitive);
 
 Handlebars.registerHelper("isReservedKeyword", function isReserved(
   this: Handlebars.TemplateDelegate<string>,

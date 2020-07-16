@@ -71,7 +71,7 @@ describe("EntityInterfaceTransformer", () => {
       expect(result.memberVariables).toBeArrayOfSize(1);
       expect(result.memberVariables[0].variableName).toBe("blah");
       expect(result.memberVariables[0].dataType.namespace).toBe("System");
-      expect(result.memberVariables[0].dataType.typeName).toBe("boolean");
+      expect(result.memberVariables[0].dataType.typeName).toBe("Boolean");
     });
 
     it("should prefix new DataType with an 'I'", () => {

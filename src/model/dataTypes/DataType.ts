@@ -79,38 +79,6 @@ export default class DataType {
   }
 
   private static parseSystemTypes(typeName: string): DataType {
-    let systemTypeName;
-
-    switch (typeName) {
-      case "Boolean":
-        systemTypeName = "boolean";
-        break;
-      case "Date":
-        systemTypeName = "Date";
-        break;
-      case "Decimal":
-        // TODO this should use a better "big nubmer" system like https://github.com/jtobey/javascript-bignum
-        // See https://www.hl7.org/fhir/json.html
-        systemTypeName = "number";
-        break;
-      case "DateTime":
-        systemTypeName = "Date";
-        break;
-      case "Integer":
-        // TODO this should use a better "big nubmer" system like https://github.com/jtobey/javascript-bignum
-        // See https://www.hl7.org/fhir/json.html
-        systemTypeName = "number";
-        break;
-      case "String":
-        systemTypeName = "string";
-        break;
-      case "Time":
-        systemTypeName = "Date";
-        break;
-      default:
-        throw new Error(`Unrecognized System type: ${typeName}`);
-    }
-
     const fullPath = FilePath.getInstance(`${__dirname}/system/${typeName}`);
 
     const existingDataType = DataType.cache[fullPath.value];
@@ -121,10 +89,10 @@ export default class DataType {
 
     const newSystemType = new DataType(
       "System",
-      systemTypeName,
+      typeName,
       fullPath,
       true,
-      systemTypeName,
+      typeName,
       false
     );
 

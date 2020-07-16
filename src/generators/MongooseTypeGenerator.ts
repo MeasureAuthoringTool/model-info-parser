@@ -37,6 +37,7 @@ async function generate(
 
 function prepareAllModelNamesForExport(models: Array<string>): Array<string> {
   const hoistedModelNames: Array<string> = [
+    "Type",
     "Extension",
     "Element",
     "PrimitiveUri",

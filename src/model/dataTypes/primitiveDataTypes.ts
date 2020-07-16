@@ -27,7 +27,7 @@ export const primitiveTypeNames = [
 /**
  * This is a mapping of FHIR primitives to their respective JSON representations
  */
-export const primitiveTypeJsonMapping: { [key: string]: string } = {
+export const typeScriptPrimitiveTypes: { [key: string]: string } = {
   base64Binary: "string",
   boolean: "boolean",
   canonical: "string",

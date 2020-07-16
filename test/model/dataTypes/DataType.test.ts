@@ -30,16 +30,16 @@ describe("DataType", () => {
     });
 
     it("should compute the 'systemType' member", () => {
-      const result = DataType.getInstance("System", "DateTime", "/tmp");
+      const result = DataType.getInstance("System", "newDateTime", "/tmp");
       expect(result.namespace).toBe("System");
-      expect(result.typeName).toBe("Date");
+      expect(result.typeName).toBe("newDateTime");
       expect(result.systemType).toBe(true);
     });
 
     it("should not normalize system type names", () => {
-      const result = DataType.getInstance("System", "String", "/tmp");
+      const result = DataType.getInstance("System", "newString", "/tmp");
       expect(result.systemType).toBeTruthy();
-      expect(result.normalizedName).toBe("string");
+      expect(result.normalizedName).toBe("newString");
     });
 
     it("should not mark system types as primitive", () => {

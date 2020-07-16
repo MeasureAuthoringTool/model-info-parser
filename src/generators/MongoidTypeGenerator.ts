@@ -42,6 +42,7 @@ export async function generateModelExporter(
 ): Promise<void> {
   // These types need to appear first in the list of exported modules
   const hoistedModelNames: Array<string> = [
+    "type",
     "resource",
     "domain_resource",
     "element",

@@ -1,5 +1,6 @@
 import Handlebars, {
   getMongoidPrimitive,
+  getTypeScriptPrimitive,
 } from "../../../src/templates/helpers/templateHelpers";
 import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
 import DataType from "../../../src/model/dataTypes/DataType";
@@ -28,6 +29,32 @@ describe("templateHelpers", () => {
       expect(getMongoidPrimitive("url")).toEqual("String");
       expect(getMongoidPrimitive("uuid")).toEqual("String");
       expect(getMongoidPrimitive("xhtml")).toEqual("String");
+    });
+  });
+
+  describe("getTypeScriptPrimitive()", () => {
+    it("should return equivalent TypeScript compatible primitive type", () => {
+      expect(getTypeScriptPrimitive("base64Binary")).toEqual("string");
+      expect(getTypeScriptPrimitive("boolean")).toEqual("boolean");
+      expect(getTypeScriptPrimitive("canonical")).toEqual("string");
+      expect(getTypeScriptPrimitive("code")).toEqual("string");
+      expect(getTypeScriptPrimitive("date")).toEqual("string");
+      expect(getTypeScriptPrimitive("dateTime")).toEqual("string");
+      expect(getTypeScriptPrimitive("decimal")).toEqual("number");
+      expect(getTypeScriptPrimitive("id")).toEqual("string");
+      expect(getTypeScriptPrimitive("instant")).toEqual("string");
+      expect(getTypeScriptPrimitive("integer")).toEqual("number");
+      expect(getTypeScriptPrimitive("markdown")).toEqual("string");
+      expect(getTypeScriptPrimitive("oid")).toEqual("string");
+      expect(getTypeScriptPrimitive("positiveInt")).toEqual("number");
+      expect(getTypeScriptPrimitive("question")).toEqual("string");
+      expect(getTypeScriptPrimitive("string")).toEqual("string");
+      expect(getTypeScriptPrimitive("time")).toEqual("string");
+      expect(getTypeScriptPrimitive("unsignedInt")).toEqual("number");
+      expect(getTypeScriptPrimitive("uri")).toEqual("string");
+      expect(getTypeScriptPrimitive("url")).toEqual("string");
+      expect(getTypeScriptPrimitive("uuid")).toEqual("string");
+      expect(getTypeScriptPrimitive("xhtml")).toEqual("string");
     });
   });
 
