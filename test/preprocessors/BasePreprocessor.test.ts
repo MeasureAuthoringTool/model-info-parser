@@ -8,6 +8,7 @@ import Transformer from "../../src/collectionUtils/core/Transformer";
 import DataType from "../../src/model/dataTypes/DataType";
 import ModifyExtensionTypeTransformer from "../../src/collectionUtils/ModifyExtensionTypeTransformer";
 import AddResourceTypeFieldTransformer from "../../src/collectionUtils/AddResourceTypeFieldTransformer";
+import AddFhirIdFieldTransformer from "../../src/collectionUtils/AddFhirIdFieldTransformer";
 
 describe("BasePreprocessor", () => {
   let entityBuilder: EntityDefinitionBuilder;
@@ -15,6 +16,8 @@ describe("BasePreprocessor", () => {
   let allowedUnitsDef: EntityDefinition;
   let otherEntity: EntityDefinition;
   let entityCollection: EntityCollection;
+  let mockAddFhirIdToResourceTransform: (input: EntityDefinition) => EntityDefinition;
+  let mockAddFhirIdToElementTransform: (input: EntityDefinition) => EntityDefinition;
   let mockResourceTransform: (input: EntityDefinition) => EntityDefinition;
   let mockEntityTransform: (input: EntityDefinition) => EntityDefinition;
   let mockEvaluate: (input: EntityDefinition) => boolean;
@@ -38,6 +41,8 @@ describe("BasePreprocessor", () => {
     );
 
     mockResourceTransform = jest.fn().mockReturnValue(entityCollection);
+    mockAddFhirIdToResourceTransform = jest.fn().mockReturnValue(entityCollection);
+    mockAddFhirIdToElementTransform = jest.fn().mockReturnValue(entityCollection);
     mockEntityTransform = jest.fn().mockReturnValue(entityCollection);
     mockEvaluate = jest.fn().mockReturnValue(false);
   });
@@ -61,6 +66,17 @@ describe("BasePreprocessor", () => {
         ModifyExtensionTypeTransformer
       );
     });
+
+    it("should initialize the AddFhirIdFieldTransformers", () => {
+      expect(preprocessor.addFhirIdToResourceTransformer).toBeDefined();
+      expect(preprocessor.addFhirIdToResourceTransformer).toBeInstanceOf(
+        AddFhirIdFieldTransformer
+      );
+      expect(preprocessor.addFhirIdToElementTransformer).toBeDefined();
+      expect(preprocessor.addFhirIdToElementTransformer).toBeInstanceOf(
+        AddFhirIdFieldTransformer
+      );
+    });
   });
 
   describe("#preprocess()", () => {
@@ -76,6 +92,20 @@ describe("BasePreprocessor", () => {
         transform: mockResourceTransform,
       };
 
+      const mockAddFhirIdToResourceTransformer: Transformer<
+        EntityDefinition,
+        EntityDefinition
+      > = {
+        transform: mockAddFhirIdToResourceTransform,
+      };
+
+      const mockAddFhirIdToElementTransformer: Transformer<
+        EntityDefinition,
+        EntityDefinition
+      > = {
+        transform: mockAddFhirIdToElementTransform,
+      };
+
       const mockEntityTransformer: Transformer<
         EntityDefinition,
         EntityDefinition
@@ -84,6 +114,8 @@ describe("BasePreprocessor", () => {
       };
 
       preprocessor.blacklistPredicate = mockBlacklistPredicate;
+      preprocessor.addFhirIdToResourceTransformer = mockAddFhirIdToResourceTransformer;
+      preprocessor.addFhirIdToElementTransformer = mockAddFhirIdToElementTransformer;
       preprocessor.addResourceTypeTransformer = mockResourceTransformer;
       preprocessor.modifyExtensionTypeTransformer = mockEntityTransformer;
     });
@@ -103,6 +135,16 @@ describe("BasePreprocessor", () => {
     it("should modify the Extension type to prevent circular dependencies", () => {
       preprocessor.preprocess(entityCollection);
       expect(mockEntityTransform).toHaveBeenCalledTimes(2);
+    });
+
+    it("should add fhirId field to Resource", () => {
+      preprocessor.preprocess(entityCollection);
+      expect(mockAddFhirIdToResourceTransform).toHaveBeenCalledTimes(2);
+    });
+
+    it("should add fhirId field to Element", () => {
+      preprocessor.preprocess(entityCollection);
+      expect(mockAddFhirIdToElementTransform).toHaveBeenCalledTimes(2);
     });
   });
 });
