@@ -47,6 +47,12 @@ export default class ModifyExtensionTypeTransformer extends Transformer<
     const idMember = new MemberVariable(SystemString, "id");
     const addIdMemberTransformer = new AddMemberVariableTransformer(idMember);
 
+    // Transformer that adds a new "fhirId" MemberVariable
+    const fhirIdMember = new MemberVariable(SystemString, "fhirId");
+    const addFhirIdMemberTransformer = new AddMemberVariableTransformer(
+      fhirIdMember
+    );
+
     // Transformer that adds a new "extension" array MemberVariable
     const extensionMember = new MemberVariable(
       input.dataType,
@@ -75,6 +81,7 @@ export default class ModifyExtensionTypeTransformer extends Transformer<
       removeElementImportTransformer,
       addIdMemberTransformer,
       addExtensionMemberTransformer,
+      addFhirIdMemberTransformer,
       clearValueChoicesTransformer
     );
 

@@ -31,7 +31,7 @@ export const source = `module {{ dataType.namespace }}
     {{# isPrimitiveType this.dataType }}
       result = target
       unless extension_hash.nil?
-        result['id'] = extension_hash['id']
+        result['fhirId'] = extension_hash['id']
         result['extension'] = extension_hash['extension'].map { |ext| Extension.transform_json(ext) }
       end
     {{ else }}
@@ -59,7 +59,15 @@ export const source = `module {{ dataType.namespace }}
       If we're looking at a system type, there is no conversion necessary    
     --}}
     {{# isSystemType this.dataType }}
+      {{# ifEquals this.variableName 'id'}}
+      result['fhirId'] = json_hash['id'] unless json_hash['id'].nil?
+      {{ else }}
+      {{~!-- do nothing for fhirId --}}
+      {{# ifEquals this.variableName 'fhirId' }}
+      {{ else }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
+      {{/ ifEquals }}  
+    {{/ ifEquals }}    
     {{!--
       Dealing with a non-system type, so we have to convert    
     --}}

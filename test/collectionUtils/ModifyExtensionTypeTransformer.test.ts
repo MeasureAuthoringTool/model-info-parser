@@ -63,7 +63,7 @@ describe("ModifyExtensionTypeTransformer", () => {
 
   it("should remove and re-add the 'value' MemberVariable ", () => {
     const result = transformer.transform(extensionEntity);
-    expect(result.memberVariables).toBeArrayOfSize(5);
+    expect(result.memberVariables).toBeArrayOfSize(6);
     expect(result.memberVariables[2].variableName).toBe("value");
     expect(result.memberVariables[2].choiceTypes).toBeArrayOfSize(0);
   });
@@ -75,12 +75,15 @@ describe("ModifyExtensionTypeTransformer", () => {
       valueMember,
     ]);
     const result = transformer.transform(extensionEntity);
-    expect(result.memberVariables).toBeArrayOfSize(5);
+    expect(result.memberVariables).toBeArrayOfSize(6);
     expect(result.memberVariables[3].variableName).toBe("id");
     expect(result.memberVariables[3].dataType).toBe(SystemString);
     expect(result.memberVariables[3].isArray).toBeFalse();
     expect(result.memberVariables[4].variableName).toBe("extension");
     expect(result.memberVariables[4].dataType).toBe(extensionType);
     expect(result.memberVariables[4].isArray).toBeTrue();
+    expect(result.memberVariables[5].variableName).toBe("fhirId");
+    expect(result.memberVariables[5].dataType).toBe(SystemString);
+    expect(result.memberVariables[5].isArray).toBeFalse();
   });
 });

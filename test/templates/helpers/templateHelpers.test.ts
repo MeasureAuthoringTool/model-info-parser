@@ -156,6 +156,23 @@ describe("templateHelpers", () => {
     });
   });
 
+  describe("ifEquals", () => {
+    const resource = { variableName: "id" };
+    const nonResource = { variableName: "text" };
+    let template: Handlebars.TemplateDelegate;
+
+    beforeEach(() => {
+      const source =
+        "{{# ifEquals this.variableName 'id'}}fhirId{{ else }}text{{/ ifEquals }}";
+      template = Handlebars.compile(source);
+    });
+
+    it("should render the truthy condition if the variableName is 'id'", () => {
+      expect(template(resource)).toBe("fhirId");
+      expect(template(nonResource)).toBe("text");
+    });
+  });
+
   describe("getRobyDoc", () => {
     it("should return namespace/datatype.rb string", () => {
       const accountType = DataType.getInstance("FHIR", "Account", "/tmp");
