@@ -50,12 +50,13 @@ describe("ModifyExtensionTypeTransformer", () => {
   it("should add a new id member to the Extension type", () => {
     expect(extensionEntity.memberVariables).toStrictEqual([member1, member2]);
     const result = transformer.transform(extensionEntity);
-    expect(result.memberVariables).toBeArrayOfSize(4);
+    expect(result.memberVariables).toBeArrayOfSize(5);
     expect(result.memberVariables[2].variableName).toBe("id");
     expect(result.memberVariables[2].dataType).toBe(SystemString);
     expect(result.memberVariables[2].isArray).toBeFalse();
-    expect(result.memberVariables[3].variableName).toBe("extension");
-    expect(result.memberVariables[3].dataType).toBe(extensionType);
-    expect(result.memberVariables[3].isArray).toBeTrue();
+    expect(result.memberVariables[3].variableName).toBe("fhirId");
+    expect(result.memberVariables[4].variableName).toBe("extension");
+    expect(result.memberVariables[4].dataType).toBe(extensionType);
+    expect(result.memberVariables[4].isArray).toBeTrue();
   });
 });

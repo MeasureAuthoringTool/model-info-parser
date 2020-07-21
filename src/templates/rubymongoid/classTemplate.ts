@@ -62,8 +62,12 @@ export const source = `module {{ dataType.namespace }}
       {{# ifEquals this.variableName 'id'}}
       result['fhirId'] = json_hash['id'] unless json_hash['id'].nil?
       {{ else }}
+      {{~!-- do nothing for fhirId --}}
+      {{# ifEquals this.variableName 'fhirId' }}
+      {{ else }}
       result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
       {{/ ifEquals }}  
+    {{/ ifEquals }}    
     {{!--
       Dealing with a non-system type, so we have to convert    
     --}}
