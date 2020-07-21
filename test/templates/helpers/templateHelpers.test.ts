@@ -140,7 +140,7 @@ describe("templateHelpers", () => {
       template = Handlebars.compile(source);
     });
 
-    it("should render the truthy condition if DataType is system", () => {
+    it("should render the truthy condition if the variableName is 'id'", () => {
       expect(template(resource)).toBe("fhirId");
       expect(template(nonResource)).toBe("text");
     });
