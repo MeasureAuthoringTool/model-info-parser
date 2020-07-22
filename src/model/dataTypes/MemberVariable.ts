@@ -1,4 +1,3 @@
-import _ from "lodash";
 import DataType from "./DataType";
 import Element from "../modelInfo/Element";
 import ChoiceElement from "../modelInfo/ChoiceElement";
@@ -26,17 +25,21 @@ export default class MemberVariable {
 
   public readonly bidirectional: boolean;
 
+  public readonly choiceTypes: Array<DataType>;
+
   constructor(
     dataType: DataType,
     variableName: string,
     isArray = false,
     relationshipType?: RelationshipType,
-    bidirectional = true
+    bidirectional = true,
+    choiceTypes: Array<DataType> = []
   ) {
     this.dataType = dataType;
     this.variableName = variableName;
     this.isArray = isArray;
     this.bidirectional = bidirectional;
+    this.choiceTypes = choiceTypes;
 
     // If not specified, default to "embeds_many" for arrays, and "embeds_one" for non-arrays
     if (!relationshipType) {
@@ -54,7 +57,19 @@ export default class MemberVariable {
       this.variableName,
       this.isArray,
       this.relationshipType,
-      this.bidirectional
+      this.bidirectional,
+      this.choiceTypes
+    );
+  }
+
+  public clearChoices(): MemberVariable {
+    return new MemberVariable(
+      this.dataType,
+      this.variableName,
+      this.isArray,
+      this.relationshipType,
+      this.bidirectional,
+      []
     );
   }
 
@@ -82,14 +97,9 @@ export default class MemberVariable {
       baseDir = FilePath.getInstance(baseDirIn);
     }
 
-    const initial: Array<MemberVariable> = [];
-    return elements.reduce((accumulator, currentElement) => {
-      const newMembers = MemberVariable.createMemberVariable(
-        currentElement,
-        baseDir
-      );
-      return [...accumulator, ...newMembers];
-    }, initial);
+    return elements.map((element) =>
+      MemberVariable.createMemberVariable(element, baseDir)
+    );
   }
 
   /**
@@ -100,17 +110,17 @@ export default class MemberVariable {
   public static createMemberVariable(
     element: Element,
     baseDir: FilePath
-  ): Array<MemberVariable>;
+  ): MemberVariable;
 
   public static createMemberVariable(
     element: Element,
     baseDir: string
-  ): Array<MemberVariable>;
+  ): MemberVariable;
 
   public static createMemberVariable(
     element: Element,
     baseDirIn: FilePath | string
-  ): Array<MemberVariable> {
+  ): MemberVariable {
     let baseDir: FilePath;
     if (baseDirIn instanceof FilePath) {
       baseDir = baseDirIn;
@@ -131,8 +141,7 @@ export default class MemberVariable {
         simpleElement.typeName,
         baseDir
       );
-      const member = new MemberVariable(dataType, simpleElement.name, false);
-      return [member];
+      return new MemberVariable(dataType, simpleElement.name, false);
     }
 
     if (element instanceof ListElement) {
@@ -142,22 +151,25 @@ export default class MemberVariable {
         listElement.typeName,
         baseDir
       );
-      const member = new MemberVariable(dataType, listElement.name, true);
-      return [member];
+      return new MemberVariable(dataType, listElement.name, true);
     }
 
     if (element instanceof ChoiceElement) {
       const { name, choices } = element;
+      const baseType = DataType.getInstance("FHIR", "Type", baseDir);
 
-      return choices.map((choice) => {
-        const variableName = `${name}${_.upperFirst(choice.typeName)}`;
-        const dataType = DataType.getInstance(
-          choice.namespace,
-          choice.typeName,
-          baseDir
-        );
-        return new MemberVariable(dataType, variableName, false);
+      const choiceTypes: Array<DataType> = choices.map((choice) => {
+        return DataType.getInstance(choice.namespace, choice.typeName, baseDir);
       });
+
+      return new MemberVariable(
+        baseType,
+        name,
+        false,
+        undefined,
+        true,
+        choiceTypes
+      );
     }
 
     throw new Error("Unrecognized Element type");

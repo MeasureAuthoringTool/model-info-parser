@@ -3,15 +3,15 @@ import classImportTemplate from "./classes/classImportTemplate";
 import complexMemberTemplate from "./classes/complexMemberTemplate";
 import complexParseTemplate from "./classes/complexParseTemplate";
 import primitiveParseTemplate from "./classes/primitiveParseTemplate";
-import interfaceImportTemplate from "./interfaces/interfaceImportTemplate";
+import choiceTypeTemplate from "./classes/choiceTypeTemplate";
 import interfaceMemberTemplate from "./interfaces/interfaceMemberTemplate";
 import primitiveMemberTemplate from "./interfaces/primitiveMemberTemplate";
 
 Handlebars.registerPartial("classImport", classImportTemplate);
-Handlebars.registerPartial("interfaceImport", interfaceImportTemplate);
 Handlebars.registerPartial("complexMember", complexMemberTemplate);
 Handlebars.registerPartial("interfaceMember", interfaceMemberTemplate);
 Handlebars.registerPartial("primitiveMember", primitiveMemberTemplate);
+Handlebars.registerPartial("choiceType", choiceTypeTemplate);
 Handlebars.registerPartial("primitiveParse", primitiveParseTemplate);
 Handlebars.registerPartial("complexParse", complexParseTemplate);
 

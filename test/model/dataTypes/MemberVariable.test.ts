@@ -9,11 +9,10 @@ import MemberVariable, {
   RelationshipType,
 } from "../../../src/model/dataTypes/MemberVariable";
 import FilePath from "../../../src/model/dataTypes/FilePath";
-import DataType from "../../../src/model/dataTypes/DataType";
+import SystemBoolean from "../../../src/model/dataTypes/system/SystemBoolean";
+import SystemString from "../../../src/model/dataTypes/system/SystemString";
 
 describe("MemberVariable", () => {
-  const systemBool = DataType.getInstance("System", "boolean", "/tmp");
-
   // Set up some test data
   class BadElement extends Element {
     constructor() {
@@ -25,6 +24,7 @@ describe("MemberVariable", () => {
   let simpleElement: SimpleElement;
   let listElement: ListElement;
   let choiceElement: ChoiceElement;
+  let fullMember: MemberVariable;
 
   beforeEach(() => {
     badElement = new BadElement();
@@ -40,6 +40,15 @@ describe("MemberVariable", () => {
     };
 
     choiceElement = new ChoiceElement("position", [choice1, choice2]);
+
+    fullMember = new MemberVariable(
+      SystemBoolean,
+      "testVar",
+      true,
+      RelationshipType.HasMany,
+      false,
+      [SystemBoolean, SystemString]
+    );
   });
 
   // reusable assertion functions for above test data
@@ -49,6 +58,7 @@ describe("MemberVariable", () => {
     expect(member.dataType.namespace).toBe("ns");
     expect(member.dataType.typeName).toBe("PrimitivePerson");
     expect(member.dataType.path.value).toBe("/base/ns/PrimitivePerson");
+    expect(member.choiceTypes).toBeArrayOfSize(0);
   }
 
   function expectListElementResult(member: MemberVariable): void {
@@ -57,54 +67,56 @@ describe("MemberVariable", () => {
     expect(member.dataType.namespace).toBe("car");
     expect(member.dataType.typeName).toBe("Tesla");
     expect(member.dataType.path.value).toBe("/base/car/Tesla");
+    expect(member.choiceTypes).toBeArrayOfSize(0);
   }
 
-  function expectChoiceElementResult(
-    member1: MemberVariable,
-    member2: MemberVariable
-  ): void {
-    expect(member1.variableName).toBe("positionChair");
-    expect(member1.isArray).toBeFalse();
-    expect(member1.dataType.namespace).toBe("office");
-    expect(member1.dataType.typeName).toBe("Chair");
-    expect(member1.dataType.path.value).toBe("/base/office/Chair");
-    expect(member2.variableName).toBe("positionBed");
-    expect(member2.isArray).toBeFalse();
-    expect(member2.dataType.namespace).toBe("bedroom");
-    expect(member2.dataType.typeName).toBe("Bed");
-    expect(member2.dataType.path.value).toBe("/base/bedroom/Bed");
+  function expectChoiceElementResult(member: MemberVariable): void {
+    expect(member.variableName).toBe("position");
+    expect(member.isArray).toBeFalse();
+    expect(member.dataType.namespace).toBe("FHIR");
+    expect(member.dataType.typeName).toBe("Type");
+    expect(member.dataType.path.value).toBe("/base/FHIR/Type");
+    expect(member.choiceTypes).toBeArrayOfSize(2);
+
+    expect(member.choiceTypes[0].namespace).toBe("office");
+    expect(member.choiceTypes[0].typeName).toBe("Chair");
+    expect(member.choiceTypes[0].path.value).toBe("/base/office/Chair");
+
+    expect(member.choiceTypes[1].namespace).toBe("bedroom");
+    expect(member.choiceTypes[1].typeName).toBe("Bed");
+    expect(member.choiceTypes[1].path.value).toBe("/base/bedroom/Bed");
   }
 
   describe("constructor", () => {
     it("initializes dataType and variableName", () => {
-      const result = new MemberVariable(systemBool, "testVar");
-      expect(result.dataType).toEqual(systemBool);
+      const result = new MemberVariable(SystemBoolean, "testVar");
+      expect(result.dataType).toEqual(SystemBoolean);
       expect(result.variableName).toEqual("testVar");
     });
 
     it("defaults isArray value to false", () => {
-      const result = new MemberVariable(systemBool, "testVar");
+      const result = new MemberVariable(SystemBoolean, "testVar");
       expect(result.isArray).toBeFalse();
     });
 
     it("allows explicit isArray initialization", () => {
-      const result = new MemberVariable(systemBool, "testVar", true);
+      const result = new MemberVariable(SystemBoolean, "testVar", true);
       expect(result.isArray).toBeTrue();
     });
 
     it("defaults the relationshipType to embeds_one if isArray is false", () => {
-      const result = new MemberVariable(systemBool, "testVar", false);
+      const result = new MemberVariable(SystemBoolean, "testVar", false);
       expect(result.relationshipType).toBe(RelationshipType.EmbedsOne);
     });
 
     it("defaults the relationshipType to embeds_many if isArray is true", () => {
-      const result = new MemberVariable(systemBool, "testVar", true);
+      const result = new MemberVariable(SystemBoolean, "testVar", true);
       expect(result.relationshipType).toBe(RelationshipType.EmbedsMany);
     });
 
     it("allows the specification of a custom relationshipType", () => {
       const result = new MemberVariable(
-        systemBool,
+        SystemBoolean,
         "testVar",
         true,
         RelationshipType.BelongsTo
@@ -113,19 +125,44 @@ describe("MemberVariable", () => {
     });
 
     it("defaults the bidirectional property to true", () => {
-      const result = new MemberVariable(systemBool, "testVar");
+      const result = new MemberVariable(SystemBoolean, "testVar");
       expect(result.bidirectional).toBeTrue();
     });
 
     it("allows setting the bidirectional property to false", () => {
       const result = new MemberVariable(
-        systemBool,
+        SystemBoolean,
         "testVar",
         true,
         RelationshipType.HasOne,
         false
       );
       expect(result.bidirectional).toBeFalse();
+    });
+
+    it("should default the choiceTypes array to an empty array", () => {
+      const result = new MemberVariable(
+        SystemBoolean,
+        "testVar",
+        true,
+        RelationshipType.HasOne,
+        false
+      );
+      expect(result.choiceTypes).toBeEmpty();
+    });
+
+    it("should choiceTypes to be explicitly specified", () => {
+      const result = new MemberVariable(
+        SystemBoolean,
+        "testVar",
+        true,
+        RelationshipType.HasOne,
+        false,
+        [SystemBoolean, SystemString]
+      );
+      expect(result.choiceTypes).toBeArrayOfSize(2);
+      expect(result.choiceTypes[0]).toBe(SystemBoolean);
+      expect(result.choiceTypes[1]).toBe(SystemString);
     });
   });
 
@@ -147,31 +184,31 @@ describe("MemberVariable", () => {
       }).toThrow("Unrecognized Element type");
     });
 
-    it("creates a single MemberVariable from a SimpleElement", () => {
-      const result: Array<MemberVariable> = MemberVariable.createMemberVariable(
+    it("creates a MemberVariable from a SimpleElement", () => {
+      const result: MemberVariable = MemberVariable.createMemberVariable(
         simpleElement,
         "/base"
       );
-      expect(result).toBeArrayOfSize(1);
-      expectSimpleElementResult(result[0]);
+      expect(result).toBeInstanceOf(MemberVariable);
+      expectSimpleElementResult(result);
     });
 
     it("creates a single MemberVariable from a ListElement", () => {
-      const result: Array<MemberVariable> = MemberVariable.createMemberVariable(
+      const result: MemberVariable = MemberVariable.createMemberVariable(
         listElement,
         "/base"
       );
-      expect(result).toBeArrayOfSize(1);
-      expectListElementResult(result[0]);
+      expect(result).toBeInstanceOf(MemberVariable);
+      expectListElementResult(result);
     });
 
     it("creates an Array of MemberVariables for each choice in a ChoiceElement", () => {
-      const result: Array<MemberVariable> = MemberVariable.createMemberVariable(
+      const result: MemberVariable = MemberVariable.createMemberVariable(
         choiceElement,
         "/base"
       );
-      expect(result).toBeArrayOfSize(2);
-      expectChoiceElementResult(result[0], result[1]);
+      expect(result).toBeInstanceOf(MemberVariable);
+      expectChoiceElementResult(result);
     });
   });
 
@@ -195,8 +232,8 @@ describe("MemberVariable", () => {
         [choiceElement],
         "/base"
       );
-      expect(result).toBeArrayOfSize(2);
-      expectChoiceElementResult(result[0], result[1]);
+      expect(result).toBeArrayOfSize(1);
+      expectChoiceElementResult(result[0]);
     });
 
     it("handles varied element parameters of all types", () => {
@@ -204,29 +241,31 @@ describe("MemberVariable", () => {
         [simpleElement, listElement, choiceElement],
         "/base"
       );
-      expect(result).toBeArrayOfSize(4);
+      expect(result).toBeArrayOfSize(3);
       expectSimpleElementResult(result[0]);
       expectListElementResult(result[1]);
-      expectChoiceElementResult(result[2], result[3]);
+      expectChoiceElementResult(result[2]);
     });
   });
 
   describe("clone", () => {
     it("should make a deep copy of the MemberVariable", () => {
-      const original = new MemberVariable(
-        systemBool,
-        "testVar",
-        true,
-        RelationshipType.HasMany,
-        false
-      );
-      const result = original.clone();
-      expect(original).not.toBe(result);
-      expect(result.dataType).toEqual(systemBool);
+      const result = fullMember.clone();
+      expect(fullMember).not.toBe(result);
+      expect(result.dataType).toEqual(SystemBoolean);
       expect(result.variableName).toEqual("testVar");
       expect(result.isArray).toBeTrue();
       expect(result.relationshipType).toBe(RelationshipType.HasMany);
       expect(result.bidirectional).toBeFalse();
+      expect(result.choiceTypes).toStrictEqual([SystemBoolean, SystemString]);
+    });
+  });
+
+  describe("#clearChoices()", () => {
+    it("should return a new memberVariable with its choiceTypes cleared", () => {
+      const result = fullMember.clearChoices();
+      expect(fullMember).not.toBe(result);
+      expect(result.choiceTypes).toStrictEqual([]);
     });
   });
 });

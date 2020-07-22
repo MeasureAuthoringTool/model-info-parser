@@ -1,30 +1,26 @@
 import EntityDefinitionBuilder from "../model/dataTypes/EntityDefinitionBuilder";
 import EntityDefinition from "../../src/model/dataTypes/EntityDefinition";
-import AddMemberVariableTransformer from "../../src/collectionUtils/AddMemberVariableTransformer";
+import RemoveMemberVariableTransformer from "../../src/collectionUtils/RemoveMemberVariableTransformer";
 import MemberVariable from "../../src/model/dataTypes/MemberVariable";
 
-describe("AddMemberVariableTransformer", () => {
+describe("RemoveMemberVariableTransformer", () => {
   let entityBuilder: EntityDefinitionBuilder;
   let entityDef: EntityDefinition;
   let member1: MemberVariable;
   let member2: MemberVariable;
-  let extraMember: MemberVariable;
 
   beforeEach(() => {
     entityBuilder = new EntityDefinitionBuilder();
     entityDef = entityBuilder.buildEntityDefinition();
     [member1, member2] = entityDef.memberVariables;
-    extraMember = new MemberVariable(member2.dataType, "extraMember");
   });
 
-  it("should add the specified variable and return a new EntityDefinition", () => {
-    const transformer = new AddMemberVariableTransformer(extraMember);
+  it("should remove the specified memberVariables and return a new EntityDefinition", () => {
+    const transformer = new RemoveMemberVariableTransformer(
+      member1.variableName
+    );
     const result = transformer.transform(entityDef);
     expect(result).not.toBe(entityDef);
-    expect(result.memberVariables).toStrictEqual([
-      member1,
-      member2,
-      extraMember,
-    ]);
+    expect(result.memberVariables).toStrictEqual([member2]);
   });
 });

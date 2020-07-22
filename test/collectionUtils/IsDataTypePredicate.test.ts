@@ -9,7 +9,7 @@ describe("IsDataTypePredicate", () => {
 
   beforeEach(() => {
     dt1 = DataType.getInstance("FHIR", "Type1", "/tmp");
-    dt2 = DataType.getInstance("System", "Type2", "/tmp");
+    dt2 = DataType.getInstance("Core", "Type2", "/tmp");
     dt3 = DataType.getInstance("Other", "Type3", "/tmp");
   });
 
@@ -19,7 +19,7 @@ describe("IsDataTypePredicate", () => {
     expect(predicate1.evaluate(dt2)).toBeFalse();
     expect(predicate1.evaluate(dt3)).toBeFalse();
 
-    const predicate2 = new IsDataTypePredicate("System", "Type2");
+    const predicate2 = new IsDataTypePredicate("Core", "Type2");
     expect(predicate2.evaluate(dt1)).toBeFalse();
     expect(predicate2.evaluate(dt2)).toBeTrue();
     expect(predicate2.evaluate(dt3)).toBeFalse();

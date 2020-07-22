@@ -4,8 +4,8 @@ import DataType from "../../../model/dataTypes/DataType";
 import EntityMetadata from "../../../model/dataTypes/EntityMetadata";
 import EntityImports from "../../../model/dataTypes/EntityImports";
 
-export const source = `{{> interfaceImport dataType=this }}
-export default interface I{{ dataType.normalizedName }}{{# if parentDataType }} extends I{{ parentDataType.normalizedName }}{{/ if }} {
+export const source = `{{> classImport dataType=this }}
+export default interface {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ parentDataType.normalizedName }}{{/ if }} {
 {{# if memberVariables }}
   {{# each memberVariables }}
   {{# if dataType.primitive }}

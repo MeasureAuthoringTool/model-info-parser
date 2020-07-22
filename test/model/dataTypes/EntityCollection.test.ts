@@ -84,6 +84,15 @@ describe("EntityCollection", () => {
     });
   });
 
+  describe("#addEntityDefinition", () => {
+    it("should add a new EntityDefinition to the collection and return a new object", () => {
+      const original = new EntityCollection(entities, path);
+      const result = original.addEntityDefinition(entity1);
+      expect(result).not.toBe(original);
+      expect(result.entities).toStrictEqual([...entities, entity1]);
+    });
+  });
+
   describe("#selectRejected()", () => {
     it("should return a new EntityColleciton with EntityDefinitions that do not match the Predicate", () => {
       const original = new EntityCollection(entities, path);

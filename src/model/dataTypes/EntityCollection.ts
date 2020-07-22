@@ -45,6 +45,12 @@ export default class EntityCollection {
     return new EntityCollection(newEntities, this.baseDir);
   }
 
+  public addEntityDefinition(definition: EntityDefinition): EntityCollection {
+    const clonedEntities = this.entities.map((entity) => entity.clone());
+    const newEntities = [...clonedEntities, definition];
+    return new EntityCollection(newEntities, this.baseDir);
+  }
+
   public select(predicate: Predicate<EntityDefinition>): EntityCollection {
     const newEntities = CollectionUtils.select(this.entities, predicate);
     return new EntityCollection(newEntities, this.baseDir);

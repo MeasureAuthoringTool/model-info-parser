@@ -42,10 +42,17 @@ export default class DataType {
     }
 
     const systemType: boolean = namespace === "System";
+
+    if (systemType) {
+      return DataType.parseSystemTypes(typeName);
+    }
+
     let normalizedName: string = systemType
       ? typeName
       : normalizeTypeName(typeName);
-    const primitive: boolean = primitiveTypeCheck(typeName);
+    const primitive: boolean = systemType
+      ? false
+      : primitiveTypeCheck(typeName);
     normalizedName = primitive
       ? convertPrimitiveName(normalizedName)
       : normalizedName;
@@ -69,6 +76,29 @@ export default class DataType {
     );
     DataType.cache[fullPath.value] = newDataType;
     return newDataType;
+  }
+
+  private static parseSystemTypes(typeName: string): DataType {
+    const fullPath = FilePath.getInstance(`${__dirname}/system/${typeName}`);
+
+    const existingDataType = DataType.cache[fullPath.value];
+
+    if (existingDataType) {
+      return existingDataType;
+    }
+
+    const newSystemType = new DataType(
+      "System",
+      typeName,
+      fullPath,
+      true,
+      typeName,
+      false
+    );
+
+    DataType.cache[fullPath.value] = newSystemType;
+
+    return newSystemType;
   }
 
   private constructor(

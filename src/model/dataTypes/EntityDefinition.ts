@@ -5,7 +5,9 @@ import MemberVariable from "./MemberVariable";
 import TypeInfo from "../modelInfo/TypeInfo";
 import FilePath from "./FilePath";
 import distinctDataTypes from "./distinctDataTypes";
+import Transformer from "../../collectionUtils/core/Transformer";
 import Predicate from "../../collectionUtils/core/Predicate";
+import CollectionUtils from "../../collectionUtils/CollectionUtils";
 
 export default class EntityDefinition {
   constructor(
@@ -69,6 +71,28 @@ export default class EntityDefinition {
   public addMemberVariable(memberVar: MemberVariable): EntityDefinition {
     const result = this.clone();
     result._memberVariables = [...result._memberVariables, memberVar];
+    return result;
+  }
+
+  public removeMemberVariables(
+    predicate: Predicate<MemberVariable>
+  ): EntityDefinition {
+    const result = this.clone();
+    result._memberVariables = CollectionUtils.selectRejected(
+      this._memberVariables,
+      predicate
+    );
+    return result;
+  }
+
+  public transformMemberVariables(
+    transformer: Transformer<MemberVariable, MemberVariable>
+  ): EntityDefinition {
+    const result = this.clone();
+    result._memberVariables = CollectionUtils.transform(
+      this.memberVariables,
+      transformer
+    );
     return result;
   }
 

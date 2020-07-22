@@ -1,3 +1,3 @@
 import DataType from "../DataType";
 
-export default DataType.getInstance("System", "Date", `${__dirname}/system`);
+export default DataType.getInstance("System", "Time", `${__dirname}/system`);

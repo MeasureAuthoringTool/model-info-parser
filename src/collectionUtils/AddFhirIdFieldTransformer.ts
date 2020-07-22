@@ -12,9 +12,7 @@ import ExtractDataTypeTransformer from "./ExtractDataTypeTransformer";
 const fhirIdMember = new MemberVariable(SystemString, "fhirId");
 
 // Transformer to add the member variable
-const addMemberTransformer = new AddMemberVariableTransformer(
-  fhirIdMember
-);
+const addMemberTransformer = new AddMemberVariableTransformer(fhirIdMember);
 
 /**
  * This is a transformer that, when evaluating an EntityDefinition,
@@ -24,7 +22,7 @@ const addMemberTransformer = new AddMemberVariableTransformer(
 export default class AddFhirIdFieldTransformer extends IfTransformer<
   EntityDefinition,
   EntityDefinition
-  > {
+> {
   constructor(dataTypePredicate: IsDataTypePredicate) {
     const resourceEntityPredicate = new TransformedPredicate(
       ExtractDataTypeTransformer.INSTANCE,
