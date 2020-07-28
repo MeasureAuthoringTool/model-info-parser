@@ -6,7 +6,10 @@ import MemberVariable from "../model/dataTypes/MemberVariable";
 import EntityImports from "../model/dataTypes/EntityImports";
 import FilePath from "../model/dataTypes/FilePath";
 
-function convertDataType(inputType: DataType, baseDir: FilePath): DataType {
+export function convertDataType(
+  inputType: DataType,
+  baseDir: FilePath
+): DataType {
   if (inputType.systemType) {
     return inputType;
   }
@@ -14,12 +17,11 @@ function convertDataType(inputType: DataType, baseDir: FilePath): DataType {
   return DataType.getInstance(
     inputType.namespace,
     `I${inputType.normalizedName}`,
-
     baseDir
   );
 }
 
-export default class EntityInterfaceTransformer
+export default class TypeScriptInterfaceTransformer
   implements Transformer<EntityDefinition, EntityDefinition> {
   constructor(public readonly baseDir: FilePath) {}
 

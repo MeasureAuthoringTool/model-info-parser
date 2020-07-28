@@ -22,7 +22,7 @@ describe("TypeScriptPreprocessor", () => {
     preprocessor = new TypeScriptPreprocessor();
     path = FilePath.getInstance("/tmp");
 
-    dataType1 = DataType.getInstance("tmp", "TempType1", path);
+    dataType1 = DataType.getInstance("FHIR", "string", path);
     dataType2 = DataType.getInstance("tmp", "TempType2", path);
     dataType3 = DataType.getInstance("tmp", "TempType3", path);
 
@@ -51,6 +51,13 @@ describe("TypeScriptPreprocessor", () => {
     expect(result.entities[0].imports.dataTypes).toIncludeAllMembers([
       dataType2,
       dataType3,
+    ]);
+  });
+
+  it("should add an import for FHIR.Element for entities that contain primitive members", () => {
+    const result = preprocessor.preprocess(entityCollection);
+    expect(result.entities[0].imports.dataTypes).toIncludeAllMembers([
+      DataType.getInstance("FHIR", "Element", entityCollection.baseDir),
     ]);
   });
 });

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns4:modelInfo name="FHIR" version="4.0.1" url="http://hl7.org/fhir" targetQualifier="fhir"
+               patientClassName="FHIR.Patient" patientBirthDatePropertyName="birthDate.value"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns4="urn:hl7-org:elm-modelinfo:r1"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns4:requiredModelInfo name="System" version="1.0.0"/>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="Extension"
+                identifier="http://hl7.org/fhir/StructureDefinition/Extension" label="Extension" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="url" elementType="FHIR.uri"/>
+    <ns4:element name="value">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ChoiceTypeSpecifier">
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="base64Binary"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="boolean"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="canonical"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="code"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="date"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="dateTime"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="decimal"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="id"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="instant"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="integer"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="markdown"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="oid"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="positiveInt"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="string"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="time"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="unsignedInt"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="uri"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="url"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="uuid"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="Coding"/>
+      </ns4:elementTypeSpecifier>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="KitchenSink"
+                identifier="http://hl7.org/fhir/StructureDefinition/Coding" label="KitchenSink" retrievable="false"
+                primaryCodePath="code" baseType="FHIR.Element">
+    <ns4:element name="system" elementType="FHIR.url"/>
+    <ns4:element name="version" elementType="FHIR.string"/>
+    <ns4:element name="singleCode" elementType="FHIR.CodeableConcept"/>
+    <ns4:element name="coding">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Coding"/>
+    </ns4:element>
+    <ns4:element name="times">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.time"/>
+    </ns4:element>
+    <ns4:element name="options">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ChoiceTypeSpecifier">
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="boolean"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="canonical"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="Coding"/>
+      </ns4:elementTypeSpecifier>
+    </ns4:element>
+
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="Coding"
+                identifier="http://hl7.org/fhir/StructureDefinition/Coding" label="Coding" retrievable="false"
+                primaryCodePath="code" baseType="FHIR.Element">
+    <ns4:element name="system" elementType="FHIR.uri"/>
+    <ns4:element name="version" elementType="FHIR.string"/>
+    <ns4:element name="code" elementType="FHIR.code"/>
+    <ns4:element name="display" elementType="FHIR.string"/>
+    <ns4:element name="userSelected" elementType="FHIR.boolean"/>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="CodeableConcept"
+                identifier="http://hl7.org/fhir/StructureDefinition/CodeableConcept" label="CodeableConcept"
+                retrievable="false" baseType="FHIR.Element">
+    <ns4:element name="coding">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Coding"/>
+    </ns4:element>
+    <ns4:element name="text" elementType="FHIR.string"/>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="Element"
+                identifier="http://hl7.org/fhir/StructureDefinition/Element" label="Element" retrievable="false">
+    <ns4:element name="id" elementType="System.String"/>
+    <ns4:element name="extension">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Extension"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <!--
+  All the FHIR primitives
+  -->
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="base64Binary"
+                identifier="http://hl7.org/fhir/StructureDefinition/base64Binary" label="base64Binary"
+                retrievable="false" baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.String"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="boolean"
+                identifier="http://hl7.org/fhir/StructureDefinition/boolean" label="boolean" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.Boolean"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="canonical"
+                identifier="http://hl7.org/fhir/StructureDefinition/canonical" label="canonical" retrievable="false"
+                baseType="FHIR.uri"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="code"
+                identifier="http://hl7.org/fhir/StructureDefinition/code" label="code" retrievable="false"
+                baseType="FHIR.string"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="date"
+                identifier="http://hl7.org/fhir/StructureDefinition/date" label="date" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.Date"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="dateTime"
+                identifier="http://hl7.org/fhir/StructureDefinition/dateTime" label="dateTime" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.DateTime"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="decimal"
+                identifier="http://hl7.org/fhir/StructureDefinition/decimal" label="decimal" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.Decimal"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="id"
+                identifier="http://hl7.org/fhir/StructureDefinition/id" label="id" retrievable="false"
+                baseType="FHIR.string"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="instant"
+                identifier="http://hl7.org/fhir/StructureDefinition/instant" label="instant" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.DateTime"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="integer"
+                identifier="http://hl7.org/fhir/StructureDefinition/integer" label="integer" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.Integer"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="markdown"
+                identifier="http://hl7.org/fhir/StructureDefinition/markdown" label="markdown" retrievable="false"
+                baseType="FHIR.string"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="oid"
+                identifier="http://hl7.org/fhir/StructureDefinition/oid" label="oid" retrievable="false"
+                baseType="FHIR.uri"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="positiveInt"
+                identifier="http://hl7.org/fhir/StructureDefinition/positiveInt" label="positiveInt" retrievable="false"
+                baseType="FHIR.integer"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="question"
+                identifier="http://hl7.org/fhir/StructureDefinition/elementdefinition-question" label="question"
+                retrievable="false" baseType="FHIR.string"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="string"
+                identifier="http://hl7.org/fhir/StructureDefinition/string" label="string" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.String"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="time"
+                identifier="http://hl7.org/fhir/StructureDefinition/time" label="time" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.Time"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="unsignedInt"
+                identifier="http://hl7.org/fhir/StructureDefinition/unsignedInt" label="unsignedInt" retrievable="false"
+                baseType="FHIR.integer"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="uri"
+                identifier="http://hl7.org/fhir/StructureDefinition/uri" label="uri" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.String"/>
+  </ns4:typeInfo>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="url"
+                identifier="http://hl7.org/fhir/StructureDefinition/url" label="url" retrievable="false"
+                baseType="FHIR.uri"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="uuid"
+                identifier="http://hl7.org/fhir/StructureDefinition/uuid" label="uuid" retrievable="false"
+                baseType="FHIR.uri"/>
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="xhtml"
+                identifier="http://hl7.org/fhir/StructureDefinition/xhtml" label="xhtml" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.String"/>
+  </ns4:typeInfo>
+
+</ns4:modelInfo>

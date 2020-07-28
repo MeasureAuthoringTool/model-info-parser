@@ -1,4 +1,4 @@
-import EntityInterfaceTransformer from "../../src/collectionUtils/EntityInterfaceTransformer";
+import TypeScriptInterfaceTransformer from "../../src/collectionUtils/TypeScriptInterfaceTransformer";
 import EntityDefinition from "../../src/model/dataTypes/EntityDefinition";
 import EntityDefinitionBuilder from "../model/dataTypes/EntityDefinitionBuilder";
 import DataType from "../../src/model/dataTypes/DataType";
@@ -6,18 +6,18 @@ import MemberVariable from "../../src/model/dataTypes/MemberVariable";
 import FilePath from "../../src/model/dataTypes/FilePath";
 import SystemBoolean from "../../src/model/dataTypes/system/SystemBoolean";
 
-describe("EntityInterfaceTransformer", () => {
+describe("TypeScriptInterfaceTransformer", () => {
   describe("constructor", () => {
     it("should set the baseDir property", () => {
       const baseDir = FilePath.getInstance("/tmp");
-      const result = new EntityInterfaceTransformer(baseDir);
+      const result = new TypeScriptInterfaceTransformer(baseDir);
       expect(result.baseDir).toBe(baseDir);
     });
   });
 
   describe("#transform()", () => {
     const baseDir = FilePath.getInstance("/tmp/whatever/new/path");
-    let transformer: EntityInterfaceTransformer;
+    let transformer: TypeScriptInterfaceTransformer;
     let builder: EntityDefinitionBuilder;
     let def1: EntityDefinition;
     let dataType: DataType;
@@ -26,7 +26,7 @@ describe("EntityInterfaceTransformer", () => {
     let member2: MemberVariable;
 
     beforeEach(() => {
-      transformer = new EntityInterfaceTransformer(baseDir);
+      transformer = new TypeScriptInterfaceTransformer(baseDir);
       builder = new EntityDefinitionBuilder();
       def1 = builder.buildEntityDefinition();
       dataType = def1.dataType;

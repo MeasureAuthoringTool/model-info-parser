@@ -4,20 +4,30 @@ import DataType from "../../../model/dataTypes/DataType";
 import EntityMetadata from "../../../model/dataTypes/EntityMetadata";
 import EntityImports from "../../../model/dataTypes/EntityImports";
 
-export const source = `{{> classImport dataType=this }}
-export default interface {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ parentDataType.normalizedName }}{{/ if }} {
+export const source = `/* eslint-disable import/prefer-default-export, import/no-cycle, @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
+{{# if imports.dataTypes }}import { 
+{{# each imports.dataTypes }}
+  {{ this.normalizedName }},
+{{/ each }}
+} from "../internal";
+
+{{/ if }}
+export interface {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ parentDataType.normalizedName }}{{/ if }} {
 {{# if memberVariables }}
   {{# each memberVariables }}
   {{# if dataType.primitive }}
   {{> primitiveMember member=this }}
-  
   {{ else }}
   {{> interfaceMember member=this }}
-  
   {{/ if }}
+  {{# unless @last }}
+
+  {{/ unless }}
   {{/ each }}
 {{/ if }}
+
 }
+/* eslint-enable import/prefer-default-export, import/no-cycle, @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
 `;
 
 export interface TemplateContext {

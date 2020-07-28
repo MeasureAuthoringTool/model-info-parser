@@ -13,6 +13,7 @@ import NOPTransformer from "../collectionUtils/core/NOPTransformer";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
 import ChainedTransformer from "../collectionUtils/core/ChainedTransformer";
 import SetCollectionNameTransformer from "../collectionUtils/SetCollectionNameTransformer";
+import AddFhirIdFieldTransformer from "../collectionUtils/AddFhirIdFieldTransformer";
 
 /**
  * EntityCollection Preprocessor for the Mongoid-specific model generation
@@ -79,7 +80,7 @@ export default class MongoidPreprocessor extends BasePreprocessor {
     );
 
     // Chained transformer that performs all modifications to Measure type
-    const measureTransformer = new ChainedTransformer(
+    const measureTransformations = new ChainedTransformer(
       addValueSetsTransformer,
       addPatientsTransformer,
       setMeasureCollectionNameTransformer
@@ -89,12 +90,28 @@ export default class MongoidPreprocessor extends BasePreprocessor {
     // TODO modify collection name for ValueSet
 
     // Transformer that only modifies the Measure entity
-    const ifTransformer = new IfTransformer(
+    const measureTransformer = new IfTransformer(
       measureEntityPredicate,
-      measureTransformer,
+      measureTransformations,
       new NOPTransformer<EntityDefinition>()
     );
 
-    return startingCollection.transform(ifTransformer);
+    // Add fhirId to Resource and Element
+    const isResourcePredicate = new IsDataTypePredicate("FHIR", "Resource");
+    const isElementPredicate = new IsDataTypePredicate("FHIR", "Element");
+    const addFhirIdToResourceTransformer = new AddFhirIdFieldTransformer(
+      isResourcePredicate
+    );
+    const addFhirIdToElementTransformer = new AddFhirIdFieldTransformer(
+      isElementPredicate
+    );
+
+    const allTransformations = new ChainedTransformer(
+      measureTransformer,
+      addFhirIdToElementTransformer,
+      addFhirIdToResourceTransformer
+    );
+
+    return startingCollection.transform(allTransformations);
   }
 }

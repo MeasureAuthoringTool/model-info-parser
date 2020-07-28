@@ -1,11 +1,26 @@
-export default `public static parse(value: {{# if memberVariables.0.dataType.systemType ~}}
-{{ getTypeScriptPrimitive memberVariables.0.dataType.normalizedName }}
-{{~ else ~}}
-{{ memberVariables.0.dataType.normalizedName }}
-{{~/ if ~}}
+export default `public static parsePrimitive(
+  {{# if this.parentDataType.primitive }}
+  value: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[0],
+  extension: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[1],
+  {{ else }}
+  value: {{ getTypeScriptPrimitive memberVariables.0.dataType.normalizedName }},
+  extension?: IElement,
+  {{/ if }}
+  providedInstance: {{ dataType.normalizedName }} = new {{ dataType.normalizedName }}()
 ): {{ dataType.normalizedName }} {
-  const newType: {{ dataType.normalizedName }} = new {{ dataType.normalizedName }}();
-  newType.{{ memberVariables.0.variableName }} = {{ memberVariables.0.variableName }};
-  return new {{ dataType.normalizedName }}();
+  {{# if this.parentDataType.primitive }}
+    return {{ parentDataType.normalizedName }}.parsePrimitive(value, extension, providedInstance);
+  {{ else }}
+    let newInstance: {{ dataType.normalizedName }};
+    if (extension) {
+      newInstance = {{ parentDataType.normalizedName }}.parse(extension);
+    } else {
+      newInstance = providedInstance;
+    }
+  
+    newInstance.{{ memberVariables.0.variableName }} = {{ memberVariables.0.variableName }};
+    
+    return newInstance;
+  {{/ if }}
 }
 `;
