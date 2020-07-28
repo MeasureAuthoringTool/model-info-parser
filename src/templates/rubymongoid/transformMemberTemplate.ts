@@ -13,15 +13,14 @@ export default `{{!--
    
   result['name'] = PrimitiveString.transform_json(json_hash['name'], json_hash['_name']) unless json_hash['name'].nil?
 --~}}
-result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(
 {{~!--
   If a choiceType is specified, use it. Otherwise default to: 
   json_hash['{{ variableName }}'
 --~}}
 {{~# if choiceType ~}}
-  json_hash['{{ jsonChoiceName variableName choiceType }}']
+  result['{{ jsonChoiceName variableName choiceType }}'] = {{ className }}.transform_json(json_hash['{{ jsonChoiceName variableName choiceType }}']
 {{~ else ~}}
-  json_hash['{{ variableName }}']
+  result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(json_hash['{{ variableName }}']
 {{~/ if ~}}
 
 {{~!--
