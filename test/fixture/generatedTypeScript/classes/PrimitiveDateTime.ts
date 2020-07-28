@@ -15,7 +15,7 @@ export class PrimitiveDateTime extends Element {
 
   public static parsePrimitive(
     value: string,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveDateTime = new PrimitiveDateTime()
   ): PrimitiveDateTime {
       let newInstance: PrimitiveDateTime;
@@ -29,5 +29,14 @@ export class PrimitiveDateTime extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveDateTime";
+  }
+}
+
+export function isPrimitiveDateTime(input?: unknown): input is PrimitiveDateTime {
+  const castInput = input as PrimitiveDateTime;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDateTime";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

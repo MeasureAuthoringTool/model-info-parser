@@ -129,7 +129,7 @@ async function generateIndexFiles(
     indexContents,
     entityCollection.baseDir.toString(),
     null,
-    "index.ts"
+    "fhir.ts"
   );
   await indexWriter.writeFile();
 

@@ -31,5 +31,14 @@ export class CodeableConcept extends Element {
     }
     return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "CodeableConcept";
+  }
+}
+
+export function isCodeableConcept(input?: unknown): input is CodeableConcept {
+  const castInput = input as CodeableConcept;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "CodeableConcept";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

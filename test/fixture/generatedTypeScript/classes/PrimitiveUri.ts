@@ -15,7 +15,7 @@ export class PrimitiveUri extends Element {
 
   public static parsePrimitive(
     value: string,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveUri = new PrimitiveUri()
   ): PrimitiveUri {
       let newInstance: PrimitiveUri;
@@ -29,5 +29,14 @@ export class PrimitiveUri extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveUri";
+  }
+}
+
+export function isPrimitiveUri(input?: unknown): input is PrimitiveUri {
+  const castInput = input as PrimitiveUri;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUri";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

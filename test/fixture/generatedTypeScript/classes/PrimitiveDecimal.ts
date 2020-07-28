@@ -15,7 +15,7 @@ export class PrimitiveDecimal extends Element {
 
   public static parsePrimitive(
     value: number,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveDecimal = new PrimitiveDecimal()
   ): PrimitiveDecimal {
       let newInstance: PrimitiveDecimal;
@@ -29,5 +29,14 @@ export class PrimitiveDecimal extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveDecimal";
+  }
+}
+
+export function isPrimitiveDecimal(input?: unknown): input is PrimitiveDecimal {
+  const castInput = input as PrimitiveDecimal;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDecimal";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

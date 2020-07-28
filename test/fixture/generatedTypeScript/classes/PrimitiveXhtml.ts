@@ -15,7 +15,7 @@ export class PrimitiveXhtml extends Element {
 
   public static parsePrimitive(
     value: string,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveXhtml = new PrimitiveXhtml()
   ): PrimitiveXhtml {
       let newInstance: PrimitiveXhtml;
@@ -29,5 +29,14 @@ export class PrimitiveXhtml extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveXhtml";
+  }
+}
+
+export function isPrimitiveXhtml(input?: unknown): input is PrimitiveXhtml {
+  const castInput = input as PrimitiveXhtml;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveXhtml";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

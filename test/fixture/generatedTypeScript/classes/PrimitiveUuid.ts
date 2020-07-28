@@ -17,5 +17,14 @@ export class PrimitiveUuid extends PrimitiveUri {
   ): PrimitiveUuid {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveUuid";
+  }
+}
+
+export function isPrimitiveUuid(input?: unknown): input is PrimitiveUuid {
+  const castInput = input as PrimitiveUuid;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUuid";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

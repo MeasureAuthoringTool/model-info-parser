@@ -17,5 +17,14 @@ export class PrimitiveOid extends PrimitiveUri {
   ): PrimitiveOid {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveOid";
+  }
+}
+
+export function isPrimitiveOid(input?: unknown): input is PrimitiveOid {
+  const castInput = input as PrimitiveOid;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveOid";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

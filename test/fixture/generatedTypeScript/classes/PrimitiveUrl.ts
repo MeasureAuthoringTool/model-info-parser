@@ -17,5 +17,14 @@ export class PrimitiveUrl extends PrimitiveUri {
   ): PrimitiveUrl {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveUrl";
+  }
+}
+
+export function isPrimitiveUrl(input?: unknown): input is PrimitiveUrl {
+  const castInput = input as PrimitiveUrl;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUrl";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

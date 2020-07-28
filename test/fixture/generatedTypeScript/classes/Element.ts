@@ -30,5 +30,14 @@ export class Element extends Type {
     }
     return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "Element";
+  }
+}
+
+export function isElement(input?: unknown): input is Element {
+  const castInput = input as Element;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "Element";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

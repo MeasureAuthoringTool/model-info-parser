@@ -48,5 +48,14 @@ export class Coding extends Element {
     }
     return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "Coding";
+  }
+}
+
+export function isCoding(input?: unknown): input is Coding {
+  const castInput = input as Coding;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "Coding";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

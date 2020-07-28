@@ -11,8 +11,10 @@ import {
 } from "../internal";
 
 export interface IKitchenSink extends IElement {
-  system?: IPrimitiveUrl;
-  _system?: IElement;
+  system?: string;
+
+  url?: IPrimitiveUrl;
+  _url?: IElement;
 
   version?: IPrimitiveString;
   _version?: IElement;
@@ -22,7 +24,7 @@ export interface IKitchenSink extends IElement {
   coding?: Array<ICoding>;
 
   times?: Array<IPrimitiveTime>;
-  _times?: Array<IElement>;
+  _times?: Array<IElement | null>;
 
   optionsBoolean?: IPrimitiveBoolean;
   _optionsBoolean?: IElement;

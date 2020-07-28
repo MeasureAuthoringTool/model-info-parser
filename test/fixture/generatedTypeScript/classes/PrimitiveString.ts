@@ -15,7 +15,7 @@ export class PrimitiveString extends Element {
 
   public static parsePrimitive(
     value: string,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveString = new PrimitiveString()
   ): PrimitiveString {
       let newInstance: PrimitiveString;
@@ -29,5 +29,14 @@ export class PrimitiveString extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveString";
+  }
+}
+
+export function isPrimitiveString(input?: unknown): input is PrimitiveString {
+  const castInput = input as PrimitiveString;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveString";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

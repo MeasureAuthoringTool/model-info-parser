@@ -38,7 +38,8 @@
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="KitchenSink"
                 identifier="http://hl7.org/fhir/StructureDefinition/Coding" label="KitchenSink" retrievable="false"
                 primaryCodePath="code" baseType="FHIR.Element">
-    <ns4:element name="system" elementType="FHIR.url"/>
+    <ns4:element name="system" elementType="System.String"/>
+    <ns4:element name="url" elementType="FHIR.url"/>
     <ns4:element name="version" elementType="FHIR.string"/>
     <ns4:element name="singleCode" elementType="FHIR.CodeableConcept"/>
     <ns4:element name="coding">

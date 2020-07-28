@@ -17,5 +17,14 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
   ): PrimitiveUnsignedInt {
       return PrimitiveInteger.parsePrimitive(value, extension, providedInstance);
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveUnsignedInt";
+  }
+}
+
+export function isPrimitiveUnsignedInt(input?: unknown): input is PrimitiveUnsignedInt {
+  const castInput = input as PrimitiveUnsignedInt;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUnsignedInt";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

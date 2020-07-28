@@ -18,7 +18,9 @@ export class KitchenSink extends Element {
 
   static readonly typeName: string = "KitchenSink";
 
-  public system?: PrimitiveUrl;
+  public system?: string;
+
+  public url?: PrimitiveUrl;
 
   public version?: PrimitiveString;
 
@@ -37,7 +39,10 @@ export class KitchenSink extends Element {
     const newInstance: KitchenSink = Element.parse(json, providedInstance);
   
     if (json.system) {
-      newInstance.system = PrimitiveUrl.parsePrimitive(json.system, json._system);
+      newInstance.system = json.system;
+    }
+    if (json.url) {
+      newInstance.url = PrimitiveUrl.parsePrimitive(json.url, json._url);
     }
     if (json.version) {
       newInstance.version = PrimitiveString.parsePrimitive(json.version, json._version);
@@ -65,5 +70,14 @@ export class KitchenSink extends Element {
     }
     return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "KitchenSink";
+  }
+}
+
+export function isKitchenSink(input?: unknown): input is KitchenSink {
+  const castInput = input as KitchenSink;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "KitchenSink";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

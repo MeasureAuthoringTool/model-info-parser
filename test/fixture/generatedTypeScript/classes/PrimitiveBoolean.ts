@@ -15,7 +15,7 @@ export class PrimitiveBoolean extends Element {
 
   public static parsePrimitive(
     value: boolean,
-    extension?: IElement,
+    extension?: IElement | null,
     providedInstance: PrimitiveBoolean = new PrimitiveBoolean()
   ): PrimitiveBoolean {
       let newInstance: PrimitiveBoolean;
@@ -29,5 +29,14 @@ export class PrimitiveBoolean extends Element {
       
       return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "PrimitiveBoolean";
+  }
+}
+
+export function isPrimitiveBoolean(input?: unknown): input is PrimitiveBoolean {
+  const castInput = input as PrimitiveBoolean;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveBoolean";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

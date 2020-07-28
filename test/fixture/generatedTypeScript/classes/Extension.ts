@@ -106,5 +106,14 @@ export class Extension extends Element {
     }
     return newInstance;
   }
+  
+  public getTypeName(): string {
+    return "Extension";
+  }
+}
+
+export function isExtension(input?: unknown): input is Extension {
+  const castInput = input as Extension;
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "Extension";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

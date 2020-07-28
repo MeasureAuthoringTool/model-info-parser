@@ -4,7 +4,7 @@ export default `public static parsePrimitive(
   extension: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[1],
   {{ else }}
   value: {{ getTypeScriptPrimitive memberVariables.0.dataType.normalizedName }},
-  extension?: IElement,
+  extension?: IElement | null,
   {{/ if }}
   providedInstance: {{ dataType.normalizedName }} = new {{ dataType.normalizedName }}()
 ): {{ dataType.normalizedName }} {

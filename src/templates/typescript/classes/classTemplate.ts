@@ -30,6 +30,15 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   {{ else }}
   {{> complexParse }}
   {{/ if }}
+  
+  public getTypeName(): string {
+    return "{{ dataType.normalizedName }}";
+  }
+}
+
+export function is{{ dataType.normalizedName }}(input?: unknown): input is {{ dataType.normalizedName }} {
+  const castInput = input as {{ dataType.normalizedName }};
+  return !!input && castInput.getTypeName && castInput.getTypeName() === "{{ dataType.normalizedName }}";
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */
 `;
