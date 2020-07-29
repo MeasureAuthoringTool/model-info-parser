@@ -19,6 +19,7 @@ export class PrimitiveTime extends Element {
     providedInstance: PrimitiveTime = new PrimitiveTime()
   ): PrimitiveTime {
       let newInstance: PrimitiveTime;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveTime extends Element {
   public getTypeName(): string {
     return "PrimitiveTime";
   }
-}
-
-export function isPrimitiveTime(input?: unknown): input is PrimitiveTime {
-  const castInput = input as PrimitiveTime;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveTime";
+  
+  public static isPrimitiveTime(input?: unknown): input is PrimitiveTime {
+    const castInput = input as PrimitiveTime;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveTime";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

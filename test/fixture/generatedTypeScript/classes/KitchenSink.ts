@@ -3,6 +3,7 @@ import {
   CodeableConcept,
   Coding,
   Element,
+  Extension,
   IKitchenSink,
   PrimitiveBoolean,
   PrimitiveCanonical,
@@ -70,14 +71,61 @@ export class KitchenSink extends Element {
     }
     return newInstance;
   }
+
+  public toJSON(): IKitchenSink {
+    const result: IKitchenSink = super.toJSON();
+
+    if (this.system) {
+      result.system = this.system;
+    }
+
+    if (this.url) {
+      result.url = this.url.value;
+      result._url = Extension.serializePrimitiveExtension(this.url);
+    }
+
+    if (this.version) {
+      result.version = this.version.value;
+      result._version = Extension.serializePrimitiveExtension(this.version);
+    }
+
+    if (this.singleCode) {
+      result.singleCode = this.singleCode.toJSON();
+    }
+
+    if (this.coding) {
+      result.coding = this.coding.map((x) => x.toJSON());
+    }
+
+    if (this.times) {
+      result.times = this.times.filter(x => !!x).map(x => x.value) as typeof result.times;
+      result._times = Extension.serializePrimitiveExtensionArray(this.times);
+    }
+
+    if (this.options && PrimitiveBoolean.isPrimitiveBoolean(this.options)) {
+      result.optionsBoolean = this.options.value;
+      result._optionsBoolean = Extension.serializePrimitiveExtension(this.options);
+    }
+
+    if (this.options && PrimitiveCanonical.isPrimitiveCanonical(this.options)) {
+      result.optionsCanonical = this.options.value;
+      result._optionsCanonical = Extension.serializePrimitiveExtension(this.options);
+    }
+
+    if (this.options && Coding.isCoding(this.options)) {
+      result.optionsCoding = this.options.toJSON();
+    }
+
+    return result;
+  }
   
   public getTypeName(): string {
     return "KitchenSink";
   }
-}
-
-export function isKitchenSink(input?: unknown): input is KitchenSink {
-  const castInput = input as KitchenSink;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "KitchenSink";
+  
+  public static isKitchenSink(input?: unknown): input is KitchenSink {
+    const castInput = input as KitchenSink;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "KitchenSink";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

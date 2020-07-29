@@ -11,9 +11,11 @@ export default class HasPrimitiveMembersPredicate extends Predicate<
   EntityDefinition
 > {
   evaluate(input: EntityDefinition): boolean {
-    return !!_.find(
-      input.memberVariables,
-      (member: MemberVariable) => member.dataType.primitive
-    );
+    return !!_.find(input.memberVariables, (member: MemberVariable) => {
+      const hasPrimitiveChoices: boolean =
+        member.choiceTypes &&
+        !!member.choiceTypes.find((type) => type.primitive);
+      return member.dataType.primitive || hasPrimitiveChoices;
+    });
   }
 }

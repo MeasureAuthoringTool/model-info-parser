@@ -53,11 +53,4 @@ describe("TypeScriptPreprocessor", () => {
       dataType3,
     ]);
   });
-
-  it("should add an import for FHIR.Element for entities that contain primitive members", () => {
-    const result = preprocessor.preprocess(entityCollection);
-    expect(result.entities[0].imports.dataTypes).toIncludeAllMembers([
-      DataType.getInstance("FHIR", "Element", entityCollection.baseDir),
-    ]);
-  });
 });

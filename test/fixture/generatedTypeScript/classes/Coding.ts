@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
 import { 
   Element,
+  Extension,
   ICoding,
   PrimitiveBoolean,
   PrimitiveCode,
@@ -48,14 +49,45 @@ export class Coding extends Element {
     }
     return newInstance;
   }
+
+  public toJSON(): ICoding {
+    const result: ICoding = super.toJSON();
+
+    if (this.system) {
+      result.system = this.system.value;
+      result._system = Extension.serializePrimitiveExtension(this.system);
+    }
+
+    if (this.version) {
+      result.version = this.version.value;
+      result._version = Extension.serializePrimitiveExtension(this.version);
+    }
+
+    if (this.code) {
+      result.code = this.code.value;
+      result._code = Extension.serializePrimitiveExtension(this.code);
+    }
+
+    if (this.display) {
+      result.display = this.display.value;
+      result._display = Extension.serializePrimitiveExtension(this.display);
+    }
+
+    if (this.userSelected) {
+      result.userSelected = this.userSelected.value;
+      result._userSelected = Extension.serializePrimitiveExtension(this.userSelected);
+    }
+
+    return result;
+  }
   
   public getTypeName(): string {
     return "Coding";
   }
-}
-
-export function isCoding(input?: unknown): input is Coding {
-  const castInput = input as Coding;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "Coding";
+  
+  public static isCoding(input?: unknown): input is Coding {
+    const castInput = input as Coding;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Coding";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

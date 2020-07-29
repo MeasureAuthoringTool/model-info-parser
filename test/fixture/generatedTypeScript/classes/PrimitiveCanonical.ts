@@ -12,7 +12,7 @@ export class PrimitiveCanonical extends PrimitiveUri {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveUri.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
     providedInstance: PrimitiveCanonical = new PrimitiveCanonical()
   ): PrimitiveCanonical {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveCanonical extends PrimitiveUri {
   public getTypeName(): string {
     return "PrimitiveCanonical";
   }
-}
-
-export function isPrimitiveCanonical(input?: unknown): input is PrimitiveCanonical {
-  const castInput = input as PrimitiveCanonical;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCanonical";
+  
+  public static isPrimitiveCanonical(input?: unknown): input is PrimitiveCanonical {
+    const castInput = input as PrimitiveCanonical;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCanonical";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

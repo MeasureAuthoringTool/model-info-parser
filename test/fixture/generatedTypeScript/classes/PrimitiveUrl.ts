@@ -12,7 +12,7 @@ export class PrimitiveUrl extends PrimitiveUri {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveUri.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
     providedInstance: PrimitiveUrl = new PrimitiveUrl()
   ): PrimitiveUrl {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveUrl extends PrimitiveUri {
   public getTypeName(): string {
     return "PrimitiveUrl";
   }
-}
-
-export function isPrimitiveUrl(input?: unknown): input is PrimitiveUrl {
-  const castInput = input as PrimitiveUrl;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUrl";
+  
+  public static isPrimitiveUrl(input?: unknown): input is PrimitiveUrl {
+    const castInput = input as PrimitiveUrl;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUrl";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

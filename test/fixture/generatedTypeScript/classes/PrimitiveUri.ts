@@ -19,6 +19,7 @@ export class PrimitiveUri extends Element {
     providedInstance: PrimitiveUri = new PrimitiveUri()
   ): PrimitiveUri {
       let newInstance: PrimitiveUri;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveUri extends Element {
   public getTypeName(): string {
     return "PrimitiveUri";
   }
-}
-
-export function isPrimitiveUri(input?: unknown): input is PrimitiveUri {
-  const castInput = input as PrimitiveUri;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUri";
+  
+  public static isPrimitiveUri(input?: unknown): input is PrimitiveUri {
+    const castInput = input as PrimitiveUri;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUri";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

@@ -19,6 +19,7 @@ export class PrimitiveDecimal extends Element {
     providedInstance: PrimitiveDecimal = new PrimitiveDecimal()
   ): PrimitiveDecimal {
       let newInstance: PrimitiveDecimal;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveDecimal extends Element {
   public getTypeName(): string {
     return "PrimitiveDecimal";
   }
-}
-
-export function isPrimitiveDecimal(input?: unknown): input is PrimitiveDecimal {
-  const castInput = input as PrimitiveDecimal;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDecimal";
+  
+  public static isPrimitiveDecimal(input?: unknown): input is PrimitiveDecimal {
+    const castInput = input as PrimitiveDecimal;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDecimal";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

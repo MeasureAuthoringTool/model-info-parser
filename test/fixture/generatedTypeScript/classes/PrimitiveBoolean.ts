@@ -19,6 +19,7 @@ export class PrimitiveBoolean extends Element {
     providedInstance: PrimitiveBoolean = new PrimitiveBoolean()
   ): PrimitiveBoolean {
       let newInstance: PrimitiveBoolean;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveBoolean extends Element {
   public getTypeName(): string {
     return "PrimitiveBoolean";
   }
-}
-
-export function isPrimitiveBoolean(input?: unknown): input is PrimitiveBoolean {
-  const castInput = input as PrimitiveBoolean;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveBoolean";
+  
+  public static isPrimitiveBoolean(input?: unknown): input is PrimitiveBoolean {
+    const castInput = input as PrimitiveBoolean;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveBoolean";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

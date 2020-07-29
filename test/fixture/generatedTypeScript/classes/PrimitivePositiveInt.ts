@@ -12,7 +12,7 @@ export class PrimitivePositiveInt extends PrimitiveInteger {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveInteger.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveInteger.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveInteger.parsePrimitive>[1],
     providedInstance: PrimitivePositiveInt = new PrimitivePositiveInt()
   ): PrimitivePositiveInt {
       return PrimitiveInteger.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitivePositiveInt extends PrimitiveInteger {
   public getTypeName(): string {
     return "PrimitivePositiveInt";
   }
-}
-
-export function isPrimitivePositiveInt(input?: unknown): input is PrimitivePositiveInt {
-  const castInput = input as PrimitivePositiveInt;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitivePositiveInt";
+  
+  public static isPrimitivePositiveInt(input?: unknown): input is PrimitivePositiveInt {
+    const castInput = input as PrimitivePositiveInt;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitivePositiveInt";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

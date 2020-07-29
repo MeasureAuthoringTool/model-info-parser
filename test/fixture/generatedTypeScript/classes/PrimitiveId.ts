@@ -12,7 +12,7 @@ export class PrimitiveId extends PrimitiveString {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveString.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveString.parsePrimitive>[1],
     providedInstance: PrimitiveId = new PrimitiveId()
   ): PrimitiveId {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveId extends PrimitiveString {
   public getTypeName(): string {
     return "PrimitiveId";
   }
-}
-
-export function isPrimitiveId(input?: unknown): input is PrimitiveId {
-  const castInput = input as PrimitiveId;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveId";
+  
+  public static isPrimitiveId(input?: unknown): input is PrimitiveId {
+    const castInput = input as PrimitiveId;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveId";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

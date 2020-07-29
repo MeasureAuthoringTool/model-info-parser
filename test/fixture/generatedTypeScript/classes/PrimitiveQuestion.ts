@@ -12,7 +12,7 @@ export class PrimitiveQuestion extends PrimitiveString {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveString.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveString.parsePrimitive>[1],
     providedInstance: PrimitiveQuestion = new PrimitiveQuestion()
   ): PrimitiveQuestion {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveQuestion extends PrimitiveString {
   public getTypeName(): string {
     return "PrimitiveQuestion";
   }
-}
-
-export function isPrimitiveQuestion(input?: unknown): input is PrimitiveQuestion {
-  const castInput = input as PrimitiveQuestion;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveQuestion";
+  
+  public static isPrimitiveQuestion(input?: unknown): input is PrimitiveQuestion {
+    const castInput = input as PrimitiveQuestion;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveQuestion";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

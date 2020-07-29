@@ -3,18 +3,17 @@ import {
   IElement,
   IExtension,
   Extension,
-  isPrimitiveBoolean,
   IKitchenSink,
   KitchenSink,
-  PrimitiveTime, Coding,
+  PrimitiveTime, Coding, PrimitiveBoolean,
 } from "../fixture/generatedTypeScript/fhir";
 
 describe("Testing the Parsing logic of a generated class", () => {
   function assertExtension(extensions?: Array<Extension>): void {
     expect(extensions).toBeArrayOfSize(1);
     const [extension] = extensions as Array<Extension>;
-    expect(isPrimitiveBoolean(extension.value)).toBeTrue();
-    if (isPrimitiveBoolean(extension.value)) {
+    expect(PrimitiveBoolean.isPrimitiveBoolean(extension.value)).toBeTrue();
+    if (PrimitiveBoolean.isPrimitiveBoolean(extension.value)) {
       expect(extension.value.value).toBeTrue();
     }
   }
@@ -56,8 +55,8 @@ describe("Testing the Parsing logic of a generated class", () => {
     expect(extensionResult.id).toBe("idOfExtension");
     expect(extensionResult.value).toBeDefined();
 
-    expect(isPrimitiveBoolean(extensionResult.value)).toBeTrue();
-    if (isPrimitiveBoolean(extensionResult.value)) {
+    expect(PrimitiveBoolean.isPrimitiveBoolean(extensionResult.value)).toBeTrue();
+    if (PrimitiveBoolean.isPrimitiveBoolean(extensionResult.value)) {
       expect(extensionResult.value.value).toBeTrue();
     }
   });

@@ -8,6 +8,7 @@ import EntityDefinitionBuilder from "../model/dataTypes/EntityDefinitionBuilder"
 describe("HasPrimitiveMembersPredicate", () => {
   let primitiveEntity: EntityDefinition;
   let nonPrimitiveEntity: EntityDefinition;
+  let primitiveChoiceEntity: EntityDefinition;
   let builder: EntityDefinitionBuilder;
 
   beforeEach(() => {
@@ -20,7 +21,20 @@ describe("HasPrimitiveMembersPredicate", () => {
     );
     const nonPrimitiveMember = new MemberVariable(
       nonPrimitiveType,
-      "nonPrimitiveMember"
+      "nonPrimitiveMember",
+      false,
+      undefined,
+      false,
+      [nonPrimitiveType, nonPrimitiveType]
+    );
+
+    const primitiveChoiceMember = new MemberVariable(
+      nonPrimitiveType,
+      "nonPrimitiveMember",
+      false,
+      undefined,
+      false,
+      [primitiveType, nonPrimitiveType]
     );
 
     builder = new EntityDefinitionBuilder();
@@ -30,11 +44,16 @@ describe("HasPrimitiveMembersPredicate", () => {
     builder = new EntityDefinitionBuilder();
     builder.memberVariables = [nonPrimitiveMember, nonPrimitiveMember];
     nonPrimitiveEntity = builder.buildEntityDefinition();
+
+    builder = new EntityDefinitionBuilder();
+    builder.memberVariables = [nonPrimitiveMember, primitiveChoiceMember];
+    primitiveChoiceEntity = builder.buildEntityDefinition();
   });
 
   it("should return true if the EntityDefinition has a primitive member", () => {
     const predicate1 = new HasPrimitiveMembersPredicate();
     expect(predicate1.evaluate(primitiveEntity)).toBeTrue();
+    expect(predicate1.evaluate(primitiveChoiceEntity)).toBeTrue();
     expect(predicate1.evaluate(nonPrimitiveEntity)).toBeFalse();
   });
 });

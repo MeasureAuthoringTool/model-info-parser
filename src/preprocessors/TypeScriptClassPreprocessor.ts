@@ -11,6 +11,11 @@ import NOPTransformer from "../collectionUtils/core/NOPTransformer";
 import IfTransformer from "../collectionUtils/core/IfTransformer";
 import ChainedTransformer from "../collectionUtils/core/ChainedTransformer";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
+import ModifyExtensionTypeTransformer from "../collectionUtils/ModifyExtensionTypeTransformer";
+import HasPrimitiveMembersPredicate from "../collectionUtils/HasPrimitiveMembersPredicate";
+import TransformedPredicate from "../collectionUtils/core/TransformedPredicate";
+import ExtractDataTypeTransformer from "../collectionUtils/ExtractDataTypeTransformer";
+import IsDataTypePredicate from "../collectionUtils/IsDataTypePredicate";
 
 /**
  * EntityCollection Preprocessor for the TypeScript classes
@@ -46,15 +51,46 @@ export default class TypeScriptClassPreprocessor implements Preprocessor {
     const addInterfaceImportsTransformer = new AddInterfaceImportTransformer(
       entityCollection.baseDir
     );
+    const noOpTransformer = new NOPTransformer<EntityDefinition>();
     const addComplexImportsTransformer = new IfTransformer(
       notPrimitivePredicate,
       addInterfaceImportsTransformer,
-      new NOPTransformer<EntityDefinition>()
+      noOpTransformer
+    );
+
+    // Add Extension import to everything with a primitive member
+    // (But not the Extension type itself)
+    // Predicate that checks if an EntityDefinition is for FHIR.Extension
+    const extensionEntityPredicate = new TransformedPredicate(
+      ExtractDataTypeTransformer.INSTANCE,
+      new IsDataTypePredicate("FHIR", "Extension")
+    );
+    const notExtensionPredicate = new NotPredicate(extensionEntityPredicate);
+    const extensionImportPredicate = new AllPredicate(
+      notExtensionPredicate,
+      new HasPrimitiveMembersPredicate()
+    );
+    const extensionType = DataType.getInstance(
+      "FHIR",
+      "Extension",
+      entityCollection.baseDir
+    );
+    const addExtensionImportTransformer = new IfTransformer(
+      extensionImportPredicate,
+      new AddImportTransformer(extensionType),
+      noOpTransformer
+    );
+
+    // Modify the Extension type
+    const modifyExtensionTypeTransformer = new ModifyExtensionTypeTransformer(
+      entityCollection.baseDir
     );
 
     const chainedTransformer = new ChainedTransformer<EntityDefinition>(
       addPrimitiveImportsTransformer,
-      addComplexImportsTransformer
+      addComplexImportsTransformer,
+      modifyExtensionTypeTransformer,
+      addExtensionImportTransformer
     );
 
     return entityCollection.transform(chainedTransformer);

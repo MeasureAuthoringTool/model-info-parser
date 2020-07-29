@@ -12,7 +12,7 @@ export class PrimitiveCode extends PrimitiveString {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveString.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveString.parsePrimitive>[1],
     providedInstance: PrimitiveCode = new PrimitiveCode()
   ): PrimitiveCode {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveCode extends PrimitiveString {
   public getTypeName(): string {
     return "PrimitiveCode";
   }
-}
-
-export function isPrimitiveCode(input?: unknown): input is PrimitiveCode {
-  const castInput = input as PrimitiveCode;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCode";
+  
+  public static isPrimitiveCode(input?: unknown): input is PrimitiveCode {
+    const castInput = input as PrimitiveCode;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCode";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

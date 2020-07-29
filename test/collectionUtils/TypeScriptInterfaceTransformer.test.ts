@@ -19,7 +19,8 @@ describe("TypeScriptInterfaceTransformer", () => {
     const baseDir = FilePath.getInstance("/tmp/whatever/new/path");
     let transformer: TypeScriptInterfaceTransformer;
     let builder: EntityDefinitionBuilder;
-    let def1: EntityDefinition;
+    let regularEntity: EntityDefinition;
+    let primitiveEntity: EntityDefinition;
     let dataType: DataType;
     let parentDataType: DataType;
     let member1: MemberVariable;
@@ -28,13 +29,19 @@ describe("TypeScriptInterfaceTransformer", () => {
     beforeEach(() => {
       transformer = new TypeScriptInterfaceTransformer(baseDir);
       builder = new EntityDefinitionBuilder();
-      def1 = builder.buildEntityDefinition();
-      dataType = def1.dataType;
-      if (!def1.parentDataType) {
+      regularEntity = builder.buildEntityDefinition();
+      dataType = regularEntity.dataType;
+      if (!regularEntity.parentDataType) {
         throw new Error("missing parentDataType");
       }
-      parentDataType = def1.parentDataType;
-      [member1, member2] = def1.memberVariables;
+      parentDataType = regularEntity.parentDataType;
+      [member1, member2] = regularEntity.memberVariables;
+
+      const primitiveType = DataType.getInstance("FHIR", "string", baseDir);
+      const primitiveMember = new MemberVariable(primitiveType, "primitiveMember");
+      builder = new EntityDefinitionBuilder();
+      builder.memberVariables = [primitiveMember];
+      primitiveEntity = builder.buildEntityDefinition();
     });
 
     function assertDataType(resultType: DataType, inputType: DataType): void {
@@ -51,22 +58,22 @@ describe("TypeScriptInterfaceTransformer", () => {
     }
 
     it("should clone the input EntityDefinition", () => {
-      const result = transformer.transform(def1);
-      expect(result).not.toBe(def1);
+      const result = transformer.transform(regularEntity);
+      expect(result).not.toBe(regularEntity);
     });
 
     it("should clone, but not alter the metadata", () => {
-      const result = transformer.transform(def1);
-      expect(result.metadata).not.toBe(def1.metadata);
-      expect(result.metadata).toStrictEqual(def1.metadata);
+      const result = transformer.transform(regularEntity);
+      expect(result.metadata).not.toBe(regularEntity.metadata);
+      expect(result.metadata).toStrictEqual(regularEntity.metadata);
     });
 
     it("should not transform system types", () => {
       builder = new EntityDefinitionBuilder();
       builder.memberVariables = [new MemberVariable(SystemBoolean, "blah")];
-      def1 = builder.buildEntityDefinition();
+      regularEntity = builder.buildEntityDefinition();
 
-      const result = transformer.transform(def1);
+      const result = transformer.transform(regularEntity);
 
       expect(result.memberVariables).toBeArrayOfSize(1);
       expect(result.memberVariables[0].variableName).toBe("blah");
@@ -75,14 +82,14 @@ describe("TypeScriptInterfaceTransformer", () => {
     });
 
     it("should prefix new DataType with an 'I'", () => {
-      const result = transformer.transform(def1);
+      const result = transformer.transform(regularEntity);
       expect(result).toBeDefined();
       const resultType = result.dataType;
       assertDataType(resultType, dataType);
     });
 
     it("should prefix parent DataType with an 'I'", () => {
-      const result = transformer.transform(def1);
+      const result = transformer.transform(regularEntity);
       expect(result).toBeDefined();
       const resultType = result.parentDataType;
       if (!resultType) {
@@ -94,13 +101,13 @@ describe("TypeScriptInterfaceTransformer", () => {
     it("should convert successfully when no parent type specified", () => {
       builder = new EntityDefinitionBuilder();
       builder.parentType = null;
-      def1 = builder.buildEntityDefinition();
-      const result = transformer.transform(def1);
+      regularEntity = builder.buildEntityDefinition();
+      const result = transformer.transform(regularEntity);
       expect(result.parentDataType).toBeNull();
     });
 
     it("should convert member variables", () => {
-      const result = transformer.transform(def1);
+      const result = transformer.transform(regularEntity);
       const [resultMember1, resultMember2] = result.memberVariables;
       expect(resultMember1.variableName).toBe(member1.variableName);
       expect(resultMember2.variableName).toBe(member2.variableName);
@@ -117,13 +124,21 @@ describe("TypeScriptInterfaceTransformer", () => {
     });
 
     it("should convert imports", () => {
-      const { imports } = def1;
+      const { imports } = regularEntity;
       const [importType1, importType2] = imports.dataTypes;
-      const result = transformer.transform(def1);
+      const result = transformer.transform(regularEntity);
       expect(result).toBeDefined();
       const [resultType1, resultType2] = result.imports.dataTypes;
       assertDataType(resultType1, importType1);
       assertDataType(resultType2, importType2);
+    });
+
+    it("should add an IElement import to entities with primitive members", () => {
+      const result = transformer.transform(primitiveEntity);
+      expect(result.imports.dataTypes).toBeArrayOfSize(3);
+      expect(result.imports.dataTypes[0].normalizedName).toBe("IElement");
+      expect(result.imports.dataTypes[1].normalizedName).toBe("ImemberTypeName1");
+      expect(result.imports.dataTypes[2].normalizedName).toBe("ImemberTypeName2");
     });
   });
 });

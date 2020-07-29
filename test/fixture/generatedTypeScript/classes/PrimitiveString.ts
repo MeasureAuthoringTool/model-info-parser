@@ -19,6 +19,7 @@ export class PrimitiveString extends Element {
     providedInstance: PrimitiveString = new PrimitiveString()
   ): PrimitiveString {
       let newInstance: PrimitiveString;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveString extends Element {
   public getTypeName(): string {
     return "PrimitiveString";
   }
-}
-
-export function isPrimitiveString(input?: unknown): input is PrimitiveString {
-  const castInput = input as PrimitiveString;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveString";
+  
+  public static isPrimitiveString(input?: unknown): input is PrimitiveString {
+    const castInput = input as PrimitiveString;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveString";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

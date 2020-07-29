@@ -19,6 +19,7 @@ export class PrimitiveInteger extends Element {
     providedInstance: PrimitiveInteger = new PrimitiveInteger()
   ): PrimitiveInteger {
       let newInstance: PrimitiveInteger;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveInteger extends Element {
   public getTypeName(): string {
     return "PrimitiveInteger";
   }
-}
-
-export function isPrimitiveInteger(input?: unknown): input is PrimitiveInteger {
-  const castInput = input as PrimitiveInteger;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveInteger";
+  
+  public static isPrimitiveInteger(input?: unknown): input is PrimitiveInteger {
+    const castInput = input as PrimitiveInteger;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveInteger";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

@@ -1,7 +1,7 @@
 export default `public static parsePrimitive(
   {{# if this.parentDataType.primitive }}
   value: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[0],
-  extension: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[1],
+  extension?: Parameters<typeof {{ this.parentDataType.normalizedName }}.parsePrimitive>[1],
   {{ else }}
   value: {{ getTypeScriptPrimitive memberVariables.0.dataType.normalizedName }},
   extension?: IElement | null,
@@ -12,6 +12,7 @@ export default `public static parsePrimitive(
     return {{ parentDataType.normalizedName }}.parsePrimitive(value, extension, providedInstance);
   {{ else }}
     let newInstance: {{ dataType.normalizedName }};
+
     if (extension) {
       newInstance = {{ parentDataType.normalizedName }}.parse(extension);
     } else {

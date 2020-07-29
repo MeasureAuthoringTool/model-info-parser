@@ -2,6 +2,7 @@
 import { 
   Coding,
   Element,
+  Extension,
   ICodeableConcept,
   PrimitiveString,
 } from "../internal";
@@ -31,14 +32,29 @@ export class CodeableConcept extends Element {
     }
     return newInstance;
   }
+
+  public toJSON(): ICodeableConcept {
+    const result: ICodeableConcept = super.toJSON();
+
+    if (this.coding) {
+      result.coding = this.coding.map((x) => x.toJSON());
+    }
+
+    if (this.text) {
+      result.text = this.text.value;
+      result._text = Extension.serializePrimitiveExtension(this.text);
+    }
+
+    return result;
+  }
   
   public getTypeName(): string {
     return "CodeableConcept";
   }
-}
-
-export function isCodeableConcept(input?: unknown): input is CodeableConcept {
-  const castInput = input as CodeableConcept;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "CodeableConcept";
+  
+  public static isCodeableConcept(input?: unknown): input is CodeableConcept {
+    const castInput = input as CodeableConcept;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "CodeableConcept";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

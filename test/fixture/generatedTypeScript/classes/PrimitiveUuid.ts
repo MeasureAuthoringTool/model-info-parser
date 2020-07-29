@@ -12,7 +12,7 @@ export class PrimitiveUuid extends PrimitiveUri {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveUri.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveUri.parsePrimitive>[1],
     providedInstance: PrimitiveUuid = new PrimitiveUuid()
   ): PrimitiveUuid {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveUuid extends PrimitiveUri {
   public getTypeName(): string {
     return "PrimitiveUuid";
   }
-}
-
-export function isPrimitiveUuid(input?: unknown): input is PrimitiveUuid {
-  const castInput = input as PrimitiveUuid;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUuid";
+  
+  public static isPrimitiveUuid(input?: unknown): input is PrimitiveUuid {
+    const castInput = input as PrimitiveUuid;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUuid";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

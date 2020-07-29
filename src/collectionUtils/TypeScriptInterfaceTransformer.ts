@@ -5,6 +5,10 @@ import DataType from "../model/dataTypes/DataType";
 import MemberVariable from "../model/dataTypes/MemberVariable";
 import EntityImports from "../model/dataTypes/EntityImports";
 import FilePath from "../model/dataTypes/FilePath";
+import AddImportTransformer from "./AddImportTransformer";
+import IfTransformer from "./core/IfTransformer";
+import NOPTransformer from "./core/NOPTransformer";
+import HasPrimitiveMembersPredicate from "./HasPrimitiveMembersPredicate";
 
 export function convertDataType(
   inputType: DataType,
@@ -26,14 +30,25 @@ export default class TypeScriptInterfaceTransformer
   constructor(public readonly baseDir: FilePath) {}
 
   transform(input: EntityDefinition): EntityDefinition {
+    // Add Element import if type has primitive members
+    const elementType = DataType.getInstance("FHIR", "Element", this.baseDir);
+    const addElementTransformer = new AddImportTransformer(elementType);
+    const elementImportTransformer = new IfTransformer(
+      new HasPrimitiveMembersPredicate(),
+      addElementTransformer,
+      new NOPTransformer()
+    );
+
+    const transformedInput = elementImportTransformer.transform(input);
+
     // Capture and clone original values
-    const metadata: EntityMetadata = input.metadata.clone();
-    const originalDataType: DataType = input.dataType;
-    const originalParentType: DataType | null = input.parentDataType;
+    const metadata: EntityMetadata = transformedInput.metadata.clone();
+    const originalDataType: DataType = transformedInput.dataType;
+    const originalParentType: DataType | null = transformedInput.parentDataType;
     const originalMemberVariables: Array<MemberVariable> = [
-      ...input.memberVariables,
+      ...transformedInput.memberVariables,
     ];
-    const originalImports: EntityImports = input.imports.clone();
+    const originalImports: EntityImports = transformedInput.imports.clone();
 
     // Convert dataType
     const newDataType = convertDataType(originalDataType, this.baseDir);

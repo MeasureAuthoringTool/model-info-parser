@@ -30,14 +30,28 @@ export class Element extends Type {
     }
     return newInstance;
   }
+
+  public toJSON(): IElement {
+    const result: IElement = super.toJSON();
+
+    if (this.id) {
+      result.id = this.id;
+    }
+
+    if (this.extension) {
+      result.extension = this.extension.map((x) => x.toJSON());
+    }
+
+    return result;
+  }
   
   public getTypeName(): string {
     return "Element";
   }
-}
-
-export function isElement(input?: unknown): input is Element {
-  const castInput = input as Element;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "Element";
+  
+  public static isElement(input?: unknown): input is Element {
+    const castInput = input as Element;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Element";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

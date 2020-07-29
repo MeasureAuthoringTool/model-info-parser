@@ -12,7 +12,7 @@ export class PrimitiveMarkdown extends PrimitiveString {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveString.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveString.parsePrimitive>[1],
     providedInstance: PrimitiveMarkdown = new PrimitiveMarkdown()
   ): PrimitiveMarkdown {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveMarkdown extends PrimitiveString {
   public getTypeName(): string {
     return "PrimitiveMarkdown";
   }
-}
-
-export function isPrimitiveMarkdown(input?: unknown): input is PrimitiveMarkdown {
-  const castInput = input as PrimitiveMarkdown;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveMarkdown";
+  
+  public static isPrimitiveMarkdown(input?: unknown): input is PrimitiveMarkdown {
+    const castInput = input as PrimitiveMarkdown;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveMarkdown";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

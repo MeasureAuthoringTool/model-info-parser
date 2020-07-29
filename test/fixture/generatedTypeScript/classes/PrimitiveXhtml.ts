@@ -19,6 +19,7 @@ export class PrimitiveXhtml extends Element {
     providedInstance: PrimitiveXhtml = new PrimitiveXhtml()
   ): PrimitiveXhtml {
       let newInstance: PrimitiveXhtml;
+  
       if (extension) {
         newInstance = Element.parse(extension);
       } else {
@@ -33,10 +34,10 @@ export class PrimitiveXhtml extends Element {
   public getTypeName(): string {
     return "PrimitiveXhtml";
   }
-}
-
-export function isPrimitiveXhtml(input?: unknown): input is PrimitiveXhtml {
-  const castInput = input as PrimitiveXhtml;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveXhtml";
+  
+  public static isPrimitiveXhtml(input?: unknown): input is PrimitiveXhtml {
+    const castInput = input as PrimitiveXhtml;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveXhtml";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

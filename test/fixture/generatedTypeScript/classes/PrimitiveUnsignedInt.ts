@@ -12,7 +12,7 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveInteger.parsePrimitive>[0],
-    extension: Parameters<typeof PrimitiveInteger.parsePrimitive>[1],
+    extension?: Parameters<typeof PrimitiveInteger.parsePrimitive>[1],
     providedInstance: PrimitiveUnsignedInt = new PrimitiveUnsignedInt()
   ): PrimitiveUnsignedInt {
       return PrimitiveInteger.parsePrimitive(value, extension, providedInstance);
@@ -21,10 +21,10 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
   public getTypeName(): string {
     return "PrimitiveUnsignedInt";
   }
-}
-
-export function isPrimitiveUnsignedInt(input?: unknown): input is PrimitiveUnsignedInt {
-  const castInput = input as PrimitiveUnsignedInt;
-  return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUnsignedInt";
+  
+  public static isPrimitiveUnsignedInt(input?: unknown): input is PrimitiveUnsignedInt {
+    const castInput = input as PrimitiveUnsignedInt;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUnsignedInt";
+  }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */
