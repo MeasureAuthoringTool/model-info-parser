@@ -9,6 +9,7 @@ import AddImportTransformer from "./AddImportTransformer";
 import IfTransformer from "./core/IfTransformer";
 import NOPTransformer from "./core/NOPTransformer";
 import HasPrimitiveMembersPredicate from "./HasPrimitiveMembersPredicate";
+import AnyResourceTypeTransformer from "./AnyResourceTypeTransformer";
 
 export function convertDataType(
   inputType: DataType,
@@ -85,12 +86,15 @@ export default class TypeScriptInterfaceTransformer
     const newImports = new EntityImports(newImportTypes);
 
     // Construct result
-    return new EntityDefinition(
+    const result = new EntityDefinition(
       metadata,
       newDataType,
       newParentType,
       newMemberVariables,
       newImports
     );
+
+    // Transform result to change "Resource" to "AnyResource"
+    return new AnyResourceTypeTransformer(this.baseDir).transform(result);
   }
 }

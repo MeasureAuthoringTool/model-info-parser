@@ -5,8 +5,14 @@ import {
   Extension,
   IKitchenSink,
   KitchenSink,
-  PrimitiveTime, Coding, PrimitiveBoolean,
+  PrimitiveTime,
+  Coding,
+  PrimitiveBoolean,
+  IResourceChild,
+  Resource,
+  ResourceChild, Bundle, BundleEntry,
 } from "../fixture/generatedTypeScript/fhir";
+import { IBundle } from "../fixture/generatedTypeScript/interfaces/IBundle";
 
 describe("Testing the Parsing logic of a generated class", () => {
   function assertExtension(extensions?: Array<Extension>): void {
@@ -55,7 +61,9 @@ describe("Testing the Parsing logic of a generated class", () => {
     expect(extensionResult.id).toBe("idOfExtension");
     expect(extensionResult.value).toBeDefined();
 
-    expect(PrimitiveBoolean.isPrimitiveBoolean(extensionResult.value)).toBeTrue();
+    expect(
+      PrimitiveBoolean.isPrimitiveBoolean(extensionResult.value)
+    ).toBeTrue();
     if (PrimitiveBoolean.isPrimitiveBoolean(extensionResult.value)) {
       expect(extensionResult.value.value).toBeTrue();
     }
@@ -67,11 +75,13 @@ describe("Testing the Parsing logic of a generated class", () => {
       url: "http://something",
       times: ["time1", "time2"],
       singleCode: {
-        text: "someCode"
+        text: "someCode",
       },
-      coding: [{
-        version: "theVersion"
-      }]
+      coding: [
+        {
+          version: "theVersion",
+        },
+      ],
     };
 
     const result = KitchenSink.parse(json);
@@ -125,5 +135,46 @@ describe("Testing the Parsing logic of a generated class", () => {
     expect(time1.id).toBeUndefined();
     expect(time2.id).toBe("time2Id");
     assertExtension(time2.extension);
+  });
+
+  it("should lookup the resource type from the resource mapping", () => {
+    const json: IResourceChild = {
+      resourceType: "ResourceChild",
+      boolVal: true,
+    };
+
+    const result: Resource | ResourceChild = Resource.parse(json);
+
+    expect(result.resourceType).toBe("ResourceChild");
+    expect(ResourceChild.isResourceChild(result)).toBeTrue();
+    if (ResourceChild.isResourceChild(result)) {
+      expect(result.boolVal?.value).toBeTrue();
+    }
+  });
+
+  it("should parse bundles correctly", () => {
+    const json: IBundle = {
+      resourceType: "Bundle",
+      entry: [
+        {
+          resource: {
+            resourceType: "ResourceChild",
+            boolVal: true,
+          },
+        },
+      ],
+    };
+
+    const result = Bundle.parse(json);
+    expect(result.resourceType).toBe("Bundle");
+    expect(result.entry).toBeArrayOfSize(1);
+    const [entry1] = result.entry as Array<BundleEntry>
+    expect(entry1.resource).toBeDefined();
+    expect(entry1.resource?.resourceType).toBe("ResourceChild");
+    const resourceChild = entry1.resource;
+    expect(ResourceChild.isResourceChild(resourceChild)).toBeTrue();
+    if (ResourceChild.isResourceChild(resourceChild)) {
+      expect(resourceChild.boolVal?.value).toBeTrue();
+    }
   });
 });

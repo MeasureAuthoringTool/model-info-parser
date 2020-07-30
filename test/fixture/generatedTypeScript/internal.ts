@@ -1,7 +1,9 @@
 
 /* eslint-disable import/no-cycle */
 export * from "./interfaces/IType";
+export * from "./interfaces/IResource";
 export * from "./interfaces/IElement";
+export * from "./interfaces/IBackboneElement";
 export * from "./interfaces/IExtension";
 export * from "./interfaces/IPrimitiveUri";
 export * from "./interfaces/IPrimitiveString";
@@ -19,6 +21,9 @@ export * from "./interfaces/IPrimitiveMarkdown";
 export * from "./interfaces/IPrimitiveOid";
 export * from "./interfaces/IPrimitivePositiveInt";
 export * from "./interfaces/IPrimitiveQuestion";
+export * from "./interfaces/IResourceChild";
+export * from "./interfaces/IBundle";
+export * from "./interfaces/IBundleEntry";
 export * from "./interfaces/IKitchenSink";
 export * from "./interfaces/ICoding";
 export * from "./interfaces/ICodeableConcept";
@@ -29,7 +34,9 @@ export * from "./interfaces/IPrimitiveUuid";
 export * from "./interfaces/IPrimitiveXhtml";
 
 export * from "./classes/Type";
+export * from "./classes/Resource";
 export * from "./classes/Element";
+export * from "./classes/BackboneElement";
 export * from "./classes/Extension";
 export * from "./classes/PrimitiveUri";
 export * from "./classes/PrimitiveString";
@@ -47,6 +54,9 @@ export * from "./classes/PrimitiveMarkdown";
 export * from "./classes/PrimitiveOid";
 export * from "./classes/PrimitivePositiveInt";
 export * from "./classes/PrimitiveQuestion";
+export * from "./classes/ResourceChild";
+export * from "./classes/Bundle";
+export * from "./classes/BundleEntry";
 export * from "./classes/KitchenSink";
 export * from "./classes/Coding";
 export * from "./classes/CodeableConcept";
@@ -55,5 +65,7 @@ export * from "./classes/PrimitiveUnsignedInt";
 export * from "./classes/PrimitiveUrl";
 export * from "./classes/PrimitiveUuid";
 export * from "./classes/PrimitiveXhtml";
+
+export * from "./ResourceMapping"
 /* eslint-enable import/no-cycle */
 

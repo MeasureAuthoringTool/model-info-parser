@@ -5,6 +5,7 @@ import DataType from "../../src/model/dataTypes/DataType";
 import MemberVariable from "../../src/model/dataTypes/MemberVariable";
 import FilePath from "../../src/model/dataTypes/FilePath";
 import SystemBoolean from "../../src/model/dataTypes/system/SystemBoolean";
+import EntityImports from "../../src/model/dataTypes/EntityImports";
 
 describe("TypeScriptInterfaceTransformer", () => {
   describe("constructor", () => {
@@ -21,6 +22,7 @@ describe("TypeScriptInterfaceTransformer", () => {
     let builder: EntityDefinitionBuilder;
     let regularEntity: EntityDefinition;
     let primitiveEntity: EntityDefinition;
+    let entityWithResource: EntityDefinition;
     let dataType: DataType;
     let parentDataType: DataType;
     let member1: MemberVariable;
@@ -38,10 +40,19 @@ describe("TypeScriptInterfaceTransformer", () => {
       [member1, member2] = regularEntity.memberVariables;
 
       const primitiveType = DataType.getInstance("FHIR", "string", baseDir);
-      const primitiveMember = new MemberVariable(primitiveType, "primitiveMember");
+      const primitiveMember = new MemberVariable(
+        primitiveType,
+        "primitiveMember"
+      );
       builder = new EntityDefinitionBuilder();
       builder.memberVariables = [primitiveMember];
       primitiveEntity = builder.buildEntityDefinition();
+
+      const resourceType = DataType.getInstance("FHIR", "Resource", baseDir);
+      const resourceMember = new MemberVariable(resourceType, "resourceMember");
+      builder.imports = new EntityImports([resourceType]);
+      builder.memberVariables = [resourceMember];
+      entityWithResource = builder.buildEntityDefinition();
     });
 
     function assertDataType(resultType: DataType, inputType: DataType): void {
@@ -137,8 +148,22 @@ describe("TypeScriptInterfaceTransformer", () => {
       const result = transformer.transform(primitiveEntity);
       expect(result.imports.dataTypes).toBeArrayOfSize(3);
       expect(result.imports.dataTypes[0].normalizedName).toBe("IElement");
-      expect(result.imports.dataTypes[1].normalizedName).toBe("ImemberTypeName1");
-      expect(result.imports.dataTypes[2].normalizedName).toBe("ImemberTypeName2");
+      expect(result.imports.dataTypes[1].normalizedName).toBe(
+        "ImemberTypeName1"
+      );
+      expect(result.imports.dataTypes[2].normalizedName).toBe(
+        "ImemberTypeName2"
+      );
+    });
+
+    it("should convert IResource members to AnyResource members", () => {
+      const result = transformer.transform(entityWithResource);
+      expect(result.memberVariables).toBeArrayOfSize(1);
+      expect(result.imports.dataTypes).toBeArrayOfSize(1);
+      expect(result.imports.dataTypes[0].normalizedName).toBe("AnyResource");
+      expect(result.memberVariables[0].dataType.normalizedName).toBe(
+        "AnyResource"
+      );
     });
   });
 });

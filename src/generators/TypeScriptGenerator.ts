@@ -7,6 +7,7 @@ import interfaceTemplate, {
   TemplateContext as InterfaceTemplateContext,
 } from "../templates/typescript/interfaces/interfaceTemplate";
 import internalTemplate from "../templates/typescript/internalTemplate";
+import resourceMapTemplate from "../templates/typescript/resourceMapTemplate";
 import indexTemplate from "../templates/typescript/indexTemplate";
 import typeAliasTemplate from "../templates/typescript/typeAliases/typeAliasTemplate";
 import Generator from "./Generator";
@@ -17,6 +18,8 @@ import TypeScriptInterfaceTransformer from "../collectionUtils/TypeScriptInterfa
 import TypeScriptClassPreprocessor from "../preprocessors/TypeScriptClassPreprocessor";
 import TypeScriptInterfacePreprocessor from "../preprocessors/TypeScriptInterfacePreprocessor";
 import { getTypeScriptInterfacePrimitive } from "../templates/helpers/templateHelpers";
+import TypeHierarchy from "../model/TypeHierarchy";
+import DataType from "../model/dataTypes/DataType";
 
 async function generateClassFile(
   entityDefinition: EntityDefinition,
@@ -123,6 +126,22 @@ async function generateInterfaceFile(
 async function generateIndexFiles(
   entityCollection: EntityCollection
 ): Promise<void> {
+  // Generate ResourceMapping.ts
+  const hierarchy = new TypeHierarchy(entityCollection);
+  const resourceType = DataType.getInstance("FHIR", "Resource", entityCollection.baseDir);
+  const resourceChildren: Array<DataType> = hierarchy.getAllChildrenFor(resourceType);
+
+  const resourceMapContents = resourceMapTemplate({
+    resourceTypes: resourceChildren
+  });
+  const resourceMapWriter = new FileWriter(
+    resourceMapContents,
+    entityCollection.baseDir.toString(),
+    null,
+    "ResourceMapping.ts"
+  );
+  await resourceMapWriter.writeFile();
+
   // Generate the index.ts file
   const indexContents: string = indexTemplate();
   const indexWriter = new FileWriter(

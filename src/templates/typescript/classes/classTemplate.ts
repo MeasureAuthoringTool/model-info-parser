@@ -6,6 +6,9 @@ import EntityImports from "../../../model/dataTypes/EntityImports";
 
 export const source = `/* eslint-disable import/prefer-default-export, import/no-cycle */
 {{# if imports.dataTypes }}import { 
+{{# if (eq dataType.normalizedName "Resource") }}
+  lookupResourceType,
+{{/ if }}
 {{# each imports.dataTypes }}
   {{ this.normalizedName }},
 {{/ each }}

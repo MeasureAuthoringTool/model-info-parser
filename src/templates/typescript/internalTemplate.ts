@@ -9,6 +9,8 @@ export * from "./interfaces/{{ this }}";
 {{# each classNames }}
 export * from "./classes/{{ this }}";
 {{/ each }}
+
+export * from "./ResourceMapping"
 /* eslint-enable import/no-cycle */
 
 `;

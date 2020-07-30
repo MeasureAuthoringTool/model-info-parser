@@ -1,9 +1,14 @@
 import {
+  BundleEntry,
   Coding,
   Extension,
-  KitchenSink, PrimitiveCode,
-  PrimitiveString, PrimitiveTime,
+  KitchenSink,
+  PrimitiveBoolean,
+  PrimitiveCode,
+  PrimitiveString,
+  PrimitiveTime,
   PrimitiveUri,
+  ResourceChild,
 } from "../fixture/generatedTypeScript/fhir";
 
 describe("Testing the JSON serialization logic of a generated class", () => {
@@ -124,6 +129,22 @@ describe("Testing the JSON serialization logic of a generated class", () => {
       ]
     }
   ]
+}`);
+  });
+
+  it("should serialize Resource subtypes", () => {
+    const input: BundleEntry = new BundleEntry();
+    const resourceChild = new ResourceChild();
+    resourceChild.resourceType = "ResourceChild";
+    resourceChild.boolVal = PrimitiveBoolean.parsePrimitive(true);
+    input.resource = resourceChild;
+
+    const result = JSON.stringify(input, null, 2);
+    expect(result).toBe(`{
+  "resource": {
+    "resourceType": "ResourceChild",
+    "boolVal": true
+  }
 }`);
   });
 });
