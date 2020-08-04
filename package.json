@@ -11,7 +11,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "prebuild": "rm -rf dist; rm -rf generated rm -rf ./test/fixture/generatedTypeScript; ts-node src/generateTypeScriptTypes.ts -o ./test/fixture/generatedTypeScript -f ./test/resources/dummy-fhir-modelinfo-4.0.1.xml",
+    "prebuild": "rm -rf dist; rm -rf generated; rm -rf ./test/fixture/generatedTypeScript; ts-node src/generateTypeScriptTypes.ts -o ./test/fixture/generatedTypeScript -f ./test/resources/dummy-fhir-modelinfo-4.0.1.xml",
     "build": "tsc",
     "generateTypeScriptTypes": "ts-node src/generateTypeScriptTypes.ts",
     "generateMongoidTypes": "ts-node src/generateMongoidTypes.ts",

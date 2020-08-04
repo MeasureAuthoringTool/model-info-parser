@@ -1,7 +1,7 @@
-import ClearMemberChoicesTransformer from "../src/collectionUtils/ClearMemberChoicesTransformer";
-import MemberVariable from "../src/model/dataTypes/MemberVariable";
-import SystemBoolean from "../src/model/dataTypes/system/SystemBoolean";
-import SystemDate from "../src/model/dataTypes/system/SystemDate";
+import ClearMemberChoicesTransformer from "../../src/collectionUtils/ClearMemberChoicesTransformer";
+import MemberVariable from "../../src/model/dataTypes/MemberVariable";
+import SystemBoolean from "../../src/model/dataTypes/system/SystemBoolean";
+import SystemDate from "../../src/model/dataTypes/system/SystemDate";
 
 describe("ClearMemberChoicesTransformer", () => {
   const transformer = new ClearMemberChoicesTransformer();
