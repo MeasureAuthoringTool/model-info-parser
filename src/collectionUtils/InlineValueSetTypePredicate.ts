@@ -13,7 +13,12 @@ import EntityDefinition from "../model/dataTypes/EntityDefinition";
 export default class InlineValueSetTypePredicate
   implements Predicate<EntityDefinition> {
   evaluate(input: EntityDefinition): boolean {
-    const { parentDataType, memberVariables } = input;
+    const { dataType, parentDataType, memberVariables } = input;
+    // Must not already be primitive
+    if (dataType.primitive) {
+      return false;
+    }
+
     // Must extend FHIR.Element
     if (
       !parentDataType ||

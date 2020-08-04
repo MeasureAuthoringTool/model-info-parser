@@ -111,6 +111,10 @@ export default class DataType {
     return newSystemType;
   }
 
+  public static clearCache(): void {
+    DataType.cache = {};
+  }
+
   private constructor(
     public readonly namespace: string,
     public readonly typeName: string,

@@ -41,6 +41,16 @@ describe("InlineValueSetTypePredicate", () => {
     expect(predicate.evaluate(entity)).toBeTrue();
   });
 
+  it("should return false if entity is already primitive", () => {
+    entityDefinitionBuilder.dataType = DataType.getInstance(
+      "FHIR",
+      "string",
+      "/tmp"
+    );
+    entity = entityDefinitionBuilder.buildEntityDefinition();
+    expect(predicate.evaluate(entity)).toBeFalse();
+  });
+
   it("should return false if entity has no parent type", () => {
     entityDefinitionBuilder.parentType = null;
     entity = entityDefinitionBuilder.buildEntityDefinition();

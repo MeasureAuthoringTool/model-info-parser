@@ -18,6 +18,7 @@ describe("BasePreprocessor", () => {
   let entityCollection: EntityCollection;
 
   beforeEach(() => {
+    DataType.clearCache();
     entityBuilder = new EntityDefinitionBuilder();
     preprocessor = new BasePreprocessor();
     entityBuilder.dataType = DataType.getInstance("FHIR", "Resource", "/tmp");
