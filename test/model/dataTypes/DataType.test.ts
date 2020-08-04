@@ -82,4 +82,24 @@ describe("DataType", () => {
       expect(DataType.getInstance("System", "Time", "/tmp")).toBe(SystemTime);
     });
   });
+
+  describe("#convertTypeToPrimitive()", () => {
+    it("should set the specified type's primitive flag to true", () => {
+      const originalType = DataType.getInstance("NewNS", "NewType", "/tmp");
+      expect(originalType.primitive).toBeFalse();
+
+      const result = DataType.convertTypeToPrimitive(originalType);
+      expect(result).toBe(originalType);
+      expect(result.path).toBe(originalType.path);
+      expect(result.normalizedName).toBe(originalType.normalizedName);
+      expect(result.systemType).toBe(originalType.systemType);
+      expect(result.typeName).toBe(originalType.typeName);
+      expect(result.namespace).toBe(originalType.namespace);
+      expect(result.primitive).toBeTrue();
+
+      const cachedType = DataType.getInstance("NewNS", "NewType", "/tmp");
+      expect(cachedType).toBe(result);
+      expect(cachedType.primitive).toBeTrue();
+    });
+  });
 });
