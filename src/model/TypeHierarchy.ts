@@ -1,4 +1,5 @@
 import DataType from "./dataTypes/DataType";
+import EntityCollection from "./dataTypes/EntityCollection";
 
 /**
  * The type of the internal map used to represent the hierarchy.
@@ -17,6 +18,15 @@ interface HierarchyMap {
  */
 export default class TypeHierarchy {
   public typeMap: HierarchyMap = {};
+
+  constructor(collection?: EntityCollection) {
+    if (collection) {
+      collection.entities.forEach(entity => {
+        const { dataType, parentDataType } = entity;
+        this.addType(dataType, parentDataType);
+      });
+    }
+  }
 
   static buildKey(type: DataType): string {
     return `${type.namespace}.${type.typeName}`;

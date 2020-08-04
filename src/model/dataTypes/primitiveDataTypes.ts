@@ -110,9 +110,16 @@ export function convertPrimitiveName(name: string): string {
 export function primitiveTypeCheck(name: string): boolean {
   const convertedName = convertPrimitiveName(name);
 
-  const convertedNameArray: Array<string> = primitiveTypeNames.map((x) =>
+  const convertedNames: Array<string> = primitiveTypeNames.map((x) =>
     convertPrimitiveName(x)
   );
 
-  return convertedNameArray.includes(convertedName);
+  const convertedInterfaceNames: Array<string> = primitiveTypeNames.map(
+    (x) => `I${convertPrimitiveName(x)}`
+  );
+
+  return (
+    convertedNames.includes(convertedName) ||
+    convertedInterfaceNames.includes(name)
+  );
 }

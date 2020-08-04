@@ -7,8 +7,13 @@ export const source = `module {{ dataType.namespace }}
   class {{ dataType.normalizedName }}{{# if parentDataType }} < {{ parentDataType.normalizedName }}{{/if}}
     include Mongoid::Document
     {{#each memberVariables}}
-    {{> mongoidComplexMember member=this}}
-
+    {{# each this.choiceTypes }}
+    {{> mongoidComplexMember variableName=( jsonChoiceName ../variableName this.typeName ) bidirectional=../bidirectional dataType=this relationshipType=../relationshipType }}
+    
+    {{ else }}
+    {{> mongoidComplexMember variableName=( prefixVariableName this.variableName) bidirectional=this.bidirectional dataType=this.dataType relationshipType=this.relationshipType }}
+    
+    {{/ each }}
     {{/each}}
     {{# hasReservedKeywords memberVariables }}
     

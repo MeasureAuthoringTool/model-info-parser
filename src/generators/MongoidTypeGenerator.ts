@@ -12,7 +12,7 @@ import exportModelsTemplate from "../templates/rubymongoid/allMongoidExportTempl
 async function generate(
   entityDefinition: EntityDefinition,
   baseDirectory: FilePath
-): Promise<string> {
+): Promise<void> {
   const templateInput: TemplateContext = {
     dataType: entityDefinition.dataType,
     parentDataType: entityDefinition.parentDataType,
@@ -30,7 +30,6 @@ async function generate(
     fileName
   );
   await writer.writeFile();
-  return contents;
 }
 
 /**
@@ -88,7 +87,7 @@ export async function generateModelExporter(
  */
 async function generateModels(
   entityCollection: EntityCollection
-): Promise<Array<string>> {
+): Promise<Array<void>> {
   const entityNames: string[] = [];
   const promises = entityCollection.entities.map(
     async (entity: EntityDefinition) => {

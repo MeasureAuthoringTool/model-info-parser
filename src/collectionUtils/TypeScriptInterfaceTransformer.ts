@@ -5,8 +5,16 @@ import DataType from "../model/dataTypes/DataType";
 import MemberVariable from "../model/dataTypes/MemberVariable";
 import EntityImports from "../model/dataTypes/EntityImports";
 import FilePath from "../model/dataTypes/FilePath";
+import AddImportTransformer from "./AddImportTransformer";
+import IfTransformer from "./core/IfTransformer";
+import NOPTransformer from "./core/NOPTransformer";
+import HasPrimitiveMembersPredicate from "./HasPrimitiveMembersPredicate";
+import AnyResourceTypeTransformer from "./AnyResourceTypeTransformer";
 
-function convertDataType(inputType: DataType, baseDir: FilePath): DataType {
+export function convertDataType(
+  inputType: DataType,
+  baseDir: FilePath
+): DataType {
   if (inputType.systemType) {
     return inputType;
   }
@@ -14,24 +22,34 @@ function convertDataType(inputType: DataType, baseDir: FilePath): DataType {
   return DataType.getInstance(
     inputType.namespace,
     `I${inputType.normalizedName}`,
-
     baseDir
   );
 }
 
-export default class EntityInterfaceTransformer
+export default class TypeScriptInterfaceTransformer
   implements Transformer<EntityDefinition, EntityDefinition> {
   constructor(public readonly baseDir: FilePath) {}
 
   transform(input: EntityDefinition): EntityDefinition {
+    // Add Element import if type has primitive members
+    const elementType = DataType.getInstance("FHIR", "Element", this.baseDir);
+    const addElementTransformer = new AddImportTransformer(elementType);
+    const elementImportTransformer = new IfTransformer(
+      new HasPrimitiveMembersPredicate(),
+      addElementTransformer,
+      new NOPTransformer()
+    );
+
+    const transformedInput = elementImportTransformer.transform(input);
+
     // Capture and clone original values
-    const metadata: EntityMetadata = input.metadata.clone();
-    const originalDataType: DataType = input.dataType;
-    const originalParentType: DataType | null = input.parentDataType;
+    const metadata: EntityMetadata = transformedInput.metadata.clone();
+    const originalDataType: DataType = transformedInput.dataType;
+    const originalParentType: DataType | null = transformedInput.parentDataType;
     const originalMemberVariables: Array<MemberVariable> = [
-      ...input.memberVariables,
+      ...transformedInput.memberVariables,
     ];
-    const originalImports: EntityImports = input.imports.clone();
+    const originalImports: EntityImports = transformedInput.imports.clone();
 
     // Convert dataType
     const newDataType = convertDataType(originalDataType, this.baseDir);
@@ -68,12 +86,15 @@ export default class EntityInterfaceTransformer
     const newImports = new EntityImports(newImportTypes);
 
     // Construct result
-    return new EntityDefinition(
+    const result = new EntityDefinition(
       metadata,
       newDataType,
       newParentType,
       newMemberVariables,
       newImports
     );
+
+    // Transform result to change "Resource" to "AnyResource"
+    return new AnyResourceTypeTransformer(this.baseDir).transform(result);
   }
 }

@@ -10,6 +10,8 @@ describe("MongoidPreprocessor", () => {
   let entityBuilder;
   let preprocessor: MongoidPreprocessor;
   let entityDefinition: EntityDefinition;
+  let resourceEntity: EntityDefinition;
+  let elementEntity: EntityDefinition;
   let measureDefinition: EntityDefinition;
   let entityCollection: EntityCollection;
 
@@ -28,15 +30,31 @@ describe("MongoidPreprocessor", () => {
     );
     measureDefinition = entityBuilder.buildEntityDefinition();
 
+    entityBuilder = new EntityDefinitionBuilder();
+    entityBuilder.dataType = DataType.getInstance(
+      "FHIR",
+      "Element",
+      entityBuilder.dataType.path
+    );
+    elementEntity = entityBuilder.buildEntityDefinition();
+
+    entityBuilder = new EntityDefinitionBuilder();
+    entityBuilder.dataType = DataType.getInstance(
+      "FHIR",
+      "Resource",
+      entityBuilder.dataType.path
+    );
+    resourceEntity = entityBuilder.buildEntityDefinition();
+
     entityCollection = new EntityCollection(
-      [entityDefinition, measureDefinition],
+      [entityDefinition, measureDefinition, resourceEntity, elementEntity],
       FilePath.getInstance("/tmp")
     );
   });
 
   it("should add two additional member variables to the Measure type (only)", () => {
     // preconditions
-    expect(entityCollection.entities).toBeArrayOfSize(2);
+    expect(entityCollection.entities).toBeArrayOfSize(4);
     expect(entityCollection.entities[0].memberVariables).toBeArrayOfSize(2);
     expect(entityCollection.entities[1].memberVariables).toBeArrayOfSize(2);
     expect(entityCollection.entities[0].collectionName).toBeNull();
@@ -46,7 +64,7 @@ describe("MongoidPreprocessor", () => {
 
     expect(result).not.toBe(entityCollection);
     const { entities } = result;
-    expect(entities).toBeArrayOfSize(3);
+    expect(entities).toBeArrayOfSize(5);
 
     // First entity unchanged
     expect(entities[0].memberVariables).toBeArrayOfSize(2);
@@ -67,8 +85,14 @@ describe("MongoidPreprocessor", () => {
     expect(entities[0].collectionName).toBeNull();
     expect(entities[1].collectionName).toBe("fhir_measures");
 
+    expect(entities[2].dataType.typeName).toBe("Resource");
+    expect(entities[2].memberVariables[3].variableName).toBe("fhirId");
+
+    expect(entities[3].dataType.typeName).toBe("Element");
+    expect(entities[3].memberVariables[2].variableName).toBe("fhirId");
+
     // Third entity is our hand-made FHIR.Type
-    expect(entities[2].dataType.namespace).toBe("FHIR");
-    expect(entities[2].dataType.typeName).toBe("Type");
+    expect(entities[4].dataType.namespace).toBe("FHIR");
+    expect(entities[4].dataType.typeName).toBe("Type");
   });
 });

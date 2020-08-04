@@ -22,7 +22,7 @@ describe("TypeScriptPreprocessor", () => {
     preprocessor = new TypeScriptPreprocessor();
     path = FilePath.getInstance("/tmp");
 
-    dataType1 = DataType.getInstance("tmp", "TempType1", path);
+    dataType1 = DataType.getInstance("FHIR", "string", path);
     dataType2 = DataType.getInstance("tmp", "TempType2", path);
     dataType3 = DataType.getInstance("tmp", "TempType3", path);
 

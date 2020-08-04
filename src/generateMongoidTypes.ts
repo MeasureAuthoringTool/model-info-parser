@@ -18,7 +18,7 @@ const preprocessors: Array<Preprocessor> = [new MongoidPreprocessor()];
 
 new GeneratorProgram(MongoidTypeGenerator, preprocessors)
   .generateTypes()
-  .then((result: Array<string>) => {
+  .then((result: Array<void>) => {
     logger.info(`Successfully generated ${result.length} types`);
     return true;
   })

@@ -10,8 +10,26 @@ import MemberVariable from "../../model/dataTypes/MemberVariable";
 import DataType from "../../model/dataTypes/DataType";
 import { jsonChoiceName } from "../../utils";
 
+export function trimInterfaceName(typeName: string): string {
+  if (typeName.startsWith("IPrimitive")) {
+    return typeName.slice(10);
+  }
+  if (typeName.startsWith("Primitive")) {
+    return typeName.slice(9);
+  }
+  if (typeName.startsWith("I")) {
+    return typeName.slice(1);
+  }
+  return typeName;
+}
+
 export function getTypeScriptPrimitive(type: string): string {
   return typeScriptPrimitiveTypes[_.lowerFirst(type)];
+}
+
+export function getTypeScriptInterfacePrimitive(type: string): string {
+  const trimmedName = trimInterfaceName(type);
+  return typeScriptPrimitiveTypes[_.lowerFirst(trimmedName)];
 }
 
 export function getMongoidPrimitive(type: string): string {
@@ -148,5 +166,9 @@ Handlebars.registerHelper(
     return jsonChoiceName(variableName, typeName);
   }
 );
+
+Handlebars.registerHelper("trimInterfaceName", (typeName: string): string => {
+  return trimInterfaceName(typeName);
+});
 
 export default Handlebars;

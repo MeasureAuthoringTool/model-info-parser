@@ -9,7 +9,9 @@ export default class TypeScriptPreprocessor extends BasePreprocessor {
   preprocess(entityCollection: EntityCollection): EntityCollection {
     const superResult = super.preprocess(entityCollection);
 
-    const transformer = new ChoiceMemberImportTransformer();
-    return superResult.transform(transformer);
+    // Add imports for all the choice members
+    const choiceImportTransformer = new ChoiceMemberImportTransformer();
+
+    return superResult.transform(choiceImportTransformer);
   }
 }

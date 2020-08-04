@@ -27,7 +27,7 @@ export default class GeneratorProgram {
     program.parse(process.argv);
   }
 
-  async generateTypes(): Promise<Array<string>> {
+  async generateTypes(): Promise<Array<void>> {
     const modelinfoFile: string = program.modelinfoFile as string;
     let outputDirectory: string = program.outputDirectory as string;
 

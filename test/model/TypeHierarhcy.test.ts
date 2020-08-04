@@ -1,5 +1,8 @@
 import DataType from "../../src/model/dataTypes/DataType";
+import EntityCollection from "../../src/model/dataTypes/EntityCollection";
 import TypeHierarchy from "../../src/model/TypeHierarchy";
+import EntityDefinitionBuilder from "./dataTypes/EntityDefinitionBuilder";
+import FilePath from "../../src/model/dataTypes/FilePath";
 
 describe("TypeHierarchy", () => {
   let type1: DataType;
@@ -8,9 +11,14 @@ describe("TypeHierarchy", () => {
   let type4: DataType;
   let parentType1: DataType;
   let parentType2: DataType;
+  let collection: EntityCollection;
   let hierarchy: TypeHierarchy;
 
   beforeEach(() => {
+    const builder = new EntityDefinitionBuilder();
+    const entity = builder.buildEntityDefinition();
+    collection = new EntityCollection([entity], FilePath.getInstance("/tmp"));
+
     type1 = DataType.getInstance("ns", "type1", "/tmp");
     type2 = DataType.getInstance("ns", "type2", "/tmp");
     type3 = DataType.getInstance("ns", "type3", "/tmp");
@@ -18,6 +26,15 @@ describe("TypeHierarchy", () => {
     parentType1 = DataType.getInstance("ns", "parentType1", "/tmp");
     parentType2 = DataType.getInstance("ns", "parentType2", "/tmp");
     hierarchy = new TypeHierarchy();
+  });
+
+  describe("constructor", () => {
+    it("should build a TypeHierarchy from an EntityCollection", () => {
+      const result = new TypeHierarchy(collection);
+      expect(Object.keys(result.typeMap).length).toBe(2);
+      expect(Object.keys(result.typeMap)[0]).toBe("ns4.Data.Type");
+      expect(Object.keys(result.typeMap)[1]).toBe("ns3.Base.Type");
+    });
   });
 
   describe("buildKey", () => {

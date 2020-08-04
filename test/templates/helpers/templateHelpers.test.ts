@@ -1,6 +1,7 @@
 import Handlebars, {
   getMongoidPrimitive,
   getTypeScriptPrimitive,
+  getTypeScriptInterfacePrimitive,
 } from "../../../src/templates/helpers/templateHelpers";
 import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
 import DataType from "../../../src/model/dataTypes/DataType";
@@ -55,6 +56,72 @@ describe("templateHelpers", () => {
       expect(getTypeScriptPrimitive("url")).toEqual("string");
       expect(getTypeScriptPrimitive("uuid")).toEqual("string");
       expect(getTypeScriptPrimitive("xhtml")).toEqual("string");
+    });
+  });
+
+  describe("getTypeScriptInterfacePrimitive()", () => {
+    it("should return equivalent TypeScript compatible primitive type", () => {
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveBase64Binary")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveBoolean")).toEqual(
+        "boolean"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveCanonical")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveCode")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveDate")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveDateTime")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveDecimal")).toEqual(
+        "number"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveId")).toEqual("string");
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveInstant")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveInteger")).toEqual(
+        "number"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveMarkdown")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveOid")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitivePositiveInt")).toEqual(
+        "number"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveQuestion")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveString")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveTime")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveUnsignedInt")).toEqual(
+        "number"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveUri")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveUrl")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveUuid")).toEqual(
+        "string"
+      );
+      expect(getTypeScriptInterfacePrimitive("IPrimitiveXhtml")).toEqual(
+        "string"
+      );
     });
   });
 
@@ -201,6 +268,23 @@ describe("templateHelpers", () => {
           typeName: "type",
         })
       ).toBe("hey varType");
+    });
+  });
+
+  describe("trimInterfaceName", () => {
+    it("should trim the 'I' and 'Primitive' prefixes from an interface type name", () => {
+      const source =
+        "hey {{ trimInterfaceName name1 }} {{ trimInterfaceName name2 }} {{ trimInterfaceName name3 }} {{ trimInterfaceName name4 }}";
+      const template = Handlebars.compile(source);
+
+      expect(
+        template({
+          name1: "TypeName",
+          name2: "ITypeName",
+          name3: "PrimitiveName",
+          name4: "IPrimitiveName",
+        })
+      ).toBe("hey TypeName TypeName Name Name");
     });
   });
 });
