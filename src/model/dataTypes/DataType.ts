@@ -78,6 +78,16 @@ export default class DataType {
     return newDataType;
   }
 
+  /**
+   * Hopefully this can be deleted after the modelinfo fix for inlined ValueSet types
+   * @param type
+   */
+  public static convertTypeToPrimitive(type: DataType): DataType {
+    // eslint-disable-next-line no-param-reassign
+    type.primitive = true;
+    return type;
+  }
+
   private static parseSystemTypes(typeName: string): DataType {
     const fullPath = FilePath.getInstance(`${__dirname}/system/${typeName}`);
 
@@ -101,12 +111,16 @@ export default class DataType {
     return newSystemType;
   }
 
+  public static clearCache(): void {
+    DataType.cache = {};
+  }
+
   private constructor(
     public readonly namespace: string,
     public readonly typeName: string,
     public readonly path: FilePath,
     public readonly systemType: boolean,
     public readonly normalizedName: string,
-    public readonly primitive: boolean
+    public primitive: boolean // This should be readonly after the modelinfo fix
   ) {}
 }

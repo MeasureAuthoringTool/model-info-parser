@@ -6,8 +6,12 @@ import TransformedPredicate from "../collectionUtils/core/TransformedPredicate";
 import ExtractDataTypeTransformer from "../collectionUtils/ExtractDataTypeTransformer";
 import BlacklistedTypesPredicate from "../collectionUtils/BlacklistedTypesPredicate";
 import AddResourceTypeFieldTransformer from "../collectionUtils/AddResourceTypeFieldTransformer";
+import InlineValueSetTypeTransformer from "../collectionUtils/InlineValueSetTypeTransformer";
+import InlineValueSetTypePredicate from "../collectionUtils/InlineValueSetTypePredicate";
 import Predicate from "../collectionUtils/core/Predicate";
 import Transformer from "../collectionUtils/core/Transformer";
+import IfTransformer from "../collectionUtils/core/IfTransformer";
+import NOPTransformer from "../collectionUtils/core/NOPTransformer";
 import ModifyElementTypeTransformer from "../collectionUtils/ModifyElementTypeTransformer";
 import DataType from "../model/dataTypes/DataType";
 import EntityImports from "../model/dataTypes/EntityImports";
@@ -43,6 +47,17 @@ export default class BaseProcessor implements Preprocessor {
     let result: EntityCollection = entityCollection.selectRejected(
       this.blacklistPredicate
     );
+
+    // Inline ValueSet types
+    const inlineValueSetTypeTransformer = new IfTransformer<
+      EntityDefinition,
+      EntityDefinition
+    >(
+      new InlineValueSetTypePredicate(),
+      new InlineValueSetTypeTransformer(entityCollection.baseDir),
+      new NOPTransformer()
+    );
+    result = result.transform(inlineValueSetTypeTransformer);
 
     // Add resourceType field to Resource entity
     result = result.transform(this.addResourceTypeTransformer);
