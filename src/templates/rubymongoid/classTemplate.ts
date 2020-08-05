@@ -15,18 +15,102 @@ export const source = `module {{ dataType.namespace }}
     
     {{/ each }}
     {{/each}}
-    {{# hasReservedKeywords memberVariables }}
+{{# if (eq dataType.normalizedName "Extension") }}
+
+  def self.serializePrimitiveExtension(primitive)
+    result = nil
+    unless primitive.fhirId.nil? || primitive.extension.nil?
+      result = Hash.new
+      result['id'] = primitive.fhirId
+      result['extension'] = primitive.extension.map { |x| x.as_json() }
+    end
+    result
+  end
+
+  def self.serializePrimitiveExtensionArray(primitives)
+    result = primitives.map{ |p|  Extension.serializePrimitiveExtension(p) }
+    result.compact
+    if (result.empty?) 
+      return nil
+    end
+    result
+  end
+{{/ if }}
     
     def as_json(*args)
-      res = super
-      {{# each memberVariables }}
-      {{# isReservedKeyword this.variableName }}
-      res['{{ this.variableName }}'] = res.delete('_{{ this.variableName }}')
-      {{/ isReservedKeyword }}
-      {{/ each }}
-      res
+      result = {{# if parentDataType ~}}
+        super
+      {{~ else ~}}
+        Hash.new
+      {{~/ if }}
+      
+      {{# each memberVariables }}      
+        {{# each choiceTypes }}
+      unless self.{{ jsonChoiceName ../variableName this.typeName }}.nil?
+        result['{{ jsonChoiceName ../variableName this.typeName }}'] = self.{{ jsonChoiceName ../variableName this.typeName }}
+            {{~# unless systemType ~}}
+              {{~# if primitive ~}}
+                .value                
+              {{~ else ~}}
+                .as_json(*args)                
+              {{~/ if ~}}
+            {{~/ unless }}
+                        
+          {{# if primitive }}
+        serialized = Extension.serializePrimitiveExtension(this.{{ jsonChoiceName ../variableName this.typeName }}) 
+        result['_{{ jsonChoiceName ../variableName this.typeName }}'] = serialized unless serialized.nil?
+          {{/ if }}
+      end          
+        {{ else }}        
+      unless self.{{ variableName }}.nil? {{# if isArray}} || !self.{{ variableName }}.any? {{/ if}}
+        result['{{ variableName }}'] = self.{{ variableName }}
+            {{~# unless dataType.systemType ~}}
+              {{~# if isArray ~}}
+                {{~# if dataType.primitive ~}}
+                  .compact().map{ |x| x.value } 
+                {{~ else ~}}
+                  .map{ |x| x.as_json(*args) }
+                {{~/ if ~}}
+              {{~ else ~}}
+                {{~# if dataType.primitive ~}}
+                  .value
+                {{~ else ~}}
+                  .as_json(*args)
+                {{~/ if ~}}
+              {{~/ if ~}}
+            {{~/ unless }}
+
+          {{# if dataType.primitive }}
+          {{# if isArray }}
+        serialized = Extension.serializePrimitiveExtensionArray(self.{{ variableName }})                              
+        result['_{{ variableName }}'] = serialized unless serialized.nil? || !serialized.any?
+          {{ else }}
+        serialized = Extension.serializePrimitiveExtension(self.{{ variableName }})            
+        result['_{{ variableName }}'] = serialized unless serialized.nil?
+          {{/ if }}
+          {{/ if }}
+      end
+        {{/ each }}
+        {{!--
+          Handle reserved words
+        --}}
+        {{# isReservedKeyword this.variableName }}
+        result['{{ this.variableName }}'] = result.delete('_{{ this.variableName }}')
+        {{/ isReservedKeyword }}
+        {{/ each }}
+      {{!--
+        Drop default id
+      --}}           
+      result.delete('id')
+      {{!--
+        Handle fhirId
+      --}}      
+      unless self.fhirId.nil?
+        result['id'] = self.fhirId
+        result.delete('fhirId')
+      end  
+      result
     end
-    {{/ hasReservedKeywords }}
 
     def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target = {{ dataType.normalizedName }}.new)
     {{!--
@@ -36,7 +120,7 @@ export const source = `module {{ dataType.namespace }}
     {{# isPrimitiveType this.dataType }}
       result = target
       unless extension_hash.nil?
-        result['fhirId'] = extension_hash['id']
+        result['fhirId'] = extension_hash['id'] unless extension_hash['id'].nil?
         result['extension'] = extension_hash['extension'].map { |ext| Extension.transform_json(ext) }
       end
     {{ else }}
