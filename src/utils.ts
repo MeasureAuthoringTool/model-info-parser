@@ -1,4 +1,9 @@
-import { convertPrimitiveName } from "./model/dataTypes/primitiveDataTypes";
+import _ from "lodash";
+
+export function normalizeTypeName(typeName: string): string {
+  const regex = /[._\s]*/gi;
+  return typeName.replace(regex, "");
+}
 
 export function normalizeElementTypeName(
   elementType: string
@@ -9,15 +14,14 @@ export function normalizeElementTypeName(
     throw new Error(`Invalid elementType encountered: ${elementType}`);
   }
 
-  const ns = elementType.substring(0, periodIndex);
-  let name = elementType.substring(periodIndex, elementType.length);
+  const namespace = elementType.substring(0, periodIndex);
+  let typeName = elementType.substring(periodIndex, elementType.length);
 
-  name = normalizeTypeName(name);
-  return [ns, name];
+  typeName = normalizeTypeName(typeName);
+  return [namespace, typeName];
 }
 
-export function normalizeTypeName(typeName: string): string {
-  const regex = /[\._\s]*/gi;
-  const name = typeName.replace(regex, "");
-  return convertPrimitiveName(name);
+export function jsonChoiceName(variableName: string, typeName: string): string {
+  const upperTypeName = _.upperFirst(typeName);
+  return `${variableName}${normalizeTypeName(upperTypeName)}`;
 }

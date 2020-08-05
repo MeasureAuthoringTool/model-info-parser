@@ -3,8 +3,6 @@ module.exports = {
   testEnvironment: "node",
   roots: ["<rootDir>/src/", "<rootDir>/test/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  collectCoverageFrom: [
-    "src/**/*.ts",
-    "!**/node_modules/**"
-  ]
+  collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
+  setupFilesAfterEnv: ["jest-extended"],
 };

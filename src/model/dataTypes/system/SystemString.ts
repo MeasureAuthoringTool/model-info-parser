@@ -1,11 +1,3 @@
-import IDataType from "../IDataType";
+import DataType from "../DataType";
 
-export default class SystemString implements IDataType {
-  public readonly namespace: string = "System";
-  public readonly typeName: string = "string";
-  public readonly normalizedName: string = "string";
-  public readonly systemType: boolean = true;
-  public readonly primitive: boolean = true;
-}
-
-export const SystemStringInstance: SystemString = new SystemString();
+export default DataType.getInstance("System", "String", `${__dirname}/system`);

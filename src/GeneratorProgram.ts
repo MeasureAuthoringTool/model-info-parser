@@ -1,10 +1,18 @@
 import { program } from "commander";
+import path from "path";
 import { version } from "../package.json";
-import IGenerator from "./generators/IGenerator";
-import parser from "./parser";
+import Generator from "./generators/Generator";
+import logger from "./logger";
+import ModelInfoParser from "./ModelInfoParser";
+import EntityCollection from "./model/dataTypes/EntityCollection";
+import ModelInfo from "./model/modelInfo/ModelInfo";
+import Preprocessor from "./preprocessors/Preprocessor";
 
 export default class GeneratorProgram {
-  constructor(private generator: IGenerator) {
+  constructor(
+    private generator: Generator,
+    private preprocessors: Array<Preprocessor>
+  ) {
     program.version(version);
 
     // Get the location of the modelinfo.xml file from CLI args
@@ -19,22 +27,37 @@ export default class GeneratorProgram {
     program.parse(process.argv);
   }
 
-  async generateTypes(): Promise<Array<string>> {
-    const { modelinfoFile, outputDirectory } = program;
+  async generateTypes(): Promise<Array<void>> {
+    const modelinfoFile: string = program.modelinfoFile as string;
+    let outputDirectory: string = program.outputDirectory as string;
 
-    console.log(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
+    if (!path.isAbsolute(outputDirectory)) {
+      logger.info(`Redirecting relative directory ${outputDirectory}`);
+      outputDirectory = path.normalize(`${__dirname}/../${outputDirectory}`);
+    }
 
-    const modelInfo = await parser(modelinfoFile);
-    const { complexTypes } = modelInfo;
+    logger.info(`Parsing ${modelinfoFile} and writing to ${outputDirectory}`);
 
-    const promises = complexTypes.map(async (typeInfo) => {
-      const generated = await this.generator.generate(
-        typeInfo,
-        outputDirectory
-      );
-      return generated;
-    });
+    // Parse the modelinfo.xml file into the ModelInfo type representation
+    const otherModelInfo: ModelInfo = await ModelInfoParser.parseModelInfoXmlFile(
+      modelinfoFile
+    );
 
-    return await Promise.all(promises);
+    // Convert the XML representation into an EntityCollection of types
+    let entityCollection = EntityCollection.createEntityCollection(
+      otherModelInfo,
+      outputDirectory
+    );
+
+    // Execute all of the specified preprocessors
+    entityCollection = this.preprocessors.reduce(
+      (accumulator: EntityCollection, preprocessor: Preprocessor) => {
+        return preprocessor.preprocess(accumulator);
+      },
+      entityCollection
+    );
+
+    // Execute the generator for entityCollection
+    return this.generator(entityCollection);
   }
 }

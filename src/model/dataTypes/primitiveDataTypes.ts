@@ -1,5 +1,4 @@
 import _ from "lodash";
-import IDataType from "./IDataType";
 
 export const primitiveTypeNames = [
   "base64Binary",
@@ -25,49 +24,80 @@ export const primitiveTypeNames = [
   "xhtml", // not on documentation page
 ];
 
-export const mongoidPrimitiveTypes: {[name: string]: string} = {
-  'base64Binary': 'String',
-  'boolean': 'Boolean',
-  'canonical': 'String',
-  'code': 'String',
-  'date': 'Date',
-  'dateTime': 'DateTime',
-  'decimal': 'BigDecimal',
-  'id': 'String',
-  'instant': 'DateTime',
-  'integer': 'Integer',
-  'markdown': 'String',
-  'oid': 'String',
-  'positiveInt': 'Integer',
-  'question': 'String',
-  'string': 'String',
-  'time': 'Time',
-  'unsignedInt': 'Integer',
-  'uri': 'String',
-  'url': 'String',
-  'uuid': 'String',
-  'xhtml': 'String'
+/**
+ * This is a mapping of FHIR primitives to their respective JSON representations
+ */
+export const typeScriptPrimitiveTypes: { [key: string]: string } = {
+  base64Binary: "string",
+  boolean: "boolean",
+  canonical: "string",
+  code: "string",
+  date: "string",
+  dateTime: "string",
+  decimal: "number",
+  id: "string",
+  instant: "string",
+  integer: "number",
+  markdown: "string",
+  oid: "string",
+  positiveInt: "number",
+  question: "string",
+  string: "string",
+  time: "string",
+  unsignedInt: "number",
+  uri: "string",
+  url: "string",
+  uuid: "string",
+  xhtml: "string",
 };
 
-export function primitiveTypeCheck(name: string): boolean {
-  const convertedName = convertPrimitiveName(name);
+export const mongoidPrimitiveTypes: { [name: string]: string } = {
+  base64Binary: "String",
+  boolean: "Boolean",
+  canonical: "String",
+  code: "String",
+  date: "Date",
+  dateTime: "DateTime",
+  decimal: "BigDecimal",
+  id: "String",
+  instant: "DateTime",
+  integer: "Integer",
+  markdown: "String",
+  oid: "String",
+  positiveInt: "Integer",
+  question: "String",
+  string: "String",
+  time: "Time",
+  unsignedInt: "Integer",
+  uri: "String",
+  url: "String",
+  uuid: "String",
+  xhtml: "String",
+};
 
-  const convertedNameArray: Array<string> = primitiveTypeNames.map(x => convertPrimitiveName(x));
-
-  return convertedNameArray.includes(convertedName);
-}
-
-/**
- * Checks if any of the specified types are primitive
- * @param distinctTypes
- * @returns true if any of the provided types are primitive
- */
-export function containsPrimitive(distinctTypes: Array<IDataType>): boolean {
-  const firstPrimitive = distinctTypes.find((type) =>
-    primitiveTypeCheck(type.typeName)
-  );
-  return !!firstPrimitive;
-}
+export const mongoosePrimitiveTypes: { [name: string]: string } = {
+  base64Binary: "String",
+  boolean: "Boolean",
+  canonical: "String",
+  code: "String",
+  date: "Date",
+  dateTime: "Date",
+  decimal: "Number",
+  id: "String",
+  instant: "Date",
+  integer: "Number",
+  markdown: "String",
+  oid: "String",
+  positiveInt: "Number",
+  question: "String",
+  string: "String",
+  time: "Date",
+  unsignedInt: "Number",
+  uri: "String",
+  url: "String",
+  uuid: "String",
+  xhtml: "String",
+};
 
 export function convertPrimitiveName(name: string): string {
   if (primitiveTypeNames.includes(name)) {
@@ -75,4 +105,21 @@ export function convertPrimitiveName(name: string): string {
     return `Primitive${upperName}`;
   }
   return name;
+}
+
+export function primitiveTypeCheck(name: string): boolean {
+  const convertedName = convertPrimitiveName(name);
+
+  const convertedNames: Array<string> = primitiveTypeNames.map((x) =>
+    convertPrimitiveName(x)
+  );
+
+  const convertedInterfaceNames: Array<string> = primitiveTypeNames.map(
+    (x) => `I${convertPrimitiveName(x)}`
+  );
+
+  return (
+    convertedNames.includes(convertedName) ||
+    convertedInterfaceNames.includes(name)
+  );
 }
