@@ -12,12 +12,14 @@ describe("AnyResourceTypeTransformer", () => {
   let regularEntity: EntityDefinition;
   let resourceMemberEntity: EntityDefinition;
   let resourceChoiceEntity: EntityDefinition;
+  let builder: EntityDefinitionBuilder;
+  let iResourceType: DataType;
 
   beforeEach(() => {
-    const builder = new EntityDefinitionBuilder();
+    builder = new EntityDefinitionBuilder();
     regularEntity = builder.buildEntityDefinition();
 
-    const iResourceType = DataType.getInstance("FHIR", "IResource", baseDir);
+    iResourceType = DataType.getInstance("FHIR", "IResource", baseDir);
     const otherType = DataType.getInstance("FHIR", "SomethingElse", baseDir);
 
     const resourceMember = new MemberVariable(
@@ -89,5 +91,14 @@ describe("AnyResourceTypeTransformer", () => {
     expect(result.imports.dataTypes[0].path.toString()).toBe(
       "/tmp/FHIR/AnyResource"
     );
+  });
+
+  it("should keep the IResource import if the interface extends IResource", () => {
+    builder.parentType = iResourceType;
+    const newEntity = builder.buildEntityDefinition();
+    const result = transformer.transform(newEntity);
+    expect(result.imports.dataTypes).toBeArrayOfSize(2);
+    expect(result.imports.dataTypes[0].normalizedName).toBe("AnyResource");
+    expect(result.imports.dataTypes[1].normalizedName).toBe("IResource");
   });
 });

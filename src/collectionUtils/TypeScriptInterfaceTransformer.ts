@@ -19,11 +19,17 @@ export function convertDataType(
     return inputType;
   }
 
-  return DataType.getInstance(
+  const newType = DataType.getInstance(
     inputType.namespace,
     `I${inputType.normalizedName}`,
     baseDir
   );
+
+  if (inputType.primitive) {
+    newType.primitive = true;
+  }
+
+  return newType;
 }
 
 export default class TypeScriptInterfaceTransformer

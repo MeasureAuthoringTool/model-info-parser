@@ -30,14 +30,14 @@ export class PrimitiveInteger extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveInteger";
-  }
-  
+
   public static isPrimitiveInteger(input?: unknown): input is PrimitiveInteger {
     const castInput = input as PrimitiveInteger;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveInteger";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveInteger";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

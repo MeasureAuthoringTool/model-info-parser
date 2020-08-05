@@ -26,6 +26,11 @@ export class BundleEntry extends BackboneElement {
     return newInstance;
   }
 
+  public static isBundleEntry(input?: unknown): input is BundleEntry {
+    const castInput = input as BundleEntry;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "BundleEntry";
+  }
+
   public toJSON(): IBundleEntry {
     const result: IBundleEntry = super.toJSON();
 
@@ -38,11 +43,6 @@ export class BundleEntry extends BackboneElement {
   
   public getTypeName(): string {
     return "BundleEntry";
-  }
-  
-  public static isBundleEntry(input?: unknown): input is BundleEntry {
-    const castInput = input as BundleEntry;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "BundleEntry";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

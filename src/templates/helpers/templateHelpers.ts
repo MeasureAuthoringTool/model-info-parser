@@ -171,4 +171,14 @@ Handlebars.registerHelper("trimInterfaceName", (typeName: string): string => {
   return trimInterfaceName(typeName);
 });
 
+Handlebars.registerHelper("trimPrimitiveName", (typeName: string): string => {
+  if (typeName.startsWith("IPrimitive")) {
+    return typeName.slice(10);
+  }
+  if (typeName.startsWith("Primitive")) {
+    return typeName.slice(9);
+  }
+  return typeName;
+});
+
 export default Handlebars;

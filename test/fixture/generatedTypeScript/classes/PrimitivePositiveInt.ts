@@ -17,14 +17,14 @@ export class PrimitivePositiveInt extends PrimitiveInteger {
   ): PrimitivePositiveInt {
       return PrimitiveInteger.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitivePositiveInt";
-  }
-  
+
   public static isPrimitivePositiveInt(input?: unknown): input is PrimitivePositiveInt {
     const castInput = input as PrimitivePositiveInt;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitivePositiveInt";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitivePositiveInt";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

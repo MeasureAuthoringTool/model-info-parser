@@ -19,6 +19,11 @@ export class Type {
     return newInstance;
   }
 
+  public static isType(input?: unknown): input is Type {
+    const castInput = input as Type;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Type";
+  }
+
   public toJSON(): IType {
     const result: IType = {};
 
@@ -27,11 +32,6 @@ export class Type {
   
   public getTypeName(): string {
     return "Type";
-  }
-  
-  public static isType(input?: unknown): input is Type {
-    const castInput = input as Type;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "Type";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

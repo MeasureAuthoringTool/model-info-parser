@@ -33,6 +33,11 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
 {{ else }}
   {{> complexParse }}
 {{/ if }}
+
+  public static is{{ dataType.normalizedName }}(input?: unknown): input is {{ dataType.normalizedName }} {
+    const castInput = input as {{ dataType.normalizedName }};
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "{{ dataType.normalizedName }}";
+  }
 {{# if (eq dataType.normalizedName "Extension") }}
 
   public static serializePrimitiveExtension(
@@ -81,7 +86,7 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   {{# each memberVariables }}
   {{# each choiceTypes }}
     if (this.{{ ../variableName }} && {{ normalizedName }}.is{{ normalizedName }}(this.{{ ../variableName }})) {
-      result.{{ ../variableName }}{{ trimInterfaceName normalizedName}} = this.{{ ../variableName }}
+      result.{{ ../variableName }}{{ trimPrimitiveName normalizedName}} = this.{{ ../variableName }}
       {{~# unless systemType ~}}
         {{~# if primitive ~}}
           .value
@@ -90,7 +95,7 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
         {{~/ if ~}}
       {{~/ unless ~}};
     {{# if primitive }}
-      result._{{ ../variableName }}{{ trimInterfaceName normalizedName}} = Extension.serializePrimitiveExtension(this.{{ ../variableName }});
+      result._{{ ../variableName }}{{ trimPrimitiveName normalizedName}} = Extension.serializePrimitiveExtension(this.{{ ../variableName }});
     {{/ if }}
     }
 
@@ -129,11 +134,6 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   
   public getTypeName(): string {
     return "{{ dataType.normalizedName }}";
-  }
-  
-  public static is{{ dataType.normalizedName }}(input?: unknown): input is {{ dataType.normalizedName }} {
-    const castInput = input as {{ dataType.normalizedName }};
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "{{ dataType.normalizedName }}";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

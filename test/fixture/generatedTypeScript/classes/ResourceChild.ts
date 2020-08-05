@@ -27,6 +27,11 @@ export class ResourceChild extends Resource {
     return newInstance;
   }
 
+  public static isResourceChild(input?: unknown): input is ResourceChild {
+    const castInput = input as ResourceChild;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "ResourceChild";
+  }
+
   public toJSON(): IResourceChild {
     const result: IResourceChild = super.toJSON();
 
@@ -40,11 +45,6 @@ export class ResourceChild extends Resource {
   
   public getTypeName(): string {
     return "ResourceChild";
-  }
-  
-  public static isResourceChild(input?: unknown): input is ResourceChild {
-    const castInput = input as ResourceChild;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "ResourceChild";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */
