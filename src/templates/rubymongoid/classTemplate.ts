@@ -57,7 +57,7 @@ export const source = `module {{ dataType.namespace }}
             {{~/ unless }}
                         
           {{# if primitive }}
-        serialized = Extension.serializePrimitiveExtension(this.{{ jsonChoiceName ../variableName this.typeName }}) 
+        serialized = Extension.serializePrimitiveExtension(self.{{ jsonChoiceName ../variableName this.typeName }}) 
         result['_{{ jsonChoiceName ../variableName this.typeName }}'] = serialized unless serialized.nil?
           {{/ if }}
       end          
