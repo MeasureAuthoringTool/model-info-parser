@@ -17,14 +17,14 @@ export class PrimitiveCanonical extends PrimitiveUri {
   ): PrimitiveCanonical {
       return PrimitiveUri.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveCanonical";
-  }
-  
+
   public static isPrimitiveCanonical(input?: unknown): input is PrimitiveCanonical {
     const castInput = input as PrimitiveCanonical;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCanonical";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveCanonical";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

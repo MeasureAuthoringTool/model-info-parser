@@ -30,14 +30,14 @@ export class PrimitiveXhtml extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveXhtml";
-  }
-  
+
   public static isPrimitiveXhtml(input?: unknown): input is PrimitiveXhtml {
     const castInput = input as PrimitiveXhtml;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveXhtml";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveXhtml";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

@@ -50,6 +50,11 @@ export class Coding extends Element {
     return newInstance;
   }
 
+  public static isCoding(input?: unknown): input is Coding {
+    const castInput = input as Coding;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Coding";
+  }
+
   public toJSON(): ICoding {
     const result: ICoding = super.toJSON();
 
@@ -83,11 +88,6 @@ export class Coding extends Element {
   
   public getTypeName(): string {
     return "Coding";
-  }
-  
-  public static isCoding(input?: unknown): input is Coding {
-    const castInput = input as Coding;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "Coding";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

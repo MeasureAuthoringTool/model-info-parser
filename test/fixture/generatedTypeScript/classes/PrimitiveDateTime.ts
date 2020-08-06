@@ -30,14 +30,14 @@ export class PrimitiveDateTime extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveDateTime";
-  }
-  
+
   public static isPrimitiveDateTime(input?: unknown): input is PrimitiveDateTime {
     const castInput = input as PrimitiveDateTime;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDateTime";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveDateTime";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

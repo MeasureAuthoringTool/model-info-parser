@@ -17,14 +17,14 @@ export class PrimitiveMarkdown extends PrimitiveString {
   ): PrimitiveMarkdown {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveMarkdown";
-  }
-  
+
   public static isPrimitiveMarkdown(input?: unknown): input is PrimitiveMarkdown {
     const castInput = input as PrimitiveMarkdown;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveMarkdown";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveMarkdown";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

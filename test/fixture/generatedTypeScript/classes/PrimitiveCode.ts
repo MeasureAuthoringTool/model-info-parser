@@ -17,14 +17,14 @@ export class PrimitiveCode extends PrimitiveString {
   ): PrimitiveCode {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveCode";
-  }
-  
+
   public static isPrimitiveCode(input?: unknown): input is PrimitiveCode {
     const castInput = input as PrimitiveCode;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCode";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveCode";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

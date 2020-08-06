@@ -30,14 +30,14 @@ export class PrimitiveInstant extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveInstant";
-  }
-  
+
   public static isPrimitiveInstant(input?: unknown): input is PrimitiveInstant {
     const castInput = input as PrimitiveInstant;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveInstant";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveInstant";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

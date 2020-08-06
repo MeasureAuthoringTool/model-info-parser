@@ -26,6 +26,11 @@ export class BackboneElement extends Element {
     return newInstance;
   }
 
+  public static isBackboneElement(input?: unknown): input is BackboneElement {
+    const castInput = input as BackboneElement;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "BackboneElement";
+  }
+
   public toJSON(): IBackboneElement {
     const result: IBackboneElement = super.toJSON();
 
@@ -38,11 +43,6 @@ export class BackboneElement extends Element {
   
   public getTypeName(): string {
     return "BackboneElement";
-  }
-  
-  public static isBackboneElement(input?: unknown): input is BackboneElement {
-    const castInput = input as BackboneElement;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "BackboneElement";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

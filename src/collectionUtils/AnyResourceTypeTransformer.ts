@@ -64,6 +64,12 @@ export default class AnyResourceTypeTransformer
       }
       return type;
     });
+
+    // If entity extends IResource, add that import back
+    if (input.parentDataType === iResourceType) {
+      newImportTypes.push(iResourceType);
+    }
+
     const newImports = new EntityImports(newImportTypes);
 
     return new EntityDefinition(

@@ -51,6 +51,11 @@ export class Resource {
     return newInstance;
   }
 
+  public static isResource(input?: unknown): input is Resource {
+    const castInput = input as Resource;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Resource";
+  }
+
   public toJSON(): IResource {
     const result: IResource = {};
 
@@ -72,11 +77,6 @@ export class Resource {
   
   public getTypeName(): string {
     return "Resource";
-  }
-  
-  public static isResource(input?: unknown): input is Resource {
-    const castInput = input as Resource;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "Resource";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

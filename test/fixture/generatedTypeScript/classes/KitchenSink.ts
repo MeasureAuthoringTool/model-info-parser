@@ -72,6 +72,11 @@ export class KitchenSink extends Element {
     return newInstance;
   }
 
+  public static isKitchenSink(input?: unknown): input is KitchenSink {
+    const castInput = input as KitchenSink;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "KitchenSink";
+  }
+
   public toJSON(): IKitchenSink {
     const result: IKitchenSink = super.toJSON();
 
@@ -121,11 +126,6 @@ export class KitchenSink extends Element {
   
   public getTypeName(): string {
     return "KitchenSink";
-  }
-  
-  public static isKitchenSink(input?: unknown): input is KitchenSink {
-    const castInput = input as KitchenSink;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "KitchenSink";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */
