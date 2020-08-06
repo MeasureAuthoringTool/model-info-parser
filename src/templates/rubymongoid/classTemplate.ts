@@ -175,7 +175,13 @@ export const source = `module {{ dataType.namespace }}
         {{ this.dataType.normalizedName }}.transform_json(var, extension_hash)
       end unless json_hash['{{ this.variableName }}'].nil?
     {{ else }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) } unless json_hash['{{ this.variableName }}'].nil?
+      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| 
+        unless var['resourceType'].nil?
+          Object.const_get('FHIR::' + var['resourceType']).transform_json(var)
+        else
+          {{this.dataType.normalizedName}}.transform_json(var) 
+        end
+      } unless json_hash['{{ this.variableName }}'].nil?
     {{/ isPrimitiveType }}
     {{!--
       If it's not an array, we can transform just the single element
