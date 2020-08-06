@@ -31,6 +31,11 @@ export class Element extends Type {
     return newInstance;
   }
 
+  public static isElement(input?: unknown): input is Element {
+    const castInput = input as Element;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Element";
+  }
+
   public toJSON(): IElement {
     const result: IElement = super.toJSON();
 
@@ -47,11 +52,6 @@ export class Element extends Type {
   
   public getTypeName(): string {
     return "Element";
-  }
-  
-  public static isElement(input?: unknown): input is Element {
-    const castInput = input as Element;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "Element";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

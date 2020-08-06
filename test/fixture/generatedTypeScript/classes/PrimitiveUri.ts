@@ -30,14 +30,14 @@ export class PrimitiveUri extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveUri";
-  }
-  
+
   public static isPrimitiveUri(input?: unknown): input is PrimitiveUri {
     const castInput = input as PrimitiveUri;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUri";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveUri";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

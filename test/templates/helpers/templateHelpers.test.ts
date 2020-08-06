@@ -287,4 +287,21 @@ describe("templateHelpers", () => {
       ).toBe("hey TypeName TypeName Name Name");
     });
   });
+
+  describe("trimPrimitiveName", () => {
+    it("should trim the 'IPrimitive' and 'Primitive' prefixes a type name", () => {
+      const source =
+        "hey {{ trimPrimitiveName name1 }} {{ trimPrimitiveName name2 }} {{ trimPrimitiveName name3 }} {{ trimPrimitiveName name4 }}";
+      const template = Handlebars.compile(source);
+
+      expect(
+        template({
+          name1: "TypeName",
+          name2: "ITypeName",
+          name3: "PrimitiveName",
+          name4: "IPrimitiveName",
+        })
+      ).toBe("hey TypeName ITypeName Name Name");
+    });
+  });
 });

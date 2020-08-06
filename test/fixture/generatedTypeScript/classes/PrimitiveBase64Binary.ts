@@ -30,14 +30,14 @@ export class PrimitiveBase64Binary extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveBase64Binary";
-  }
-  
+
   public static isPrimitiveBase64Binary(input?: unknown): input is PrimitiveBase64Binary {
     const castInput = input as PrimitiveBase64Binary;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveBase64Binary";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveBase64Binary";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

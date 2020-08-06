@@ -2,7 +2,7 @@ export default `{{!--
   Expects the following parameters:
    variableName - required
    className - required
-   choiceType - required
+   choiceType - optional
    primitive - optional
 
   For complex types, this will emit something like:

@@ -5,6 +5,11 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ns4:requiredModelInfo name="System" version="1.0.0"/>
 
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="AddressType" retrievable="false"
+                baseType="FHIR.Element">
+    <ns4:element name="value" elementType="System.String"/>
+  </ns4:typeInfo>
+
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="BackboneElement"
                 identifier="http://hl7.org/fhir/StructureDefinition/BackboneElement" label="BackboneElement"
                 retrievable="false" baseType="FHIR.Element">
@@ -17,6 +22,20 @@
                 identifier="http://hl7.org/fhir/StructureDefinition/Resource" label="Resource" retrievable="true">
     <ns4:element name="id" elementType="System.String"/>
     <ns4:element name="language" elementType="FHIR.code"/>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="DomainResource"
+                identifier="http://hl7.org/fhir/StructureDefinition/DomainResource" label="DomainResource"
+                retrievable="true" baseType="FHIR.Resource">
+    <ns4:element name="contained">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Resource"/>
+    </ns4:element>
+    <ns4:element name="extension">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Extension"/>
+    </ns4:element>
+    <ns4:element name="modifierExtension">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Extension"/>
+    </ns4:element>
   </ns4:typeInfo>
 
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="ResourceChild"

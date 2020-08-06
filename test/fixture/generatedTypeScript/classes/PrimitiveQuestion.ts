@@ -17,14 +17,14 @@ export class PrimitiveQuestion extends PrimitiveString {
   ): PrimitiveQuestion {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveQuestion";
-  }
-  
+
   public static isPrimitiveQuestion(input?: unknown): input is PrimitiveQuestion {
     const castInput = input as PrimitiveQuestion;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveQuestion";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveQuestion";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

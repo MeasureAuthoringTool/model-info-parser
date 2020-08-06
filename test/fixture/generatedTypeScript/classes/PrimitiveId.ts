@@ -17,14 +17,14 @@ export class PrimitiveId extends PrimitiveString {
   ): PrimitiveId {
       return PrimitiveString.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveId";
-  }
-  
+
   public static isPrimitiveId(input?: unknown): input is PrimitiveId {
     const castInput = input as PrimitiveId;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveId";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveId";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

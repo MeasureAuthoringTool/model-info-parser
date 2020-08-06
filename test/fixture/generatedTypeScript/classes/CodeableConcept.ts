@@ -33,6 +33,11 @@ export class CodeableConcept extends Element {
     return newInstance;
   }
 
+  public static isCodeableConcept(input?: unknown): input is CodeableConcept {
+    const castInput = input as CodeableConcept;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "CodeableConcept";
+  }
+
   public toJSON(): ICodeableConcept {
     const result: ICodeableConcept = super.toJSON();
 
@@ -50,11 +55,6 @@ export class CodeableConcept extends Element {
   
   public getTypeName(): string {
     return "CodeableConcept";
-  }
-  
-  public static isCodeableConcept(input?: unknown): input is CodeableConcept {
-    const castInput = input as CodeableConcept;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "CodeableConcept";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

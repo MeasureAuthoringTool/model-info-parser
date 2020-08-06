@@ -17,14 +17,14 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
   ): PrimitiveUnsignedInt {
       return PrimitiveInteger.parsePrimitive(value, extension, providedInstance);
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveUnsignedInt";
-  }
-  
+
   public static isPrimitiveUnsignedInt(input?: unknown): input is PrimitiveUnsignedInt {
     const castInput = input as PrimitiveUnsignedInt;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUnsignedInt";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveUnsignedInt";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

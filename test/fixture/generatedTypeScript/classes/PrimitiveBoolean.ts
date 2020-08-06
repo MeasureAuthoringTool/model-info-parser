@@ -30,14 +30,14 @@ export class PrimitiveBoolean extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveBoolean";
-  }
-  
+
   public static isPrimitiveBoolean(input?: unknown): input is PrimitiveBoolean {
     const castInput = input as PrimitiveBoolean;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveBoolean";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveBoolean";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

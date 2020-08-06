@@ -26,6 +26,11 @@ export class Bundle extends Resource {
     return newInstance;
   }
 
+  public static isBundle(input?: unknown): input is Bundle {
+    const castInput = input as Bundle;
+    return !!input && castInput.getTypeName && castInput.getTypeName() === "Bundle";
+  }
+
   public toJSON(): IBundle {
     const result: IBundle = super.toJSON();
 
@@ -38,11 +43,6 @@ export class Bundle extends Resource {
   
   public getTypeName(): string {
     return "Bundle";
-  }
-  
-  public static isBundle(input?: unknown): input is Bundle {
-    const castInput = input as Bundle;
-    return !!input && castInput.getTypeName && castInput.getTypeName() === "Bundle";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */

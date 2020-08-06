@@ -5,7 +5,7 @@ export const source = `/* eslint-disable import/prefer-default-export, import/no
 import { {{ baseTypeName }} } from "../internal";
 
 {{/ unless}}
-export type {{ name }} = {{ baseTypeName }};
+export type {{ name }} = {{# if baseTypeName }}{{ baseTypeName }}{{ else }}string{{/ if }};
 /* eslint-enable import/prefer-default-export, import/no-cycle, @typescript-eslint/naming-convention */
 `;
 

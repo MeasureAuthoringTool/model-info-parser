@@ -30,14 +30,14 @@ export class PrimitiveDecimal extends Element {
       
       return newInstance;
   }
-  
-  public getTypeName(): string {
-    return "PrimitiveDecimal";
-  }
-  
+
   public static isPrimitiveDecimal(input?: unknown): input is PrimitiveDecimal {
     const castInput = input as PrimitiveDecimal;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDecimal";
+  }
+  
+  public getTypeName(): string {
+    return "PrimitiveDecimal";
   }
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle */
