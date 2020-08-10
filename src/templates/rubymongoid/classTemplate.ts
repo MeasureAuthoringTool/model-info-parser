@@ -114,6 +114,14 @@ export const source = `module {{ dataType.namespace }}
 
     def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target = {{ dataType.normalizedName }}.new)
     {{!--
+    --}}
+    {{# if (eq dataType.normalizedName "Resource") }}
+      if 'Resource' == target.class.name.split('::').last && 'Resource' != json_hash['resourceType']
+        return Object.const_get('FHIR::' + json_hash['resourceType']).transform_json(json_hash)
+      end
+    {{/ if }}
+    
+    {{!--
       If we're transforming a primitive type 'foo', we also need to get the 'id' and 'extension'
       values from the '_foo' attributes and set them accordingly                
     --}}
@@ -175,13 +183,7 @@ export const source = `module {{ dataType.namespace }}
         {{ this.dataType.normalizedName }}.transform_json(var, extension_hash)
       end unless json_hash['{{ this.variableName }}'].nil?
     {{ else }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| 
-        unless var['resourceType'].nil?
-          Object.const_get('FHIR::' + var['resourceType']).transform_json(var)
-        else
-          {{this.dataType.normalizedName}}.transform_json(var) 
-        end
-      } unless json_hash['{{ this.variableName }}'].nil?
+      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) } unless json_hash['{{ this.variableName }}'].nil?
     {{/ isPrimitiveType }}
     {{!--
       If it's not an array, we can transform just the single element
