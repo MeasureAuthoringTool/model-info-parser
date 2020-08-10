@@ -52,14 +52,15 @@ Handlebars.registerHelper("isReservedKeyword", function isReserved(
 });
 
 Handlebars.registerHelper(
-  "prefixVariableName",
+  "toModelVariableName",
   (variableName: string): string => {
     if (reservedWords.includes(variableName)) {
-      return `_${variableName}`;
+      return `${variableName}_local`;
     }
     return variableName;
   }
 );
+
 
 Handlebars.registerHelper("hasReservedKeywords", function isReserved(
   this: Handlebars.TemplateDelegate<string>,

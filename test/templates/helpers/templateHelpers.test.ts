@@ -148,14 +148,15 @@ describe("templateHelpers", () => {
     });
   });
 
-  describe("prefixVariableName()", () => {
-    it("should prefix reserved keywords with an underscore and leave non-reserved keywords alone", () => {
-      const source = "hey {{ prefixVariableName this }}";
+  describe("toModelVariableName()", () => {
+    it("should update reserved keywords with and leave non-reserved keywords alone", () => {
+      const source = "hey {{ toModelVariableName this }}";
       const template = Handlebars.compile(source);
 
       expect(template("someVar")).toBe("hey someVar");
-      expect(template("validated")).toBe("hey _validated");
-      expect(template("collection")).toBe("hey _collection");
+      expect(template("validated")).toBe("hey validated_local");
+      expect(template("collection")).toBe("hey collection_local");
+      expect(template("class")).toBe("hey class_local");
     });
   });
 

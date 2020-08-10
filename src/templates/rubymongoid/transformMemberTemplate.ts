@@ -20,7 +20,7 @@ export default `{{!--
 {{~# if choiceType ~}}
   result['{{ jsonChoiceName variableName choiceType }}'] = {{ className }}.transform_json(json_hash['{{ jsonChoiceName variableName choiceType }}']
 {{~ else ~}}
-  result['{{ prefixVariableName variableName }}'] = {{ className }}.transform_json(json_hash['{{ variableName }}']
+  result['{{ toModelVariableName variableName }}'] = {{ className }}.transform_json(json_hash['{{ variableName }}']
 {{~/ if ~}}
 
 {{~!--
