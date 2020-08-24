@@ -42,67 +42,67 @@ export class Extension extends Element {
   ): Extension {
     const newInstance: Extension = Element.parse(json, providedInstance);
   
-    if (json.url) {
+    if (json.url !== undefined) {
       newInstance.url = PrimitiveUri.parsePrimitive(json.url, json._url);
     }
-    if (json.valueBase64Binary) {
+    if (json.valueBase64Binary !== undefined) {
       newInstance.value = PrimitiveBase64Binary.parsePrimitive(json.valueBase64Binary, json._valueBase64Binary);
     }
-    if (json.valueBoolean) {
+    if (json.valueBoolean !== undefined) {
       newInstance.value = PrimitiveBoolean.parsePrimitive(json.valueBoolean, json._valueBoolean);
     }
-    if (json.valueCanonical) {
+    if (json.valueCanonical !== undefined) {
       newInstance.value = PrimitiveCanonical.parsePrimitive(json.valueCanonical, json._valueCanonical);
     }
-    if (json.valueCode) {
+    if (json.valueCode !== undefined) {
       newInstance.value = PrimitiveCode.parsePrimitive(json.valueCode, json._valueCode);
     }
-    if (json.valueDate) {
+    if (json.valueDate !== undefined) {
       newInstance.value = PrimitiveDate.parsePrimitive(json.valueDate, json._valueDate);
     }
-    if (json.valueDateTime) {
+    if (json.valueDateTime !== undefined) {
       newInstance.value = PrimitiveDateTime.parsePrimitive(json.valueDateTime, json._valueDateTime);
     }
-    if (json.valueDecimal) {
+    if (json.valueDecimal !== undefined) {
       newInstance.value = PrimitiveDecimal.parsePrimitive(json.valueDecimal, json._valueDecimal);
     }
-    if (json.valueId) {
+    if (json.valueId !== undefined) {
       newInstance.value = PrimitiveId.parsePrimitive(json.valueId, json._valueId);
     }
-    if (json.valueInstant) {
+    if (json.valueInstant !== undefined) {
       newInstance.value = PrimitiveInstant.parsePrimitive(json.valueInstant, json._valueInstant);
     }
-    if (json.valueInteger) {
+    if (json.valueInteger !== undefined) {
       newInstance.value = PrimitiveInteger.parsePrimitive(json.valueInteger, json._valueInteger);
     }
-    if (json.valueMarkdown) {
+    if (json.valueMarkdown !== undefined) {
       newInstance.value = PrimitiveMarkdown.parsePrimitive(json.valueMarkdown, json._valueMarkdown);
     }
-    if (json.valueOid) {
+    if (json.valueOid !== undefined) {
       newInstance.value = PrimitiveOid.parsePrimitive(json.valueOid, json._valueOid);
     }
-    if (json.valuePositiveInt) {
+    if (json.valuePositiveInt !== undefined) {
       newInstance.value = PrimitivePositiveInt.parsePrimitive(json.valuePositiveInt, json._valuePositiveInt);
     }
-    if (json.valueString) {
+    if (json.valueString !== undefined) {
       newInstance.value = PrimitiveString.parsePrimitive(json.valueString, json._valueString);
     }
-    if (json.valueTime) {
+    if (json.valueTime !== undefined) {
       newInstance.value = PrimitiveTime.parsePrimitive(json.valueTime, json._valueTime);
     }
-    if (json.valueUnsignedInt) {
+    if (json.valueUnsignedInt !== undefined) {
       newInstance.value = PrimitiveUnsignedInt.parsePrimitive(json.valueUnsignedInt, json._valueUnsignedInt);
     }
-    if (json.valueUri) {
+    if (json.valueUri !== undefined) {
       newInstance.value = PrimitiveUri.parsePrimitive(json.valueUri, json._valueUri);
     }
-    if (json.valueUrl) {
+    if (json.valueUrl !== undefined) {
       newInstance.value = PrimitiveUrl.parsePrimitive(json.valueUrl, json._valueUrl);
     }
-    if (json.valueUuid) {
+    if (json.valueUuid !== undefined) {
       newInstance.value = PrimitiveUuid.parsePrimitive(json.valueUuid, json._valueUuid);
     }
-    if (json.valueCoding) {
+    if (json.valueCoding !== undefined) {
       newInstance.value = Coding.parse(json.valueCoding);
     }
     return newInstance;
@@ -256,7 +256,11 @@ export class Extension extends Element {
 
     return result;
   }
-  
+
+  public clone(): Extension {
+    return Extension.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Extension";
   }

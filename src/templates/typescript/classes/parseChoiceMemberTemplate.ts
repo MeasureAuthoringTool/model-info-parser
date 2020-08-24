@@ -1,5 +1,5 @@
 export default `
-  if (json.{{ variableName }}{{ trimPrimitiveName dataType.normalizedName}}) {
+  if (json.{{ variableName }}{{ trimPrimitiveName dataType.normalizedName}} !== undefined) {
   {{# if dataType.systemType }}
     newInstance.{{ variableName }} = json.{{ variableName }}{{ trimPrimitiveName dataType.normalizedName}};
   {{ else }}

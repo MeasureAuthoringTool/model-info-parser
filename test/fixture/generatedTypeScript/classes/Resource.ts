@@ -39,13 +39,13 @@ export class Resource {
         }
       }
   
-    if (json.id) {
+    if (json.id !== undefined) {
       newInstance.id = json.id;
     }
-    if (json.language) {
+    if (json.language !== undefined) {
       newInstance.language = PrimitiveCode.parsePrimitive(json.language, json._language);
     }
-    if (json.resourceType) {
+    if (json.resourceType !== undefined) {
       newInstance.resourceType = json.resourceType;
     }
     return newInstance;
@@ -74,7 +74,11 @@ export class Resource {
 
     return result;
   }
-  
+
+  public clone(): Resource {
+    return Resource.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Resource";
   }

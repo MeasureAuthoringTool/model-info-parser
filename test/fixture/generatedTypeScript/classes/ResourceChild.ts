@@ -21,7 +21,7 @@ export class ResourceChild extends Resource {
   ): ResourceChild {
     const newInstance: ResourceChild = Resource.parse(json, providedInstance);
   
-    if (json.boolVal) {
+    if (json.boolVal !== undefined) {
       newInstance.boolVal = PrimitiveBoolean.parsePrimitive(json.boolVal, json._boolVal);
     }
     return newInstance;
@@ -42,7 +42,11 @@ export class ResourceChild extends Resource {
 
     return result;
   }
-  
+
+  public clone(): ResourceChild {
+    return ResourceChild.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "ResourceChild";
   }

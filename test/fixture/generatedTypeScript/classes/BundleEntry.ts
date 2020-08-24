@@ -20,7 +20,7 @@ export class BundleEntry extends BackboneElement {
   ): BundleEntry {
     const newInstance: BundleEntry = BackboneElement.parse(json, providedInstance);
   
-    if (json.resource) {
+    if (json.resource !== undefined) {
       newInstance.resource = Resource.parse(json.resource);
     }
     return newInstance;
@@ -40,7 +40,11 @@ export class BundleEntry extends BackboneElement {
 
     return result;
   }
-  
+
+  public clone(): BundleEntry {
+    return BundleEntry.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "BundleEntry";
   }

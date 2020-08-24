@@ -1,5 +1,5 @@
 export default `
-  if (json.{{ variableName }}) {
+  if (json.{{ variableName }} !== undefined) {
   {{# if dataType.systemType }}
     newInstance.{{ variableName }} = json.{{ variableName }};
   {{ else }}
