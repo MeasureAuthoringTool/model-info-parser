@@ -131,7 +131,20 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
     return result;
   }
 {{/ unless }}
-  
+
+  public clone(): {{ dataType.normalizedName }} {
+  {{# if dataType.primitive }}
+    const result = new {{ dataType.normalizedName }}();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  {{ else }}
+    return {{ dataType.normalizedName }}.parse(this.toJSON());
+  {{/ if }}
+  }
+
   public getTypeName(): string {
     return "{{ dataType.normalizedName }}";
   }

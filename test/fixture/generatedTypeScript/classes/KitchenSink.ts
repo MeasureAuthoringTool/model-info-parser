@@ -39,34 +39,34 @@ export class KitchenSink extends Element {
   ): KitchenSink {
     const newInstance: KitchenSink = Element.parse(json, providedInstance);
   
-    if (json.system) {
+    if (json.system !== undefined) {
       newInstance.system = json.system;
     }
-    if (json.url) {
+    if (json.url !== undefined) {
       newInstance.url = PrimitiveUrl.parsePrimitive(json.url, json._url);
     }
-    if (json.version) {
+    if (json.version !== undefined) {
       newInstance.version = PrimitiveString.parsePrimitive(json.version, json._version);
     }
-    if (json.singleCode) {
+    if (json.singleCode !== undefined) {
       newInstance.singleCode = CodeableConcept.parse(json.singleCode);
     }
-    if (json.coding) {
+    if (json.coding !== undefined) {
       newInstance.coding = json.coding.map((x) => Coding.parse(x));
     }
-    if (json.times) {
+    if (json.times !== undefined) {
       newInstance.times = json.times.map((x, i) => {
         const ext = json._times && json._times[i];
         return PrimitiveTime.parsePrimitive(x, ext);
       });
     }
-    if (json.optionsBoolean) {
+    if (json.optionsBoolean !== undefined) {
       newInstance.options = PrimitiveBoolean.parsePrimitive(json.optionsBoolean, json._optionsBoolean);
     }
-    if (json.optionsCanonical) {
+    if (json.optionsCanonical !== undefined) {
       newInstance.options = PrimitiveCanonical.parsePrimitive(json.optionsCanonical, json._optionsCanonical);
     }
-    if (json.optionsCoding) {
+    if (json.optionsCoding !== undefined) {
       newInstance.options = Coding.parse(json.optionsCoding);
     }
     return newInstance;
@@ -123,7 +123,11 @@ export class KitchenSink extends Element {
 
     return result;
   }
-  
+
+  public clone(): KitchenSink {
+    return KitchenSink.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "KitchenSink";
   }
