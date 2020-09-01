@@ -28,6 +28,12 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
 
   {{ else }}
   {{/ each }}
+{{# if (eq dataType.normalizedName "Resource") }}
+  constructor() {
+    this.resourceType = this.constructor.name;
+  }
+  
+{{/ if }}    
 {{# if dataType.primitive }}
   {{> primitiveParse }}
 {{ else }}
