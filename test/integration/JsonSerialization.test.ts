@@ -10,6 +10,7 @@ import {
   PrimitiveUri,
   ResourceChild,
 } from "../fixture/generatedTypeScript/fhir";
+import { ValueSet } from "../../generated/typescript/classes/ValueSet";
 
 describe("Testing the JSON serialization logic of a generated class", () => {
   it("should serialize a simple object", () => {
@@ -147,4 +148,10 @@ describe("Testing the JSON serialization logic of a generated class", () => {
   }
 }`);
   });
+
+  it("should initialize resource type by default", () => {
+    const valueSet: ValueSet = new ValueSet();
+    expect(valueSet.resourceType).toEqual("ValueSet");
+  });
+
 });

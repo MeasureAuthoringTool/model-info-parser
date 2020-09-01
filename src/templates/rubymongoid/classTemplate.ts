@@ -15,6 +15,13 @@ export const source = `module {{ dataType.namespace }}
     
     {{/ each }}
     {{/each}}
+{{# if (eq dataType.normalizedName "Resource") }}
+
+    def initialize(attrs = nil)
+      super(attrs)
+      self.resourceType = self.class.name.split("::")[1].to_s
+    end   
+{{/ if }}
 {{# if (eq dataType.normalizedName "Extension") }}
 
   def self.serializePrimitiveExtension(primitive)
