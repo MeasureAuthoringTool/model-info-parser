@@ -9,6 +9,7 @@ import interfaceMemberTemplate from "./interfaces/interfaceMemberTemplate";
 import primitiveMemberTemplate from "./interfaces/primitiveMemberTemplate";
 import parseSingleMemberTemplate from "./classes/parseSingleMemberTemplate";
 import parseChoiceMemberTemplate from "./classes/parseChoiceMemberTemplate";
+import primaryCodePathTemplate from "./classes/primaryCodePathTemplate";
 
 Handlebars.registerPartial("classImport", classImportTemplate);
 Handlebars.registerPartial("complexMember", complexMemberTemplate);
@@ -20,5 +21,6 @@ Handlebars.registerPartial("primitiveParse", primitiveParseTemplate);
 Handlebars.registerPartial("complexParse", complexParseTemplate);
 Handlebars.registerPartial("parseSingleMember", parseSingleMemberTemplate);
 Handlebars.registerPartial("parseChoiceMember", parseChoiceMemberTemplate);
+Handlebars.registerPartial("primaryCode", primaryCodePathTemplate);
 
 export default Handlebars;

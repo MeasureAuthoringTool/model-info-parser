@@ -16,6 +16,7 @@ export interface TypeInfoXml {
     name: string;
     namespace: string;
     baseType: string;
+    primaryCodePath?: string;
   };
   ["ns4:element"]?: Array<ElementXml>;
 }
@@ -30,13 +31,14 @@ export default class TypeInfo {
     public readonly namespace: string,
     public readonly baseTypeName: string | null,
     public readonly baseTypeNamespace: string | null,
-    public readonly elements: Array<Element>
+    public readonly elements: Array<Element>,
+    public readonly primaryCodePath: string | null = null
   ) {}
 
   static createTypeInfo(input: TypeInfoXml): TypeInfo {
     const { $: attrs } = input;
     const elementArray = input["ns4:element"] || [];
-    const { name, namespace, baseType } = attrs;
+    const { name, namespace, baseType, primaryCodePath } = attrs;
 
     let baseTypeName = null;
     let baseNamespace = null;
@@ -58,6 +60,6 @@ export default class TypeInfo {
       []
     );
 
-    return new TypeInfo(name, namespace, baseTypeName, baseNamespace, elements);
+    return new TypeInfo(name, namespace, baseTypeName, baseNamespace, elements, primaryCodePath);
   }
 }

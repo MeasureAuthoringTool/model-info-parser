@@ -12,7 +12,7 @@ import Predicate from "../collectionUtils/core/Predicate";
 import Transformer from "../collectionUtils/core/Transformer";
 import IfTransformer from "../collectionUtils/core/IfTransformer";
 import NOPTransformer from "../collectionUtils/core/NOPTransformer";
-import ModifyElementTypeTransformer from "../collectionUtils/ModifyElementTypeTransformer";
+import ModifyRootTypeTransformer from "../collectionUtils/ModifyRootTypeTransformer";
 import DataType from "../model/dataTypes/DataType";
 import EntityImports from "../model/dataTypes/EntityImports";
 
@@ -28,21 +28,17 @@ export default class BaseProcessor implements Preprocessor {
     EntityDefinition
   >;
 
-  public modifyElementTypeTransformer: Transformer<
-    EntityDefinition,
-    EntityDefinition
-  >;
-
   constructor() {
     this.blacklistPredicate = new TransformedPredicate(
       ExtractDataTypeTransformer.INSTANCE,
       BlacklistedTypesPredicate.INSTANCE
     );
     this.addResourceTypeTransformer = new AddResourceTypeFieldTransformer();
-    this.modifyElementTypeTransformer = new ModifyElementTypeTransformer();
   }
 
   preprocess(entityCollection: EntityCollection): EntityCollection {
+    const modifyRootTypeTransformer = new ModifyRootTypeTransformer(entityCollection.baseDir);
+
     // Filter blacklisted types
     let result: EntityCollection = entityCollection.selectRejected(
       this.blacklistPredicate
@@ -63,7 +59,7 @@ export default class BaseProcessor implements Preprocessor {
     result = result.transform(this.addResourceTypeTransformer);
 
     // Modify the "FHIR.Element" type to inherit our base "FHIR.Type" type
-    result = result.transform(this.modifyElementTypeTransformer);
+    result = result.transform(modifyRootTypeTransformer);
 
     // Create a new "FHIR.Type" type and add it to our collection
     const metadata = new EntityMetadata("FHIR", "Type", "");
@@ -79,7 +75,8 @@ export default class BaseProcessor implements Preprocessor {
       fhirTypeDataType,
       null,
       [],
-      imports
+      imports,
+      null
     );
     result = result.addEntityDefinition(fhirType);
 

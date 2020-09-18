@@ -40,7 +40,7 @@
 
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="ResourceChild"
                 identifier="http://hl7.org/fhir/StructureDefinition/ResourceChild" label="ResourceChild" retrievable="true"
-                baseType="FHIR.Resource">
+                primaryCodePath="boolVal" baseType="FHIR.DomainResource">
     <ns4:element name="boolVal" elementType="FHIR.boolean"/>
   </ns4:typeInfo>
 
@@ -89,7 +89,7 @@
 
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="KitchenSink"
                 identifier="http://hl7.org/fhir/StructureDefinition/Coding" label="KitchenSink" retrievable="false"
-                primaryCodePath="code" baseType="FHIR.Element">
+                primaryCodePath="singleCode" baseType="FHIR.Element">
     <ns4:element name="system" elementType="System.String"/>
     <ns4:element name="url" elementType="FHIR.url"/>
     <ns4:element name="version" elementType="FHIR.string"/>
@@ -134,6 +134,14 @@
     <ns4:element name="id" elementType="System.String"/>
     <ns4:element name="extension">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Extension"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="PathWithArray"
+                identifier="http://hl7.org/fhir/StructureDefinition/PathWithArray" label="PathWithArray" retrievable="true"
+                primaryCodePath="boolList" baseType="FHIR.DomainResource">
+    <ns4:element name="boolList">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.boolean"/>
     </ns4:element>
   </ns4:typeInfo>
 

@@ -3,6 +3,7 @@ import Handlebars from "../registerPartials";
 import DataType from "../../../model/dataTypes/DataType";
 import EntityMetadata from "../../../model/dataTypes/EntityMetadata";
 import EntityImports from "../../../model/dataTypes/EntityImports";
+import PrimaryCodeType from "../../../model/dataTypes/PrimaryCodeType";
 
 export const source = `/* eslint-disable import/prefer-default-export, import/no-cycle */
 {{# if imports.dataTypes }}import { 
@@ -21,6 +22,12 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   static readonly namespace: string = "{{ metadata.namespace }}";
 
   static readonly typeName: string = "{{ metadata.originalTypeName }}";
+  
+  static readonly primaryCodePath: string | null = {{# if metadata.primaryCodePath ~}}
+    "{{ metadata.primaryCodePath }}"
+  {{~ else ~}}
+    null
+  {{~/ if }};
 
   {{# each memberVariables }}
   {{> complexMember member=this }}
@@ -30,10 +37,12 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   {{/ each }}
 {{# if (eq dataType.normalizedName "Resource") }}
   constructor() {
+    super();
     this.resourceType = this.constructor.name;
   }
   
-{{/ if }}    
+{{/ if }}
+{{> primaryCode }}
 {{# if dataType.primitive }}
   {{> primitiveParse }}
 {{ else }}
@@ -164,6 +173,7 @@ export interface TemplateContext {
   metadata: EntityMetadata;
   memberVariables: Array<MemberVariable>;
   imports: EntityImports;
+  primaryCodeType: PrimaryCodeType | null;
 }
 
 export default Handlebars.compile<TemplateContext>(source);

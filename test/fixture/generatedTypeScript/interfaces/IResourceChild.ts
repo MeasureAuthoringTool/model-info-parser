@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle, @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
 import { 
+  IDomainResource,
   IElement,
   IPrimitiveBoolean,
-  IResource,
 } from "../internal";
 
-export interface IResourceChild extends IResource {
+export interface IResourceChild extends IDomainResource {
   boolVal?: IPrimitiveBoolean;
   _boolVal?: IElement;
 

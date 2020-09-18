@@ -10,13 +10,15 @@ describe("TypeInfo", () => {
       "namespace",
       "baseTypeName",
       "baseTypeNamespace",
-      elements
+      elements,
+      "primaryCodePathVal"
     );
     expect(el.name).toBe("name");
     expect(el.namespace).toBe("namespace");
     expect(el.baseTypeName).toBe("baseTypeName");
     expect(el.baseTypeNamespace).toBe("baseTypeNamespace");
     expect(el.elements).toStrictEqual(elements);
+    expect(el.primaryCodePath).toBe("primaryCodePathVal");
   });
 
   describe("createTypeInfo()", () => {
@@ -42,6 +44,7 @@ describe("TypeInfo", () => {
           name: "typeInfoName",
           namespace: "typeNamespace",
           baseType: "baseNs.baseType",
+          primaryCodePath: "primaryCodePathVal"
         },
         "ns4:element": [element1, element2],
       };
@@ -68,6 +71,7 @@ describe("TypeInfo", () => {
       expect(result.namespace).toBe("typeNamespace");
       expect(result.baseTypeName).toBe("baseType");
       expect(result.baseTypeNamespace).toBe("baseNs");
+      expect(result.primaryCodePath).toBe("primaryCodePathVal");
       expect(result.elements.length).toBe(2);
 
       const element1 = result.elements[0];

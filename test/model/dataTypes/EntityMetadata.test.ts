@@ -6,11 +6,22 @@ describe("EntityMetadata", () => {
       const result = new EntityMetadata(
         "namespace",
         "typeName",
-        "parentTypeName"
+        "parentTypeName",
+        "primaryCodePathVal"
       );
       expect(result.namespace).toBe("namespace");
       expect(result.originalTypeName).toBe("typeName");
       expect(result.parentTypeName).toBe("parentTypeName");
+      expect(result.primaryCodePath).toBe("primaryCodePathVal");
+    });
+
+    it("should default primaryCodePath to null", () => {
+      const result = new EntityMetadata(
+        "namespace",
+        "typeName",
+        "parentTypeName"
+      );
+      expect(result.primaryCodePath).toBeNull();
     });
   });
 
@@ -19,13 +30,15 @@ describe("EntityMetadata", () => {
       const original = new EntityMetadata(
         "namespace",
         "typeName",
-        "parentTypeName"
+        "parentTypeName",
+        "primaryCodePathVal"
       );
       const result = original.clone();
       expect(result).not.toBe(original);
       expect(result.namespace).toBe("namespace");
       expect(result.originalTypeName).toBe("typeName");
       expect(result.parentTypeName).toBe("parentTypeName");
+      expect(result.primaryCodePath).toBe("primaryCodePathVal");
     });
   });
 });

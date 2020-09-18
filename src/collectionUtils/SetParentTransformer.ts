@@ -14,12 +14,9 @@ export default class SetParentTransformer extends Transformer<
     if (input.parentDataType === this.parentType) {
       return input;
     }
-    return new EntityDefinition(
-      input.metadata,
-      input.dataType,
-      this.parentType,
-      input.memberVariables,
-      input.imports
-    );
+
+    return input.clone({
+      parentDataType: this.parentType,
+    });
   }
 }
