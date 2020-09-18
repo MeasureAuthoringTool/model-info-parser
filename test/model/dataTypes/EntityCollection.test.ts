@@ -32,8 +32,8 @@ describe("EntityCollection", () => {
     const imports1 = new EntityImports([]);
     const imports2 = new EntityImports([]);
 
-    entity1 = new EntityDefinition(metadata1, dataType1, null, [], imports1);
-    entity2 = new EntityDefinition(metadata2, dataType2, null, [], imports2);
+    entity1 = new EntityDefinition(metadata1, dataType1, null, [], imports1, null);
+    entity2 = new EntityDefinition(metadata2, dataType2, null, [], imports2, null);
     entities = [entity1, entity2];
 
     typeInfo1 = new TypeInfo("type1", "ns1", null, null, []);

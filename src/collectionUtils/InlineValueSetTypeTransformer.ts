@@ -14,7 +14,7 @@ export default class InlineValueSetTypeTransformer
   constructor(public baseDir: FilePath) {}
 
   transform(input: EntityDefinition): EntityDefinition {
-    const { collectionName, dataType, metadata } = input;
+    const { dataType } = input;
 
     const fhirCode = DataType.getInstance("FHIR", "code", this.baseDir);
 
@@ -24,13 +24,10 @@ export default class InlineValueSetTypeTransformer
     // Convert data type to primitive
     DataType.convertTypeToPrimitive(dataType);
 
-    return new EntityDefinition(
-      metadata,
-      dataType,
-      fhirCode, // new parent
-      [], // remove members
-      newImports, // new imports
-      collectionName
-    );
+    return input.clone({
+      parentDataType: fhirCode,
+      memberVariables: [],
+      imports: newImports,
+    });
   }
 }

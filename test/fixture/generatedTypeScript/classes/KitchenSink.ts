@@ -18,6 +18,8 @@ export class KitchenSink extends Element {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "KitchenSink";
+  
+  static readonly primaryCodePath: string | null = "singleCode";
 
   public system?: string;
 
@@ -32,6 +34,14 @@ export class KitchenSink extends Element {
   public times?: Array<PrimitiveTime>;
 
   public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
+
+  get primaryCode(): CodeableConcept | undefined {
+    return this.singleCode;
+  }
+
+  set primaryCode(primaryCode: CodeableConcept | undefined) {
+    this.singleCode = primaryCode;
+  }
 
   public static parse(
     json: IKitchenSink,

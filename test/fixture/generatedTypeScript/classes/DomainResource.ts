@@ -11,6 +11,8 @@ export class DomainResource extends Resource {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "DomainResource";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public contained?: Array<Resource>;
 

@@ -16,6 +16,7 @@ import HasPrimitiveMembersPredicate from "../collectionUtils/HasPrimitiveMembers
 import TransformedPredicate from "../collectionUtils/core/TransformedPredicate";
 import ExtractDataTypeTransformer from "../collectionUtils/ExtractDataTypeTransformer";
 import IsDataTypePredicate from "../collectionUtils/IsDataTypePredicate";
+import SetPrimaryCodeTypeTransformer from "../collectionUtils/SetPrimaryCodeTypeTransformer";
 
 /**
  * EntityCollection Preprocessor for the TypeScript classes
@@ -86,11 +87,15 @@ export default class TypeScriptClassPreprocessor implements Preprocessor {
       entityCollection.baseDir
     );
 
+    // Compute the primaryCodeType values
+    const setPrimaryCodeTypeTransformer = new SetPrimaryCodeTypeTransformer(entityCollection);
+
     const chainedTransformer = new ChainedTransformer<EntityDefinition>(
       addPrimitiveImportsTransformer,
       addComplexImportsTransformer,
       modifyExtensionTypeTransformer,
-      addExtensionImportTransformer
+      addExtensionImportTransformer,
+      setPrimaryCodeTypeTransformer
     );
 
     return entityCollection.transform(chainedTransformer);

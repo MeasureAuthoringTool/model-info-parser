@@ -2,23 +2,27 @@
 import {
   Resource,
   IDomainResource,
-  IResourceChild,
   IBundle,
+  IResourceChild,
+  IPathWithArray,
   DomainResource,
-  ResourceChild,
   Bundle,
+  ResourceChild,
+  PathWithArray,
 } from "./internal";
 
 const resourceBundle: Record<string, typeof Resource> = {
   "DomainResource": DomainResource,
+  "Bundle": Bundle,
   "ResourceChild": ResourceChild,
-  "Bundle": Bundle
+  "PathWithArray": PathWithArray
 };
 
 export type AnyResource =
   IDomainResource |
+  IBundle |
   IResourceChild |
-  IBundle;
+  IPathWithArray;
 
 export function lookupResourceType(typeName: string): typeof Resource | undefined {
   return resourceBundle[typeName];

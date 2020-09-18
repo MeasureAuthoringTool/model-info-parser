@@ -1,25 +1,35 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
 import { 
+  DomainResource,
   Extension,
   IResourceChild,
   PrimitiveBoolean,
-  Resource,
 } from "../internal";
 
-export class ResourceChild extends Resource {
-  static readonly baseType: string = "FHIR.Resource";
+export class ResourceChild extends DomainResource {
+  static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "ResourceChild";
+  
+  static readonly primaryCodePath: string | null = "boolVal";
 
   public boolVal?: PrimitiveBoolean;
+
+  get primaryCode(): PrimitiveBoolean | undefined {
+    return this.boolVal;
+  }
+
+  set primaryCode(primaryCode: PrimitiveBoolean | undefined) {
+    this.boolVal = primaryCode;
+  }
 
   public static parse(
     json: IResourceChild,
     providedInstance: ResourceChild = new ResourceChild()
   ): ResourceChild {
-    const newInstance: ResourceChild = Resource.parse(json, providedInstance);
+    const newInstance: ResourceChild = DomainResource.parse(json, providedInstance);
   
     if (json.boolVal !== undefined) {
       newInstance.boolVal = PrimitiveBoolean.parsePrimitive(json.boolVal, json._boolVal);

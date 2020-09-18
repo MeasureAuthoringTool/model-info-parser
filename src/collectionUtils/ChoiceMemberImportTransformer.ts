@@ -14,14 +14,7 @@ export default class ChoiceMemberImportTransformer extends Transformer<
 > {
   public transform(input: EntityDefinition): EntityDefinition {
     // Get a clone of the input's components
-    const {
-      metadata,
-      dataType,
-      parentDataType,
-      memberVariables,
-      imports,
-      collectionName,
-    } = input.clone();
+    const { memberVariables, imports } = input.clone();
 
     // Loop through each of the member variables.
     // If the data type is a choice type, add those choices to the list of imports
@@ -49,13 +42,8 @@ export default class ChoiceMemberImportTransformer extends Transformer<
 
     const newImports = new EntityImports(newImportTypes);
 
-    return new EntityDefinition(
-      metadata,
-      dataType,
-      parentDataType,
-      memberVariables,
-      newImports,
-      collectionName
-    );
+    return input.clone({
+      imports: newImports,
+    });
   }
 }
