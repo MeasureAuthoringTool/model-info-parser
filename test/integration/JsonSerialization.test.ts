@@ -1,4 +1,5 @@
 import {
+  Bundle,
   BundleEntry,
   Coding,
   Extension,
@@ -146,5 +147,15 @@ describe("Testing the JSON serialization logic of a generated class", () => {
     "boolVal": true
   }
 }`);
+  });
+
+  it("should initialize Bundle's resource type by default", () => {
+    const resource: Bundle = new Bundle();
+    expect(resource.resourceType).toEqual("Bundle");
+  });
+
+  it("should initialize ResourceChild's resource type by default", () => {
+    const resource: ResourceChild = new ResourceChild();
+    expect(resource.resourceType).toEqual("ResourceChild");
   });
 });

@@ -2,9 +2,10 @@
 import { 
   IElement,
   IPrimitiveCode,
+  IType,
 } from "../internal";
 
-export interface IResource {
+export interface IResource extends IType {
   id?: string;
 
   language?: IPrimitiveCode;

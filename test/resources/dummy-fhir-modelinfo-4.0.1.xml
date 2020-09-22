@@ -40,7 +40,7 @@
 
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="ResourceChild"
                 identifier="http://hl7.org/fhir/StructureDefinition/ResourceChild" label="ResourceChild" retrievable="true"
-                baseType="FHIR.Resource">
+                primaryCodePath="boolVal" baseType="FHIR.DomainResource">
     <ns4:element name="boolVal" elementType="FHIR.boolean"/>
   </ns4:typeInfo>
 
@@ -89,7 +89,7 @@
 
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="KitchenSink"
                 identifier="http://hl7.org/fhir/StructureDefinition/Coding" label="KitchenSink" retrievable="false"
-                primaryCodePath="code" baseType="FHIR.Element">
+                primaryCodePath="singleCode" baseType="FHIR.Element">
     <ns4:element name="system" elementType="System.String"/>
     <ns4:element name="url" elementType="FHIR.url"/>
     <ns4:element name="version" elementType="FHIR.string"/>
@@ -134,6 +134,40 @@
     <ns4:element name="id" elementType="System.String"/>
     <ns4:element name="extension">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Extension"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="PathWithArray"
+                identifier="http://hl7.org/fhir/StructureDefinition/PathWithArray" label="PathWithArray" retrievable="true"
+                primaryCodePath="boolList" baseType="FHIR.DomainResource">
+    <ns4:element name="boolList">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.boolean"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="NestedPath"
+                identifier="http://hl7.org/fhir/StructureDefinition/NestedPath" label="NestedPath" retrievable="true"
+                primaryCodePath="top.boolVal" baseType="FHIR.DomainResource">
+    <ns4:element name="top" elementType="FHIR.ResourceChild"/>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="NestedArray"
+                identifier="http://hl7.org/fhir/StructureDefinition/NestedArray" label="NestedArray" retrievable="true"
+                primaryCodePath="codeList.coding" baseType="FHIR.DomainResource">
+    <ns4:element name="codeList">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.CodeableConcept"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="ChoicePath"
+                identifier="http://hl7.org/fhir/StructureDefinition/ChoicePath" label="ChoicePath" retrievable="true"
+                primaryCodePath="optionsBoolean" baseType="FHIR.DomainResource">
+    <ns4:element name="options">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ChoiceTypeSpecifier">
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="boolean"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="canonical"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="Coding"/>
+      </ns4:elementTypeSpecifier>
     </ns4:element>
   </ns4:typeInfo>
 

@@ -9,6 +9,8 @@ export class AddressType extends PrimitiveCode {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "AddressType";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveCode.parsePrimitive>[0],
@@ -22,7 +24,16 @@ export class AddressType extends PrimitiveCode {
     const castInput = input as AddressType;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "AddressType";
   }
-  
+
+  public clone(): AddressType {
+    const result = new AddressType();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "AddressType";
   }

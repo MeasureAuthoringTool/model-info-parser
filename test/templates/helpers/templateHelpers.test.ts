@@ -13,18 +13,18 @@ describe("templateHelpers", () => {
       expect(getMongoidPrimitive("boolean")).toEqual("Boolean");
       expect(getMongoidPrimitive("canonical")).toEqual("String");
       expect(getMongoidPrimitive("code")).toEqual("String");
-      expect(getMongoidPrimitive("date")).toEqual("Date");
-      expect(getMongoidPrimitive("dateTime")).toEqual("DateTime");
+      expect(getMongoidPrimitive("date")).toEqual("String");
+      expect(getMongoidPrimitive("dateTime")).toEqual("String");
       expect(getMongoidPrimitive("decimal")).toEqual("BigDecimal");
       expect(getMongoidPrimitive("id")).toEqual("String");
-      expect(getMongoidPrimitive("instant")).toEqual("DateTime");
+      expect(getMongoidPrimitive("instant")).toEqual("String");
       expect(getMongoidPrimitive("integer")).toEqual("Integer");
       expect(getMongoidPrimitive("markdown")).toEqual("String");
       expect(getMongoidPrimitive("oid")).toEqual("String");
       expect(getMongoidPrimitive("positiveInt")).toEqual("Integer");
       expect(getMongoidPrimitive("question")).toEqual("String");
       expect(getMongoidPrimitive("string")).toEqual("String");
-      expect(getMongoidPrimitive("time")).toEqual("Time");
+      expect(getMongoidPrimitive("time")).toEqual("String");
       expect(getMongoidPrimitive("unsignedInt")).toEqual("Integer");
       expect(getMongoidPrimitive("uri")).toEqual("String");
       expect(getMongoidPrimitive("url")).toEqual("String");
@@ -148,14 +148,15 @@ describe("templateHelpers", () => {
     });
   });
 
-  describe("prefixVariableName()", () => {
-    it("should prefix reserved keywords with an underscore and leave non-reserved keywords alone", () => {
-      const source = "hey {{ prefixVariableName this }}";
+  describe("toModelVariableName()", () => {
+    it("should update reserved keywords with and leave non-reserved keywords alone", () => {
+      const source = "hey {{ toModelVariableName this }}";
       const template = Handlebars.compile(source);
 
       expect(template("someVar")).toBe("hey someVar");
-      expect(template("validated")).toBe("hey _validated");
-      expect(template("collection")).toBe("hey _collection");
+      expect(template("validated")).toBe("hey validated_local");
+      expect(template("collection")).toBe("hey collection_local");
+      expect(template("class")).toBe("hey class_local");
     });
   });
 

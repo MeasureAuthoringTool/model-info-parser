@@ -9,6 +9,8 @@ export class PrimitiveCanonical extends PrimitiveUri {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "canonical";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveUri.parsePrimitive>[0],
@@ -22,7 +24,16 @@ export class PrimitiveCanonical extends PrimitiveUri {
     const castInput = input as PrimitiveCanonical;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveCanonical";
   }
-  
+
+  public clone(): PrimitiveCanonical {
+    const result = new PrimitiveCanonical();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveCanonical";
   }

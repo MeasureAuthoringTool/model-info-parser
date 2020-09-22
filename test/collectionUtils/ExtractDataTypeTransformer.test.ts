@@ -18,7 +18,8 @@ describe("ExtractDataTypeTransformer", () => {
       dataType,
       null,
       members,
-      imports
+      imports,
+      null
     );
     const transformer = new ExtractDataTypeTransformer();
     const result: DataType = transformer.transform(entityDef);

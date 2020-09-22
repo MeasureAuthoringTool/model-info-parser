@@ -1,6 +1,5 @@
 import Transformer from "./core/Transformer";
 import EntityDefinition from "../model/dataTypes/EntityDefinition";
-import EntityMetadata from "../model/dataTypes/EntityMetadata";
 import DataType from "../model/dataTypes/DataType";
 import MemberVariable from "../model/dataTypes/MemberVariable";
 import EntityImports from "../model/dataTypes/EntityImports";
@@ -49,7 +48,6 @@ export default class TypeScriptInterfaceTransformer
     const transformedInput = elementImportTransformer.transform(input);
 
     // Capture and clone original values
-    const metadata: EntityMetadata = transformedInput.metadata.clone();
     const originalDataType: DataType = transformedInput.dataType;
     const originalParentType: DataType | null = transformedInput.parentDataType;
     const originalMemberVariables: Array<MemberVariable> = [
@@ -91,14 +89,12 @@ export default class TypeScriptInterfaceTransformer
     );
     const newImports = new EntityImports(newImportTypes);
 
-    // Construct result
-    const result = new EntityDefinition(
-      metadata,
-      newDataType,
-      newParentType,
-      newMemberVariables,
-      newImports
-    );
+    const result = transformedInput.clone({
+      dataType: newDataType,
+      parentDataType: newParentType,
+      memberVariables: newMemberVariables,
+      imports: newImports,
+    });
 
     // Transform result to change "Resource" to "AnyResource"
     return new AnyResourceTypeTransformer(this.baseDir).transform(result);

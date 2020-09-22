@@ -8,6 +8,7 @@ import distinctDataTypes from "./distinctDataTypes";
 import Transformer from "../../collectionUtils/core/Transformer";
 import Predicate from "../../collectionUtils/core/Predicate";
 import CollectionUtils from "../../collectionUtils/CollectionUtils";
+import PrimaryCode from "./PrimaryCode";
 
 export default class EntityDefinition {
   constructor(
@@ -16,6 +17,7 @@ export default class EntityDefinition {
     private _parentDataType: DataType | null,
     private _memberVariables: Array<MemberVariable>,
     private _imports: EntityImports,
+    private _primaryCode: PrimaryCode | null,
     private _collectionName: string | null = null
   ) {}
 
@@ -43,16 +45,70 @@ export default class EntityDefinition {
     return this._collectionName;
   }
 
-  public clone(): EntityDefinition {
-    const newMembers = this.memberVariables.map((member) => member.clone());
+  public get primaryCode(): PrimaryCode | null {
+    return this._primaryCode;
+  }
+
+  public clone(fieldsToUpdate?: Partial<EntityDefinition>): EntityDefinition {
+    const partial: Partial<EntityDefinition> | undefined = fieldsToUpdate;
+
+    let newMetadata: EntityMetadata;
+    if (partial?.metadata !== undefined) {
+      newMetadata = partial.metadata;
+    } else {
+      newMetadata = this.metadata.clone();
+    }
+
+    let newDataType: DataType;
+    if (partial?.dataType !== undefined) {
+      newDataType = partial.dataType;
+    } else {
+      newDataType = this.dataType;
+    }
+
+    let newParentType: DataType | null;
+    if (partial?.parentDataType !== undefined) {
+      newParentType = partial.parentDataType;
+    } else {
+      newParentType = this.parentDataType;
+    }
+
+    let newMembers: Array<MemberVariable>;
+    if (partial?.memberVariables !== undefined) {
+      newMembers = partial.memberVariables;
+    } else {
+      newMembers = this.memberVariables.map((member) => member.clone());
+    }
+
+    let newImports: EntityImports;
+    if (partial?.imports !== undefined) {
+      newImports = partial.imports;
+    } else {
+      newImports = this.imports.clone();
+    }
+
+    let newPrimaryCode: PrimaryCode | null;
+    if (partial?.primaryCode !== undefined) {
+      newPrimaryCode = partial.primaryCode;
+    } else {
+      newPrimaryCode = this.primaryCode;
+    }
+
+    let newCollectionName: string | null;
+    if (partial?.collectionName !== undefined) {
+      newCollectionName = partial.collectionName;
+    } else {
+      newCollectionName = this.collectionName;
+    }
 
     return new EntityDefinition(
-      this.metadata.clone(),
-      this.dataType,
-      this.parentDataType,
+      newMetadata,
+      newDataType,
+      newParentType,
       newMembers,
-      this.imports.clone(),
-      this.collectionName
+      newImports,
+      newPrimaryCode,
+      newCollectionName
     );
   }
 
@@ -96,10 +152,16 @@ export default class EntityDefinition {
     return result;
   }
 
+  public setPrimaryCode(newPrimaryCode: PrimaryCode | null): EntityDefinition {
+    return this.clone({
+      primaryCode: newPrimaryCode,
+    });
+  }
+
   public setCollectionName(newName: string | null): EntityDefinition {
-    const result = this.clone();
-    result._collectionName = newName;
-    return result;
+    return this.clone({
+      collectionName: newName,
+    });
   }
 
   static createEntityDefinition(
@@ -129,6 +191,7 @@ export default class EntityDefinition {
       baseTypeName,
       baseTypeNamespace,
       elements,
+      primaryCodePath,
     } = typeInfo;
 
     // Build up the DataType for this entity's parent
@@ -144,7 +207,12 @@ export default class EntityDefinition {
     }
 
     // Build up the metadata object
-    const metaData = new EntityMetadata(namespace, name, parentTypeName);
+    const metaData = new EntityMetadata(
+      namespace,
+      name,
+      parentTypeName,
+      primaryCodePath
+    );
 
     // Build up the DataType for this entity
     const dataType = DataType.getInstance(namespace, name, baseDir);
@@ -160,12 +228,15 @@ export default class EntityDefinition {
     const imports = new EntityImports(distinctTypes);
 
     // Construct the final object
+    // Note: the primaryCodeType cannot be determined by a single TypeInfo
+    // It will have to be set by a Transformer with access to the entire EntityCollection
     return new EntityDefinition(
       metaData,
       dataType,
       parentDataType,
       members,
-      imports
+      imports,
+      null // this cannot be determined yet
     );
   }
 }

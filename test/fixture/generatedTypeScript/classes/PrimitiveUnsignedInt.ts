@@ -9,6 +9,8 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "unsignedInt";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveInteger.parsePrimitive>[0],
@@ -22,7 +24,16 @@ export class PrimitiveUnsignedInt extends PrimitiveInteger {
     const castInput = input as PrimitiveUnsignedInt;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveUnsignedInt";
   }
-  
+
+  public clone(): PrimitiveUnsignedInt {
+    const result = new PrimitiveUnsignedInt();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveUnsignedInt";
   }

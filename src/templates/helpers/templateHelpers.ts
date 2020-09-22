@@ -52,14 +52,15 @@ Handlebars.registerHelper("isReservedKeyword", function isReserved(
 });
 
 Handlebars.registerHelper(
-  "prefixVariableName",
+  "toModelVariableName",
   (variableName: string): string => {
     if (reservedWords.includes(variableName)) {
-      return `_${variableName}`;
+      return `${variableName}_local`;
     }
     return variableName;
   }
 );
+
 
 Handlebars.registerHelper("hasReservedKeywords", function isReserved(
   this: Handlebars.TemplateDelegate<string>,
@@ -113,6 +114,18 @@ Handlebars.registerHelper("ifEquals", function ifEquals(
   options: HelperOptions
 ): string {
   if (a === b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+Handlebars.registerHelper("ifLessThanEqual", function ifEquals(
+  this: Handlebars.TemplateDelegate<boolean>,
+  a: string,
+  b: string,
+  options: HelperOptions
+): string {
+  if (a <= b) {
     return options.fn(this);
   }
   return options.inverse(this);

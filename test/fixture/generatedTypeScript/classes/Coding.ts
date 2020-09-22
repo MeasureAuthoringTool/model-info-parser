@@ -15,6 +15,8 @@ export class Coding extends Element {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Coding";
+  
+  static readonly primaryCodePath: string | null = "code";
 
   public system?: PrimitiveUri;
 
@@ -26,25 +28,33 @@ export class Coding extends Element {
 
   public userSelected?: PrimitiveBoolean;
 
+  get primaryCode(): PrimitiveCode | undefined {
+    return this?.code;
+  }
+
+  set primaryCode(primaryCode: PrimitiveCode | undefined) {
+    this.code = primaryCode;
+  }
+
   public static parse(
     json: ICoding,
     providedInstance: Coding = new Coding()
   ): Coding {
     const newInstance: Coding = Element.parse(json, providedInstance);
   
-    if (json.system) {
+    if (json.system !== undefined) {
       newInstance.system = PrimitiveUri.parsePrimitive(json.system, json._system);
     }
-    if (json.version) {
+    if (json.version !== undefined) {
       newInstance.version = PrimitiveString.parsePrimitive(json.version, json._version);
     }
-    if (json.code) {
+    if (json.code !== undefined) {
       newInstance.code = PrimitiveCode.parsePrimitive(json.code, json._code);
     }
-    if (json.display) {
+    if (json.display !== undefined) {
       newInstance.display = PrimitiveString.parsePrimitive(json.display, json._display);
     }
-    if (json.userSelected) {
+    if (json.userSelected !== undefined) {
       newInstance.userSelected = PrimitiveBoolean.parsePrimitive(json.userSelected, json._userSelected);
     }
     return newInstance;
@@ -85,7 +95,11 @@ export class Coding extends Element {
 
     return result;
   }
-  
+
+  public clone(): Coding {
+    return Coding.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Coding";
   }

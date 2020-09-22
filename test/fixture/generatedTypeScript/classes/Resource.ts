@@ -4,14 +4,17 @@ import {
   Extension,
   IResource,
   PrimitiveCode,
+  Type,
 } from "../internal";
 
-export class Resource {
+export class Resource extends Type {
   static readonly baseType: string = "";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Resource";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public id?: string;
 
@@ -19,11 +22,16 @@ export class Resource {
 
   public resourceType?: string;
 
+  constructor() {
+    super();
+    this.resourceType = this.constructor.name;
+  }
+  
   public static parse(
     json: IResource,
     providedInstance: Resource = new Resource()
   ): Resource {
-    const newInstance: Resource = providedInstance;
+    const newInstance: Resource = Type.parse(json, providedInstance);
   
       // If not invoked by a child class
       if (
@@ -39,13 +47,13 @@ export class Resource {
         }
       }
   
-    if (json.id) {
+    if (json.id !== undefined) {
       newInstance.id = json.id;
     }
-    if (json.language) {
+    if (json.language !== undefined) {
       newInstance.language = PrimitiveCode.parsePrimitive(json.language, json._language);
     }
-    if (json.resourceType) {
+    if (json.resourceType !== undefined) {
       newInstance.resourceType = json.resourceType;
     }
     return newInstance;
@@ -57,7 +65,7 @@ export class Resource {
   }
 
   public toJSON(): IResource {
-    const result: IResource = {};
+    const result: IResource = super.toJSON();
 
     if (this.id) {
       result.id = this.id;
@@ -74,7 +82,11 @@ export class Resource {
 
     return result;
   }
-  
+
+  public clone(): Resource {
+    return Resource.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Resource";
   }

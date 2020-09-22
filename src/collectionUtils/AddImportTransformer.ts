@@ -9,11 +9,18 @@ export default class AddImportTransformer extends Transformer<
   EntityDefinition,
   EntityDefinition
 > {
-  constructor(public importType: DataType) {
+  public importTypes: Array<DataType>;
+
+  constructor(...importTypes: Array<DataType>) {
     super();
+    this.importTypes = importTypes
   }
 
   public transform(input: EntityDefinition): EntityDefinition {
-    return input.addImport(this.importType);
+    let newImport = input;
+    this.importTypes.forEach((importType) => {
+        newImport = newImport.addImport(importType);
+    });
+    return newImport;
   }
 }

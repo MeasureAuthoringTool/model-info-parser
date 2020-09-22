@@ -14,7 +14,7 @@ export default `public static parsePrimitive(
     let newInstance: {{ dataType.normalizedName }};
 
     if (extension) {
-      newInstance = {{ parentDataType.normalizedName }}.parse(extension);
+      newInstance = {{ parentDataType.normalizedName }}.parse(extension, providedInstance);
     } else {
       newInstance = providedInstance;
     }

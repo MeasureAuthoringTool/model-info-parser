@@ -2,23 +2,39 @@
 import {
   Resource,
   IDomainResource,
-  IResourceChild,
   IBundle,
+  IResourceChild,
+  IPathWithArray,
+  INestedPath,
+  INestedArray,
+  IChoicePath,
   DomainResource,
-  ResourceChild,
   Bundle,
+  ResourceChild,
+  PathWithArray,
+  NestedPath,
+  NestedArray,
+  ChoicePath,
 } from "./internal";
 
 const resourceBundle: Record<string, typeof Resource> = {
   "DomainResource": DomainResource,
+  "Bundle": Bundle,
   "ResourceChild": ResourceChild,
-  "Bundle": Bundle
+  "PathWithArray": PathWithArray,
+  "NestedPath": NestedPath,
+  "NestedArray": NestedArray,
+  "ChoicePath": ChoicePath
 };
 
 export type AnyResource =
   IDomainResource |
+  IBundle |
   IResourceChild |
-  IBundle;
+  IPathWithArray |
+  INestedPath |
+  INestedArray |
+  IChoicePath;
 
 export function lookupResourceType(typeName: string): typeof Resource | undefined {
   return resourceBundle[typeName];

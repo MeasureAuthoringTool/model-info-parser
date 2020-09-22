@@ -9,6 +9,12 @@ export class Type {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Type";
+  
+  static readonly primaryCodePath: string | null = null;
+
+  get primaryCode(): Type | undefined {
+    return undefined;
+  }
 
   public static parse(
     json: IType,
@@ -29,7 +35,11 @@ export class Type {
 
     return result;
   }
-  
+
+  public clone(): Type {
+    return Type.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Type";
   }

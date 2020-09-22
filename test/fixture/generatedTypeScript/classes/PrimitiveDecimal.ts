@@ -10,6 +10,8 @@ export class PrimitiveDecimal extends Element {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "decimal";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public value?: number;
 
@@ -21,7 +23,7 @@ export class PrimitiveDecimal extends Element {
       let newInstance: PrimitiveDecimal;
   
       if (extension) {
-        newInstance = Element.parse(extension);
+        newInstance = Element.parse(extension, providedInstance);
       } else {
         newInstance = providedInstance;
       }
@@ -35,7 +37,16 @@ export class PrimitiveDecimal extends Element {
     const castInput = input as PrimitiveDecimal;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDecimal";
   }
-  
+
+  public clone(): PrimitiveDecimal {
+    const result = new PrimitiveDecimal();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveDecimal";
   }

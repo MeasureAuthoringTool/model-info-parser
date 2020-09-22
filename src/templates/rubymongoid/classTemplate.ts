@@ -11,10 +11,17 @@ export const source = `module {{ dataType.namespace }}
     {{> mongoidComplexMember variableName=( jsonChoiceName ../variableName this.typeName ) bidirectional=../bidirectional dataType=this relationshipType=../relationshipType }}
     
     {{ else }}
-    {{> mongoidComplexMember variableName=( prefixVariableName this.variableName) bidirectional=this.bidirectional dataType=this.dataType relationshipType=this.relationshipType }}
+    {{> mongoidComplexMember variableName=( toModelVariableName this.variableName) bidirectional=this.bidirectional dataType=this.dataType relationshipType=this.relationshipType }}
     
     {{/ each }}
     {{/each}}
+{{# if (eq dataType.normalizedName "Resource") }}
+
+    def initialize(attrs = nil)
+      super(attrs)
+      self.resourceType = self.class.name.split("::")[1].to_s
+    end   
+{{/ if }}
 {{# if (eq dataType.normalizedName "Extension") }}
 
   def self.serializePrimitiveExtension(primitive)
@@ -57,13 +64,13 @@ export const source = `module {{ dataType.namespace }}
             {{~/ unless }}
                         
           {{# if primitive }}
-        serialized = Extension.serializePrimitiveExtension(this.{{ jsonChoiceName ../variableName this.typeName }}) 
+        serialized = Extension.serializePrimitiveExtension(self.{{ jsonChoiceName ../variableName this.typeName }}) 
         result['_{{ jsonChoiceName ../variableName this.typeName }}'] = serialized unless serialized.nil?
           {{/ if }}
       end          
         {{ else }}        
-      unless self.{{ variableName }}.nil? {{# if isArray}} || !self.{{ variableName }}.any? {{/ if}}
-        result['{{ variableName }}'] = self.{{ variableName }}
+      unless self.{{ toModelVariableName variableName }}.nil? {{# if isArray}} || !self.{{ toModelVariableName variableName }}.any? {{/ if}}
+        result['{{ variableName }}'] = self.{{ toModelVariableName variableName }}
             {{~# unless dataType.systemType ~}}
               {{~# if isArray ~}}
                 {{~# if dataType.primitive ~}}
@@ -82,21 +89,15 @@ export const source = `module {{ dataType.namespace }}
 
           {{# if dataType.primitive }}
           {{# if isArray }}
-        serialized = Extension.serializePrimitiveExtensionArray(self.{{ variableName }})                              
+        serialized = Extension.serializePrimitiveExtensionArray(self.{{ toModelVariableName variableName }})                              
         result['_{{ variableName }}'] = serialized unless serialized.nil? || !serialized.any?
           {{ else }}
-        serialized = Extension.serializePrimitiveExtension(self.{{ variableName }})            
+        serialized = Extension.serializePrimitiveExtension(self.{{ toModelVariableName variableName }})            
         result['_{{ variableName }}'] = serialized unless serialized.nil?
           {{/ if }}
           {{/ if }}
       end
         {{/ each }}
-        {{!--
-          Handle reserved words
-        --}}
-        {{# isReservedKeyword this.variableName }}
-        result['{{ this.variableName }}'] = result.delete('_{{ this.variableName }}')
-        {{/ isReservedKeyword }}
         {{/ each }}
       {{!--
         Drop default id
@@ -113,6 +114,14 @@ export const source = `module {{ dataType.namespace }}
     end
 
     def self.transform_json(json_hash{{~# isPrimitiveType this.dataType ~}}, extension_hash{{~/ isPrimitiveType ~}}, target = {{ dataType.normalizedName }}.new)
+    {{!--
+    --}}
+    {{# if (eq dataType.normalizedName "Resource") }}
+      if 'Resource' == target.class.name.split('::').last && 'Resource' != json_hash['resourceType']
+        return Object.const_get('FHIR::' + json_hash['resourceType']).transform_json(json_hash)
+      end
+    {{/ if }}
+    
     {{!--
       If we're transforming a primitive type 'foo', we also need to get the 'id' and 'extension'
       values from the '_foo' attributes and set them accordingly                
@@ -154,7 +163,7 @@ export const source = `module {{ dataType.namespace }}
       {{~!-- do nothing for fhirId --}}
       {{# ifEquals this.variableName 'fhirId' }}
       {{ else }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
+      result['{{ toModelVariableName this.variableName }}'] = json_hash['{{this.variableName}}'] unless json_hash['{{ this.variableName }}'].nil?
       {{/ ifEquals }}  
     {{/ ifEquals }}    
     {{!--
@@ -170,18 +179,12 @@ export const source = `module {{ dataType.namespace }}
       Primitive arrays are even trickier, as the extension data is stored in a separate array
     --}}
     {{# isPrimitiveType this.dataType }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
+      result['{{ toModelVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].each_with_index.map do |var, i|
         extension_hash = json_hash['_{{this.variableName}}'] && json_hash['_{{this.variableName}}'][i]
         {{ this.dataType.normalizedName }}.transform_json(var, extension_hash)
       end unless json_hash['{{ this.variableName }}'].nil?
     {{ else }}
-      result['{{ prefixVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| 
-        unless var['resourceType'].nil?
-          Object.const_get('FHIR::' + var['resourceType']).transform_json(var)
-        else
-          {{this.dataType.normalizedName}}.transform_json(var) 
-        end
-      } unless json_hash['{{ this.variableName }}'].nil?
+      result['{{ toModelVariableName this.variableName }}'] = json_hash['{{this.variableName}}'].map { |var| {{this.dataType.normalizedName}}.transform_json(var) } unless json_hash['{{ this.variableName }}'].nil?
     {{/ isPrimitiveType }}
     {{!--
       If it's not an array, we can transform just the single element

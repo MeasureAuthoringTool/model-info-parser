@@ -3,6 +3,8 @@ import EntityImports from "../../../src/model/dataTypes/EntityImports";
 import EntityMetadata from "../../../src/model/dataTypes/EntityMetadata";
 import MemberVariable from "../../../src/model/dataTypes/MemberVariable";
 import EntityDefinition from "../../../src/model/dataTypes/EntityDefinition";
+import PathSegment from "../../../src/model/dataTypes/PathSegment";
+import PrimaryCode from "../../../src/model/dataTypes/PrimaryCode";
 
 export default class EntityDefinitionBuilder {
   public metadata: EntityMetadata;
@@ -17,8 +19,15 @@ export default class EntityDefinitionBuilder {
 
   public collectionName: string | null;
 
+  public primaryCode: PrimaryCode | null;
+
   constructor() {
-    this.metadata = new EntityMetadata("ns4", "Data.Type", "ns3.Base.Type");
+    this.metadata = new EntityMetadata(
+      "ns4",
+      "Data.Type",
+      "ns3.Base.Type",
+      "memberTypeName1.varName1"
+    );
     this.dataType = DataType.getInstance("ns4", "Data.Type", "/tmp");
     this.parentType = DataType.getInstance("ns3", "Base.Type", "/tmp");
 
@@ -29,6 +38,12 @@ export default class EntityDefinitionBuilder {
     this.memberVariables = [member1, member2];
     this.imports = new EntityImports([memberType1, memberType2]);
     this.collectionName = null;
+
+    const dt = DataType.getInstance("ns5", "PrimaryType", "/tmp");
+    this.primaryCode = new PrimaryCode(
+      [new PathSegment(dt, true, "primaryPath")],
+      [dt]
+    );
   }
 
   public buildEntityDefinition(): EntityDefinition {
@@ -39,6 +54,7 @@ export default class EntityDefinitionBuilder {
       this.parentType,
       [...this.memberVariables],
       this.imports.clone(),
+      this.primaryCode,
       this.collectionName
     );
   }

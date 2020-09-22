@@ -11,6 +11,8 @@ export class BackboneElement extends Element {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "BackboneElement";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public modifierExtension?: Array<Extension>;
 
@@ -20,7 +22,7 @@ export class BackboneElement extends Element {
   ): BackboneElement {
     const newInstance: BackboneElement = Element.parse(json, providedInstance);
   
-    if (json.modifierExtension) {
+    if (json.modifierExtension !== undefined) {
       newInstance.modifierExtension = json.modifierExtension.map((x) => Extension.parse(x));
     }
     return newInstance;
@@ -40,7 +42,11 @@ export class BackboneElement extends Element {
 
     return result;
   }
-  
+
+  public clone(): BackboneElement {
+    return BackboneElement.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "BackboneElement";
   }

@@ -5,7 +5,6 @@ import EntityCollection from "../../src/model/dataTypes/EntityCollection";
 import FilePath from "../../src/model/dataTypes/FilePath";
 import Predicate from "../../src/collectionUtils/core/Predicate";
 import DataType from "../../src/model/dataTypes/DataType";
-import ModifyElementTypeTransformer from "../../src/collectionUtils/ModifyElementTypeTransformer";
 import AddResourceTypeFieldTransformer from "../../src/collectionUtils/AddResourceTypeFieldTransformer";
 import MemberVariable from "../../src/model/dataTypes/MemberVariable";
 
@@ -25,6 +24,7 @@ describe("BasePreprocessor", () => {
     resourceEntity = entityBuilder.buildEntityDefinition();
 
     entityBuilder.dataType = DataType.getInstance("FHIR", "Element", "/tmp");
+    entityBuilder.parentType = null;
     elementEntity = entityBuilder.buildEntityDefinition();
 
     entityBuilder = new EntityDefinitionBuilder();
@@ -62,13 +62,6 @@ describe("BasePreprocessor", () => {
       expect(preprocessor.addResourceTypeTransformer).toBeDefined();
       expect(preprocessor.addResourceTypeTransformer).toBeInstanceOf(
         AddResourceTypeFieldTransformer
-      );
-    });
-
-    it("should initialize the modifyElementTypeTransformer", () => {
-      expect(preprocessor.modifyElementTypeTransformer).toBeDefined();
-      expect(preprocessor.modifyElementTypeTransformer).toBeInstanceOf(
-        ModifyElementTypeTransformer
       );
     });
   });

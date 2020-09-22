@@ -11,6 +11,8 @@ export class DomainResource extends Resource {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "DomainResource";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public contained?: Array<Resource>;
 
@@ -24,13 +26,13 @@ export class DomainResource extends Resource {
   ): DomainResource {
     const newInstance: DomainResource = Resource.parse(json, providedInstance);
   
-    if (json.contained) {
+    if (json.contained !== undefined) {
       newInstance.contained = json.contained.map((x) => Resource.parse(x));
     }
-    if (json.extension) {
+    if (json.extension !== undefined) {
       newInstance.extension = json.extension.map((x) => Extension.parse(x));
     }
-    if (json.modifierExtension) {
+    if (json.modifierExtension !== undefined) {
       newInstance.modifierExtension = json.modifierExtension.map((x) => Extension.parse(x));
     }
     return newInstance;
@@ -58,7 +60,11 @@ export class DomainResource extends Resource {
 
     return result;
   }
-  
+
+  public clone(): DomainResource {
+    return DomainResource.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "DomainResource";
   }

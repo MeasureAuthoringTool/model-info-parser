@@ -11,6 +11,8 @@ export class Bundle extends Resource {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Bundle";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public entry?: Array<BundleEntry>;
 
@@ -20,7 +22,7 @@ export class Bundle extends Resource {
   ): Bundle {
     const newInstance: Bundle = Resource.parse(json, providedInstance);
   
-    if (json.entry) {
+    if (json.entry !== undefined) {
       newInstance.entry = json.entry.map((x) => BundleEntry.parse(x));
     }
     return newInstance;
@@ -40,7 +42,11 @@ export class Bundle extends Resource {
 
     return result;
   }
-  
+
+  public clone(): Bundle {
+    return Bundle.parse(this.toJSON());
+  }
+
   public getTypeName(): string {
     return "Bundle";
   }

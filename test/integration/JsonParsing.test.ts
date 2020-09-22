@@ -177,4 +177,16 @@ describe("Testing the Parsing logic of a generated class", () => {
       expect(resourceChild.boolVal?.value).toBeTrue();
     }
   });
+
+  it("should parse falsy values correctly", () => {
+    const json: IResourceChild = {
+      resourceType: "ResourceChild",
+      boolVal: false,
+    };
+
+    const result: ResourceChild = ResourceChild.parse(json);
+
+    expect(result.resourceType).toBe("ResourceChild");
+    expect(result.boolVal?.value).toBeFalse();
+  });
 });

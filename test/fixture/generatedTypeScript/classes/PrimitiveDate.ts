@@ -10,6 +10,8 @@ export class PrimitiveDate extends Element {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "date";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public value?: string;
 
@@ -21,7 +23,7 @@ export class PrimitiveDate extends Element {
       let newInstance: PrimitiveDate;
   
       if (extension) {
-        newInstance = Element.parse(extension);
+        newInstance = Element.parse(extension, providedInstance);
       } else {
         newInstance = providedInstance;
       }
@@ -35,7 +37,16 @@ export class PrimitiveDate extends Element {
     const castInput = input as PrimitiveDate;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveDate";
   }
-  
+
+  public clone(): PrimitiveDate {
+    const result = new PrimitiveDate();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveDate";
   }

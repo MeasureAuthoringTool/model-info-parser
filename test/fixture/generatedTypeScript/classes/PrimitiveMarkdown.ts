@@ -9,6 +9,8 @@ export class PrimitiveMarkdown extends PrimitiveString {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "markdown";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
@@ -22,7 +24,16 @@ export class PrimitiveMarkdown extends PrimitiveString {
     const castInput = input as PrimitiveMarkdown;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveMarkdown";
   }
-  
+
+  public clone(): PrimitiveMarkdown {
+    const result = new PrimitiveMarkdown();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveMarkdown";
   }

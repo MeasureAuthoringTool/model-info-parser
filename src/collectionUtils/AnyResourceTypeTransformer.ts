@@ -72,13 +72,9 @@ export default class AnyResourceTypeTransformer
 
     const newImports = new EntityImports(newImportTypes);
 
-    return new EntityDefinition(
-      input.metadata.clone(),
-      input.dataType,
-      input.parentDataType,
-      newMembers,
-      newImports,
-      input.collectionName
-    );
+    return input.clone({
+      memberVariables: newMembers,
+      imports: newImports,
+    });
   }
 }

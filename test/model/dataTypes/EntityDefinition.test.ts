@@ -11,6 +11,8 @@ import FilePath from "../../../src/model/dataTypes/FilePath";
 import IsDataTypePredicate from "../../../src/collectionUtils/IsDataTypePredicate";
 import MemberVariableByNamePredicate from "../../../src/collectionUtils/MemberVariableByNamePredicate";
 import NOPTransformer from "../../../src/collectionUtils/core/NOPTransformer";
+import PathSegment from "../../../src/model/dataTypes/PathSegment";
+import PrimaryCode from "../../../src/model/dataTypes/PrimaryCode";
 
 describe("EntityDefinition", () => {
   let parentType: DataType;
@@ -23,6 +25,9 @@ describe("EntityDefinition", () => {
   let member1: MemberVariable;
   let member2: MemberVariable;
   let members: Array<MemberVariable>;
+  let pathSegment1: PathSegment;
+  let pathSegment2: PathSegment;
+  let primaryCode: PrimaryCode;
   let entityDef: EntityDefinition;
 
   beforeEach(() => {
@@ -31,17 +36,26 @@ describe("EntityDefinition", () => {
     memberType2 = DataType.getInstance("ns2", "memberTypeName2", "/tmp");
     extraType = DataType.getInstance("ns3", "ExtraType", "/tmp");
     imports = new EntityImports([memberType1, memberType2]);
-    metadata = new EntityMetadata("ns4", "Data.Type", "ns3.Base.Type");
+    metadata = new EntityMetadata(
+      "ns4",
+      "Data.Type",
+      "ns3.Base.Type",
+      "primary.code.path"
+    );
     dataType = DataType.getInstance("ns4", "Data.Type", "/tmp");
     member1 = new MemberVariable(memberType1, "varName1", false);
     member2 = new MemberVariable(memberType2, "varName2", true);
     members = [member1, member2];
+    pathSegment1 = new PathSegment(memberType1, true, "foo");
+    pathSegment2 = new PathSegment(memberType2, false, "bar");
+    primaryCode = new PrimaryCode([pathSegment1, pathSegment2], [dataType]);
     entityDef = new EntityDefinition(
       metadata,
       dataType,
       parentType,
       members,
       imports,
+      primaryCode,
       "some_collection"
     );
   });
@@ -53,6 +67,7 @@ describe("EntityDefinition", () => {
       expect(entityDef.parentDataType).toBe(parentType);
       expect(entityDef.memberVariables).toBe(members);
       expect(entityDef.imports).toBe(imports);
+      expect(entityDef.primaryCode).toBe(primaryCode);
       expect(entityDef.collectionName).toBe("some_collection");
     });
 
@@ -62,13 +77,15 @@ describe("EntityDefinition", () => {
         dataType,
         parentType,
         members,
-        imports
+        imports,
+        primaryCode
       );
       expect(entityDef.metadata).toBe(metadata);
       expect(entityDef.dataType).toBe(dataType);
       expect(entityDef.parentDataType).toBe(parentType);
       expect(entityDef.memberVariables).toBe(members);
       expect(entityDef.imports).toBe(imports);
+      expect(entityDef.primaryCode).toBe(primaryCode);
       expect(entityDef.collectionName).toBeNull();
     });
   });
@@ -127,6 +144,21 @@ describe("EntityDefinition", () => {
     });
   });
 
+  describe("setPrimaryCode()", () => {
+    it("should return a cloned copy with the new primaryCode", () => {
+      const newPathSegment: PathSegment = new PathSegment(
+        parentType,
+        false,
+        "newPath"
+      );
+      const newPrimaryCode = new PrimaryCode([newPathSegment], [dataType]);
+      const result = entityDef.setPrimaryCode(newPrimaryCode);
+      expect(result).not.toBe(entityDef);
+      expect(result.primaryCode).not.toBeArrayOfSize(1);
+      expect(result.primaryCode?.pathSegments[0]).toBe(newPathSegment);
+    });
+  });
+
   describe("#setCollectionName()", () => {
     it("should return a cloned value containing the new collectionName", () => {
       const result = entityDef.setCollectionName("newName");
@@ -136,14 +168,20 @@ describe("EntityDefinition", () => {
   });
 
   describe("clone()", () => {
-    it("should create a deep copy of the original", () => {
-      const original = new EntityDefinition(
+    let original: EntityDefinition;
+
+    beforeEach(() => {
+      original = new EntityDefinition(
         metadata,
         dataType,
         parentType,
         members,
-        imports
+        imports,
+        primaryCode
       );
+    });
+
+    it("should create a deep copy of the original", () => {
       const result = original.clone();
       expect(result).not.toBe(original);
       expect(result).toStrictEqual(original);
@@ -163,6 +201,80 @@ describe("EntityDefinition", () => {
         imports.dataTypes[0].typeName
       );
     });
+
+    it("should allow passing a custom metadata", () => {
+      const newMetadata: EntityMetadata = new EntityMetadata(
+        "newNs",
+        "newOgType",
+        "newParent"
+      );
+      const result = original.clone({ metadata: newMetadata });
+      expect(result.metadata).toBe(newMetadata);
+    });
+
+    it("should allow passing a custom dataType", () => {
+      const newDataType: DataType = DataType.getInstance(
+        "newNs",
+        "newType",
+        "/tmp/newBase"
+      );
+      const result = original.clone({ dataType: newDataType });
+      expect(result.dataType).toBe(newDataType);
+    });
+
+    it("should allow passing a custom parentType", () => {
+      const newParentType: DataType = DataType.getInstance(
+        "newNs",
+        "newParent",
+        "/tmp/newBase"
+      );
+      const result = original.clone({ parentDataType: newParentType });
+      expect(result.parentDataType).toBe(newParentType);
+    });
+
+    it("should allow passing a null parentType", () => {
+      const result = original.clone({ parentDataType: null });
+      expect(result.parentDataType).toBeNull();
+    });
+
+    it("should allow passing custom members", () => {
+      const newMembers = [member2];
+      const result = original.clone({ memberVariables: newMembers });
+      expect(result.memberVariables).toBe(newMembers);
+    });
+
+    it("should allow passing empty members", () => {
+      const result = original.clone({ memberVariables: [] });
+      expect(result.memberVariables).toStrictEqual([]);
+    });
+
+    it("should allow passing a custom import set", () => {
+      const newImports = new EntityImports([memberType2]);
+      const result = original.clone({ imports: newImports });
+      expect(result.imports).toBe(newImports);
+    });
+
+    it("should allow passing a PrimaryCode", () => {
+      const newPathSegment: PathSegment = new PathSegment(
+        parentType,
+        false,
+        "newPath"
+      );
+      const newPrimaryCode = new PrimaryCode([newPathSegment], [dataType]);
+      const result = original.clone({ primaryCode: newPrimaryCode });
+      expect(result.primaryCode).not.toBeArrayOfSize(1);
+      expect(result.primaryCode?.pathSegments[0]).toBe(newPathSegment);
+    });
+
+    it("should allow passing a custom collection name", () => {
+      const result = original.clone({ collectionName: "newCollectionName" });
+      expect(result.collectionName).toBe("newCollectionName");
+    });
+
+    it("should allow passing a null collection name", () => {
+      const result = original.clone({ collectionName: null });
+      expect(result.collectionName).toBeNull();
+    });
   });
 
   describe("createEntityDefinition", () => {
@@ -176,7 +288,14 @@ describe("EntityDefinition", () => {
       element1 = new SimpleElement("varName1", "ns2", "memberTypeName1");
       element2 = new ListElement("varName2", "ns2", "memberTypeName2");
       elements = [element1, element2];
-      typeInfo = new TypeInfo("Data.Type", "ns4", "Base.Type", "ns3", elements);
+      typeInfo = new TypeInfo(
+        "Data.Type",
+        "ns4",
+        "Base.Type",
+        "ns3",
+        elements,
+        "primary.code.path"
+      );
       baseDir = FilePath.getInstance("/tmp");
     });
 
@@ -196,6 +315,7 @@ describe("EntityDefinition", () => {
       expect(result.namespace).toBe(metadata.namespace);
       expect(result.originalTypeName).toBe(metadata.originalTypeName);
       expect(result.parentTypeName).toBe(metadata.parentTypeName);
+      expect(result.primaryCodePath).toBe(metadata.primaryCodePath);
     });
 
     it("should initialize the entity's DataType correctly", () => {
@@ -250,6 +370,11 @@ describe("EntityDefinition", () => {
       expect(importType1).toBe(parentType);
       expect(importType2).toBe(memberType1);
       expect(importType3).toBe(memberType2);
+    });
+
+    it("should set the primaryCode to null for now", () => {
+      const entity = EntityDefinition.createEntityDefinition(typeInfo, baseDir);
+      expect(entity.primaryCode).toBeNull();
     });
   });
 });

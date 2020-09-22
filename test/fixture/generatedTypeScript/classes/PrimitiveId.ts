@@ -9,6 +9,8 @@ export class PrimitiveId extends PrimitiveString {
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "id";
+  
+  static readonly primaryCodePath: string | null = null;
 
   public static parsePrimitive(
     value: Parameters<typeof PrimitiveString.parsePrimitive>[0],
@@ -22,7 +24,16 @@ export class PrimitiveId extends PrimitiveString {
     const castInput = input as PrimitiveId;
     return !!input && castInput.getTypeName && castInput.getTypeName() === "PrimitiveId";
   }
-  
+
+  public clone(): PrimitiveId {
+    const result = new PrimitiveId();
+    const parentClone = super.clone();
+    result.id = parentClone.id;
+    result.extension = parentClone.extension;
+    result.value = this.value;
+    return result;
+  }
+
   public getTypeName(): string {
     return "PrimitiveId";
   }
