@@ -3,7 +3,7 @@ import Handlebars from "../registerPartials";
 import DataType from "../../../model/dataTypes/DataType";
 import EntityMetadata from "../../../model/dataTypes/EntityMetadata";
 import EntityImports from "../../../model/dataTypes/EntityImports";
-import PrimaryCodeType from "../../../model/dataTypes/PrimaryCodeType";
+import PrimaryCode from "../../../model/dataTypes/PrimaryCode";
 
 export const source = `/* eslint-disable import/prefer-default-export, import/no-cycle */
 {{# if imports.dataTypes }}import { 
@@ -173,7 +173,7 @@ export interface TemplateContext {
   metadata: EntityMetadata;
   memberVariables: Array<MemberVariable>;
   imports: EntityImports;
-  primaryCodeType: PrimaryCodeType | null;
+  primaryCode: PrimaryCode | null;
 }
 
 export default Handlebars.compile<TemplateContext>(source);

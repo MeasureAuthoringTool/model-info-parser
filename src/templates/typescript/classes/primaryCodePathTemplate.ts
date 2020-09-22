@@ -4,17 +4,55 @@ export default `{{# if (eq dataType.normalizedName "Type") }}
   }
 
 {{/ if }}
-{{# if primaryCodeType }}
-  get primaryCode(): {{ primaryCodeType.dataType.normalizedName }} | undefined {
-    return this.{{ primaryCodeType.path }};
+{{# if primaryCode }}
+  get primaryCode(): {{# each primaryCode.returnType }}{{ normalizedName }} | {{/ each }}undefined {
+    return this{{# each primaryCode.pathSegments }}
+    {{~# if isArray ~}}
+      ?.{{ path }}?.[0]
+    {{~ else ~}}
+      ?.{{ path }}
+    {{~/ if }}
+    {{~/ each }};
   }
 
-  set primaryCode(primaryCode: {{ primaryCodeType.dataType.normalizedName }} | undefined) {
-  {{# if primaryCodeType.isArray }}
-    this.{{ metadata.primaryCodePath }} = primaryCode ? [primaryCode] : [];
-  {{ else }}
-    this.{{ metadata.primaryCodePath }} = primaryCode;
-  {{/ if }}
+  set primaryCode(primaryCode: {{# each primaryCode.returnType }}{{ normalizedName }} | {{/ each }}undefined) {
+  {{# each primaryCode.pathSegments }}
+  {{# unless @last }}
+    this
+    {{~# each ../primaryCode.pathSegments }}
+      {{~# ifLessThanEqual @index @../index ~}}
+        .{{ path }}
+      {{~/ ifLessThanEqual }}
+    {{~/ each }} = this{{~# each ../primaryCode.pathSegments }}
+      {{~# ifLessThanEqual @index @../index ~}}
+        .{{ path }}
+      {{~/ ifLessThanEqual }}
+    {{~/ each }} || {{# if isArray ~}}
+      [new {{ dataType.normalizedName }}()];
+    {{ else ~}}
+      new {{ dataType.normalizedName }}();
+    {{/ if }}
+  {{/ unless }}
+  {{/ each }}
+    this
+    {{~# each primaryCode.pathSegments ~}}
+    {{~# if isArray ~}}
+    {{~# if @last ~}}
+      .{{ path }}
+    {{~ else ~}}
+      .{{ path }}[0]
+    {{~/ if ~}}
+    {{~ else ~}}
+      .{{ path }}
+    {{~/ if ~}}
+    {{~# if @last }}
+    {{# if isArray }}
+ = primaryCode ? [primaryCode] : [];
+    {{ else }}
+ = primaryCode;
+    {{/ if }}
+    {{/ if }}
+    {{/ each }}
   }
 
 {{/ if }}`;

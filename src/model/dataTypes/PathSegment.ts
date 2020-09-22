@@ -1,14 +1,14 @@
 import DataType from "./DataType";
 
-export default class PrimaryCodeType {
+export default class PathSegment {
   constructor(
     public readonly dataType: DataType,
     public readonly isArray: boolean,
     public readonly path: string
   ) {}
 
-  public clone(fieldsToUpdate?: Partial<PrimaryCodeType>): PrimaryCodeType {
-    const partial: Partial<PrimaryCodeType> | undefined = fieldsToUpdate;
+  public clone(fieldsToUpdate?: Partial<PathSegment>): PathSegment {
+    const partial: Partial<PathSegment> | undefined = fieldsToUpdate;
 
     let newDataType: DataType;
     if (partial?.dataType !== undefined) {
@@ -31,6 +31,6 @@ export default class PrimaryCodeType {
       newPath = this.path;
     }
 
-    return new PrimaryCodeType(newDataType, newIsArray, newPath);
+    return new PathSegment(newDataType, newIsArray, newPath);
   }
 }

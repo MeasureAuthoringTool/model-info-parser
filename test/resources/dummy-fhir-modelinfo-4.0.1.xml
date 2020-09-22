@@ -145,6 +145,32 @@
     </ns4:element>
   </ns4:typeInfo>
 
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="NestedPath"
+                identifier="http://hl7.org/fhir/StructureDefinition/NestedPath" label="NestedPath" retrievable="true"
+                primaryCodePath="top.boolVal" baseType="FHIR.DomainResource">
+    <ns4:element name="top" elementType="FHIR.ResourceChild"/>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="NestedArray"
+                identifier="http://hl7.org/fhir/StructureDefinition/NestedArray" label="NestedArray" retrievable="true"
+                primaryCodePath="codeList.coding" baseType="FHIR.DomainResource">
+    <ns4:element name="codeList">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.CodeableConcept"/>
+    </ns4:element>
+  </ns4:typeInfo>
+
+  <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="ChoicePath"
+                identifier="http://hl7.org/fhir/StructureDefinition/ChoicePath" label="ChoicePath" retrievable="true"
+                primaryCodePath="optionsBoolean" baseType="FHIR.DomainResource">
+    <ns4:element name="options">
+      <ns4:elementTypeSpecifier xsi:type="ns4:ChoiceTypeSpecifier">
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="boolean"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="canonical"/>
+        <ns4:choice xsi:type="ns4:NamedTypeSpecifier" modelName="FHIR" name="Coding"/>
+      </ns4:elementTypeSpecifier>
+    </ns4:element>
+  </ns4:typeInfo>
+
   <!--
   All the FHIR primitives
   -->

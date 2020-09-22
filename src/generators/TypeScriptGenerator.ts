@@ -38,7 +38,7 @@ async function generateClassFile(
     metadata: entityDefinition.metadata,
     memberVariables: entityDefinition.memberVariables,
     imports: entityDefinition.imports,
-    primaryCodeType: entityDefinition.primaryCodeType,
+    primaryCode: entityDefinition.primaryCode,
   };
 
   const classContents: string = classTemplate(templateInput);

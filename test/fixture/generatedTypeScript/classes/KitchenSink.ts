@@ -36,7 +36,7 @@ export class KitchenSink extends Element {
   public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
 
   get primaryCode(): CodeableConcept | undefined {
-    return this.singleCode;
+    return this?.singleCode;
   }
 
   set primaryCode(primaryCode: CodeableConcept | undefined) {

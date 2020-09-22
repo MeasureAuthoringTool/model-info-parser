@@ -11,7 +11,8 @@ import FilePath from "../../../src/model/dataTypes/FilePath";
 import IsDataTypePredicate from "../../../src/collectionUtils/IsDataTypePredicate";
 import MemberVariableByNamePredicate from "../../../src/collectionUtils/MemberVariableByNamePredicate";
 import NOPTransformer from "../../../src/collectionUtils/core/NOPTransformer";
-import PrimaryCodeType from "../../../src/model/dataTypes/PrimaryCodeType";
+import PathSegment from "../../../src/model/dataTypes/PathSegment";
+import PrimaryCode from "../../../src/model/dataTypes/PrimaryCode";
 
 describe("EntityDefinition", () => {
   let parentType: DataType;
@@ -24,7 +25,9 @@ describe("EntityDefinition", () => {
   let member1: MemberVariable;
   let member2: MemberVariable;
   let members: Array<MemberVariable>;
-  let primaryCodeType: PrimaryCodeType;
+  let pathSegment1: PathSegment;
+  let pathSegment2: PathSegment;
+  let primaryCode: PrimaryCode;
   let entityDef: EntityDefinition;
 
   beforeEach(() => {
@@ -43,14 +46,16 @@ describe("EntityDefinition", () => {
     member1 = new MemberVariable(memberType1, "varName1", false);
     member2 = new MemberVariable(memberType2, "varName2", true);
     members = [member1, member2];
-    primaryCodeType = new PrimaryCodeType(memberType1, true, "primaryCodePath");
+    pathSegment1 = new PathSegment(memberType1, true, "foo");
+    pathSegment2 = new PathSegment(memberType2, false, "bar");
+    primaryCode = new PrimaryCode([pathSegment1, pathSegment2], [dataType]);
     entityDef = new EntityDefinition(
       metadata,
       dataType,
       parentType,
       members,
       imports,
-      primaryCodeType,
+      primaryCode,
       "some_collection"
     );
   });
@@ -62,7 +67,7 @@ describe("EntityDefinition", () => {
       expect(entityDef.parentDataType).toBe(parentType);
       expect(entityDef.memberVariables).toBe(members);
       expect(entityDef.imports).toBe(imports);
-      expect(entityDef.primaryCodeType).toBe(primaryCodeType);
+      expect(entityDef.primaryCode).toBe(primaryCode);
       expect(entityDef.collectionName).toBe("some_collection");
     });
 
@@ -73,14 +78,14 @@ describe("EntityDefinition", () => {
         parentType,
         members,
         imports,
-        primaryCodeType
+        primaryCode
       );
       expect(entityDef.metadata).toBe(metadata);
       expect(entityDef.dataType).toBe(dataType);
       expect(entityDef.parentDataType).toBe(parentType);
       expect(entityDef.memberVariables).toBe(members);
       expect(entityDef.imports).toBe(imports);
-      expect(entityDef.primaryCodeType).toBe(primaryCodeType);
+      expect(entityDef.primaryCode).toBe(primaryCode);
       expect(entityDef.collectionName).toBeNull();
     });
   });
@@ -139,19 +144,18 @@ describe("EntityDefinition", () => {
     });
   });
 
-  describe("setPrimaryCodeType()", () => {
-    it("should return a cloned copy with the new primaryCodeType", () => {
-      const newPrimaryCodeType: PrimaryCodeType = new PrimaryCodeType(
+  describe("setPrimaryCode()", () => {
+    it("should return a cloned copy with the new primaryCode", () => {
+      const newPathSegment: PathSegment = new PathSegment(
         parentType,
         false,
         "newPath"
       );
-      const result = entityDef.setPrimaryCodeType(newPrimaryCodeType);
+      const newPrimaryCode = new PrimaryCode([newPathSegment], [dataType]);
+      const result = entityDef.setPrimaryCode(newPrimaryCode);
       expect(result).not.toBe(entityDef);
-      expect(result.primaryCodeType).not.toBeNull();
-      expect(result.primaryCodeType?.dataType).toBe(parentType);
-      expect(result.primaryCodeType?.isArray).toBeFalse();
-      expect(result.primaryCodeType?.path).toBe("newPath");
+      expect(result.primaryCode).not.toBeArrayOfSize(1);
+      expect(result.primaryCode?.pathSegments[0]).toBe(newPathSegment);
     });
   });
 
@@ -173,7 +177,7 @@ describe("EntityDefinition", () => {
         parentType,
         members,
         imports,
-        primaryCodeType
+        primaryCode
       );
     });
 
@@ -250,17 +254,16 @@ describe("EntityDefinition", () => {
       expect(result.imports).toBe(newImports);
     });
 
-    it("should allow passing a primary code return type", () => {
-      const newPrimaryCodeType: PrimaryCodeType = new PrimaryCodeType(
+    it("should allow passing a PrimaryCode", () => {
+      const newPathSegment: PathSegment = new PathSegment(
         parentType,
         false,
         "newPath"
       );
-      const result = original.clone({ primaryCodeType: newPrimaryCodeType });
-      expect(result.primaryCodeType).not.toBeNull();
-      expect(result.primaryCodeType?.dataType).toBe(parentType);
-      expect(result.primaryCodeType?.isArray).toBeFalse();
-      expect(result.primaryCodeType?.path).toBe("newPath");
+      const newPrimaryCode = new PrimaryCode([newPathSegment], [dataType]);
+      const result = original.clone({ primaryCode: newPrimaryCode });
+      expect(result.primaryCode).not.toBeArrayOfSize(1);
+      expect(result.primaryCode?.pathSegments[0]).toBe(newPathSegment);
     });
 
     it("should allow passing a custom collection name", () => {
@@ -369,9 +372,9 @@ describe("EntityDefinition", () => {
       expect(importType3).toBe(memberType2);
     });
 
-    it("should set the primaryCodePath to null for now", () => {
+    it("should set the primaryCode to null for now", () => {
       const entity = EntityDefinition.createEntityDefinition(typeInfo, baseDir);
-      expect(entity.primaryCodeType).toBeNull();
+      expect(entity.primaryCode).toBeNull();
     });
   });
 });

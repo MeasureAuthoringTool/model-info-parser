@@ -119,6 +119,18 @@ Handlebars.registerHelper("ifEquals", function ifEquals(
   return options.inverse(this);
 });
 
+Handlebars.registerHelper("ifLessThanEqual", function ifEquals(
+  this: Handlebars.TemplateDelegate<boolean>,
+  a: string,
+  b: string,
+  options: HelperOptions
+): string {
+  if (a <= b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 export function getMongooseSystemType(typeName: string): string {
   return mongoosePrimitiveTypes[_.lowerFirst(typeName)];
 }

@@ -18,7 +18,7 @@ export class ResourceChild extends DomainResource {
   public boolVal?: PrimitiveBoolean;
 
   get primaryCode(): PrimitiveBoolean | undefined {
-    return this.boolVal;
+    return this?.boolVal;
   }
 
   set primaryCode(primaryCode: PrimitiveBoolean | undefined) {

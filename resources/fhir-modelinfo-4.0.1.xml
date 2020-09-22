@@ -229,7 +229,7 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="AdverseEvent"
                 identifier="http://hl7.org/fhir/StructureDefinition/AdverseEvent" label="AdverseEvent"
-                retrievable="true" primaryCodePath="type" baseType="FHIR.DomainResource">
+                retrievable="true" primaryCodePath="event" baseType="FHIR.DomainResource">
     <ns4:element name="identifier" elementType="FHIR.Identifier"/>
     <ns4:element name="actuality" elementType="FHIR.AdverseEventActuality"/>
     <ns4:element name="category">
@@ -698,7 +698,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="BodyStructure"
                 identifier="http://hl7.org/fhir/StructureDefinition/BodyStructure" label="BodyStructure"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="location">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -3449,7 +3450,7 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="DetectedIssue"
                 identifier="http://hl7.org/fhir/StructureDefinition/DetectedIssue" label="DetectedIssue"
-                retrievable="true" primaryCodePath="category" baseType="FHIR.DomainResource">
+                retrievable="true" primaryCodePath="code" baseType="FHIR.DomainResource">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -3734,7 +3735,7 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="DeviceRequest"
                 identifier="http://hl7.org/fhir/StructureDefinition/DeviceRequest" label="DeviceRequest"
-                retrievable="true" primaryCodePath="codeCodeableConcept" baseType="FHIR.DomainResource">
+                retrievable="true" primaryCodePath="code" baseType="FHIR.DomainResource">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -3822,7 +3823,7 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="DeviceUseStatement"
                 identifier="http://hl7.org/fhir/StructureDefinition/DeviceUseStatement" label="DeviceUseStatement"
-                retrievable="true" primaryCodePath="device.code" baseType="FHIR.DomainResource">
+                retrievable="true" primaryCodePath="reasonCode" baseType="FHIR.DomainResource">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -6959,7 +6960,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="Location"
                 identifier="http://hl7.org/fhir/StructureDefinition/Location" label="Location" retrievable="true"
-                baseType="FHIR.DomainResource">
+                baseType="FHIR.DomainResource"
+                primaryCodePath="type">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -7145,7 +7147,7 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="MeasureReport"
                 identifier="http://hl7.org/fhir/StructureDefinition/MeasureReport" label="MeasureReport"
-                retrievable="true" primaryCodePath="measure.topic" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -9655,7 +9657,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="PractitionerRole"
                 identifier="http://hl7.org/fhir/StructureDefinition/PractitionerRole" label="PractitionerRole"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="code">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -10169,7 +10172,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="RelatedPerson"
                 identifier="http://hl7.org/fhir/StructureDefinition/RelatedPerson" label="RelatedPerson"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="relationship">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
