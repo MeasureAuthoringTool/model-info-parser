@@ -698,7 +698,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="BodyStructure"
                 identifier="http://hl7.org/fhir/StructureDefinition/BodyStructure" label="BodyStructure"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="location">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -6959,7 +6960,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="Location"
                 identifier="http://hl7.org/fhir/StructureDefinition/Location" label="Location" retrievable="true"
-                baseType="FHIR.DomainResource">
+                baseType="FHIR.DomainResource"
+                primaryCodePath="type">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -9655,7 +9657,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="PractitionerRole"
                 identifier="http://hl7.org/fhir/StructureDefinition/PractitionerRole" label="PractitionerRole"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="code">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
@@ -10169,7 +10172,8 @@
   </ns4:typeInfo>
   <ns4:typeInfo xsi:type="ns4:ClassInfo" namespace="FHIR" name="RelatedPerson"
                 identifier="http://hl7.org/fhir/StructureDefinition/RelatedPerson" label="RelatedPerson"
-                retrievable="true" baseType="FHIR.DomainResource">
+                retrievable="true" baseType="FHIR.DomainResource"
+                primaryCodePath="relationship">
     <ns4:element name="identifier">
       <ns4:elementTypeSpecifier xsi:type="ns4:ListTypeSpecifier" elementType="FHIR.Identifier"/>
     </ns4:element>
