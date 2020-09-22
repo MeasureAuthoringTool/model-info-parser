@@ -21,7 +21,7 @@ describe("TypeScriptClassPreprocessor", () => {
   beforeEach(() => {
     entityBuilder = new EntityDefinitionBuilder();
     entityBuilder.metadata = new EntityMetadata("ns", "ogName1", "", null);
-    entityBuilder.primaryCodeType = null;
+    entityBuilder.primaryCode = null;
 
     preprocessor = new TypeScriptClassPreprocessor();
     path = FilePath.getInstance("/tmp");
@@ -37,7 +37,7 @@ describe("TypeScriptClassPreprocessor", () => {
 
     entityBuilder = new EntityDefinitionBuilder();
     entityBuilder.metadata = new EntityMetadata("ns", "ogName2", "", "primitiveMember");
-    entityBuilder.primaryCodeType = null;
+    entityBuilder.primaryCode = null;
     const primitiveMember = new MemberVariable(
       primitiveType,
       "primitiveMember",
@@ -99,9 +99,10 @@ describe("TypeScriptClassPreprocessor", () => {
     const result = preprocessor.preprocess(entityCollection);
     expect(result.entities).toBeArrayOfSize(3);
     expect(result.entities[2].dataType.typeName).toBe("Data.Type");
-    expect(result.entities[2].primaryCodeType).not.toBeNull();
-    expect(result.entities[2].primaryCodeType?.dataType).toBe(primitiveType);
-    expect(result.entities[2].primaryCodeType?.isArray).toBe(true);
-    expect(result.entities[2].primaryCodeType?.path).toBe("primitiveMember?.[0]");
+    expect(result.entities[2].primaryCode).not.toBeNull();
+    expect(result.entities[2].primaryCode?.pathSegments).toBeArrayOfSize(1);
+    expect(result.entities[2].primaryCode?.pathSegments[0].dataType).toBe(primitiveType);
+    expect(result.entities[2].primaryCode?.pathSegments[0].isArray).toBe(true);
+    expect(result.entities[2].primaryCode?.pathSegments[0].path).toBe("primitiveMember");
   });
 });

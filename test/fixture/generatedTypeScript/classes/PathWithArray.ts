@@ -18,7 +18,7 @@ export class PathWithArray extends DomainResource {
   public boolList?: Array<PrimitiveBoolean>;
 
   get primaryCode(): PrimitiveBoolean | undefined {
-    return this.boolList?.[0];
+    return this?.boolList?.[0];
   }
 
   set primaryCode(primaryCode: PrimitiveBoolean | undefined) {

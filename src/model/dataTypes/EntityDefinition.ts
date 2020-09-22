@@ -8,7 +8,7 @@ import distinctDataTypes from "./distinctDataTypes";
 import Transformer from "../../collectionUtils/core/Transformer";
 import Predicate from "../../collectionUtils/core/Predicate";
 import CollectionUtils from "../../collectionUtils/CollectionUtils";
-import PrimaryCodeType from "./PrimaryCodeType";
+import PrimaryCode from "./PrimaryCode";
 
 export default class EntityDefinition {
   constructor(
@@ -17,7 +17,7 @@ export default class EntityDefinition {
     private _parentDataType: DataType | null,
     private _memberVariables: Array<MemberVariable>,
     private _imports: EntityImports,
-    private _primaryCodeType: PrimaryCodeType | null,
+    private _primaryCode: PrimaryCode | null,
     private _collectionName: string | null = null
   ) {}
 
@@ -45,8 +45,8 @@ export default class EntityDefinition {
     return this._collectionName;
   }
 
-  public get primaryCodeType(): PrimaryCodeType | null {
-    return this._primaryCodeType;
+  public get primaryCode(): PrimaryCode | null {
+    return this._primaryCode;
   }
 
   public clone(fieldsToUpdate?: Partial<EntityDefinition>): EntityDefinition {
@@ -87,11 +87,11 @@ export default class EntityDefinition {
       newImports = this.imports.clone();
     }
 
-    let newPrimaryCodeType: PrimaryCodeType | null;
-    if (partial?.primaryCodeType !== undefined) {
-      newPrimaryCodeType = partial.primaryCodeType;
+    let newPrimaryCode: PrimaryCode | null;
+    if (partial?.primaryCode !== undefined) {
+      newPrimaryCode = partial.primaryCode;
     } else {
-      newPrimaryCodeType = this.primaryCodeType;
+      newPrimaryCode = this.primaryCode;
     }
 
     let newCollectionName: string | null;
@@ -107,7 +107,7 @@ export default class EntityDefinition {
       newParentType,
       newMembers,
       newImports,
-      newPrimaryCodeType,
+      newPrimaryCode,
       newCollectionName
     );
   }
@@ -152,17 +152,16 @@ export default class EntityDefinition {
     return result;
   }
 
-  public setPrimaryCodeType(newPrimaryCodeType: PrimaryCodeType | null): EntityDefinition {
+  public setPrimaryCode(newPrimaryCode: PrimaryCode | null): EntityDefinition {
     return this.clone({
-      primaryCodeType: newPrimaryCodeType,
+      primaryCode: newPrimaryCode,
     });
   }
 
   public setCollectionName(newName: string | null): EntityDefinition {
-    const result = this.clone({
+    return this.clone({
       collectionName: newName,
     });
-    return result;
   }
 
   static createEntityDefinition(

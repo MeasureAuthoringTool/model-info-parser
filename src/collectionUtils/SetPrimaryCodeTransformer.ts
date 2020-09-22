@@ -4,7 +4,8 @@ import EntityCollection from "../model/dataTypes/EntityCollection";
 import MemberVariable from "../model/dataTypes/MemberVariable";
 import AddImportTransformer from "./AddImportTransformer";
 import DataType from "../model/dataTypes/DataType";
-import PrimaryCodeType from "../model/dataTypes/PrimaryCodeType";
+import PathSegment from "../model/dataTypes/PathSegment";
+import PrimaryCode from "../model/dataTypes/PrimaryCode";
 
 interface EntityTypeMapping {
   [dataType: string]: EntityDefinition;
@@ -18,7 +19,7 @@ function findMemberByName(
 
   const matchingMembers = entityDefinition.memberVariables.filter(
     (member: MemberVariable) => {
-      return member.variableName === memberName;
+      return memberName.startsWith(member.variableName);
     }
   );
 
@@ -55,7 +56,7 @@ function lookupEntityDefinition(
 /**
  * This transformer sets the primaryCodeType variable of an EntityDefinition
  */
-export default class SetPrimaryCodeTypeTransformer extends Transformer<
+export default class SetPrimaryCodeTransformer extends Transformer<
   EntityDefinition,
   EntityDefinition
 > {
@@ -81,40 +82,58 @@ export default class SetPrimaryCodeTypeTransformer extends Transformer<
     });
 
     // Navigate the object tree to find the nested member we're after
-    const segments = primaryCodePath.split(".");
-    const initialValue: PrimaryCodeType = new PrimaryCodeType(input.dataType, false, "");
-    const result: PrimaryCodeType = segments.reduce(
-      (accumulator: PrimaryCodeType, currentSegment: string) => {
-        const currentEntity = lookupEntityDefinition(accumulator.dataType, entityMapping);
-        const matchingMember = findMemberByName(currentSegment, currentEntity);
-        const { dataType, isArray, variableName } = matchingMember;
+    const segmentStrings = primaryCodePath.split(".");
 
-        let newPath: string = accumulator.path;
-        if (newPath !== "") {
-          newPath = `${newPath}?.`
-        }
-        if (isArray) {
-          newPath = `${newPath}${variableName}?.[0]`
+    // return type is the last segment we encounter
+    let returnType: Array<DataType> = [];
+
+    const initialValue: Array<PathSegment> = [];
+    const pathSegments: Array<PathSegment> = segmentStrings.reduce(
+      (accumulator: Array<PathSegment>, currentSegmentString: string) => {
+        // Find the entity for the current segment
+        let currentDataType: DataType;
+        if (accumulator.length === 0) {
+          currentDataType = input.dataType;
         } else {
-          newPath = `${newPath}${variableName}`
+          currentDataType = accumulator[accumulator.length - 1].dataType;
+        }
+        const currentBaseEntity = lookupEntityDefinition(
+          currentDataType,
+          entityMapping
+        );
+
+        // Find the member variable
+        const matchingMember = findMemberByName(
+          currentSegmentString,
+          currentBaseEntity
+        );
+
+        const { choiceTypes, variableName, dataType, isArray } = matchingMember;
+
+        if (choiceTypes.length === 0) {
+          returnType = [dataType];
+        } else {
+          returnType = choiceTypes;
         }
 
-        return new PrimaryCodeType(dataType, isArray, newPath);
+        const newSegment = new PathSegment(dataType, isArray, variableName);
+        accumulator.push(newSegment);
+        return accumulator;
       },
       initialValue
     );
 
-    // const matchingMember = findMemberByName(primaryCodePath, input);
-    // const { dataType, isArray } = matchingMember;
+    const primaryCode = new PrimaryCode(pathSegments, returnType);
 
-    // Add an import to the referenced type
-    const addImportTransformer = new AddImportTransformer(result.dataType);
+    // Add an import to the return type
+    const addImportTransformer = new AddImportTransformer(
+      ...primaryCode.returnType
+    );
     const transformedInput = addImportTransformer.transform(input);
 
-
-    // Set the primaryCodeType
+    // Set the primaryCode
     return transformedInput.clone({
-      primaryCodeType: result,
+      primaryCode,
     });
   }
 }
