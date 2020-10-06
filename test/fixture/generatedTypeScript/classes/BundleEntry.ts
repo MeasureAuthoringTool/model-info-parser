@@ -3,6 +3,7 @@ import {
   BackboneElement,
   IBundleEntry,
   Resource,
+  FieldMetadata
 } from "../internal";
 
 export class BundleEntry extends BackboneElement {
@@ -13,6 +14,14 @@ export class BundleEntry extends BackboneElement {
   static readonly typeName: string = "Bundle.Entry";
   
   static readonly primaryCodePath: string | null = null;
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...BackboneElement.fieldInfo, {
+      fieldName: "resource",
+      fieldType: [Resource],
+      isArray: false
+    }];
+  }
 
   public resource?: Resource;
 

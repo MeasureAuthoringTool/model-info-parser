@@ -27,6 +27,10 @@ export function getTypeScriptPrimitive(type: string): string {
   return typeScriptPrimitiveTypes[_.lowerFirst(type)];
 }
 
+export function getTypeScriptType(type: string): string {
+  return _.upperFirst(getTypeScriptPrimitive(type));
+}
+
 export function getTypeScriptInterfacePrimitive(type: string): string {
   const trimmedName = trimInterfaceName(type);
   return typeScriptPrimitiveTypes[_.lowerFirst(trimmedName)];
@@ -39,6 +43,8 @@ export function getMongoidPrimitive(type: string): string {
 Handlebars.registerHelper("getMongoidPrimitive", getMongoidPrimitive);
 
 Handlebars.registerHelper("getTypeScriptPrimitive", getTypeScriptPrimitive);
+
+Handlebars.registerHelper("getTypeScriptType", getTypeScriptType);
 
 Handlebars.registerHelper("isReservedKeyword", function isReserved(
   this: Handlebars.TemplateDelegate<string>,

@@ -4,6 +4,7 @@ import {
   Extension,
   IResourceChild,
   PrimitiveBoolean,
+  FieldMetadata
 } from "../internal";
 
 export class ResourceChild extends DomainResource {
@@ -14,6 +15,14 @@ export class ResourceChild extends DomainResource {
   static readonly typeName: string = "ResourceChild";
   
   static readonly primaryCodePath: string | null = "boolVal";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...DomainResource.fieldInfo, {
+      fieldName: "boolVal",
+      fieldType: [PrimitiveBoolean],
+      isArray: false
+    }];
+  }
 
   public boolVal?: PrimitiveBoolean;
 

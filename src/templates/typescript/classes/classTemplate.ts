@@ -13,6 +13,7 @@ export const source = `/* eslint-disable import/prefer-default-export, import/no
 {{# each imports.dataTypes }}
   {{ this.normalizedName }},
 {{/ each }}
+  FieldMetadata
 } from "../internal";
 
 {{/ if }}
@@ -28,6 +29,31 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
   {{~ else ~}}
     null
   {{~/ if }};
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [{{# if parentDataType }}...{{ parentDataType.normalizedName }}.fieldInfo, {{/ if }}{{# if memberVariables }}{ {{~/ if }}
+    {{# each memberVariables }}
+      fieldName: "{{ variableName }}",
+      fieldType: [{{# each choiceTypes ~}}
+      {{~# if systemType ~}}
+        {{ getTypeScriptType normalizedName }}
+      {{~ else ~}}
+        {{ normalizedName }}
+      {{~/ if ~}}
+      {{~# unless @last }}, {{/ unless }}{{ else ~}}
+      {{~# if dataType.systemType ~}}
+        {{ getTypeScriptType dataType.normalizedName }}
+      {{~ else ~}}
+        {{ dataType.normalizedName }}
+      {{~/ if ~}}
+      {{/ each }}],
+      isArray: {{ isArray }}
+    {{# unless @last }}
+    }, {
+    {{/ unless }}
+    {{/ each }}
+    {{# if memberVariables ~}} }{{/ if }}];
+  }
 
   {{# each memberVariables }}
   {{> complexMember member=this }}
