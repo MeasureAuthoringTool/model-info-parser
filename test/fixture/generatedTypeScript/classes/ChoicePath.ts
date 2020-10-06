@@ -6,6 +6,7 @@ import {
   IChoicePath,
   PrimitiveBoolean,
   PrimitiveCanonical,
+  FieldMetadata
 } from "../internal";
 
 export class ChoicePath extends DomainResource {
@@ -16,6 +17,14 @@ export class ChoicePath extends DomainResource {
   static readonly typeName: string = "ChoicePath";
   
   static readonly primaryCodePath: string | null = "optionsBoolean";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...DomainResource.fieldInfo, {
+      fieldName: "options",
+      fieldType: [PrimitiveBoolean, PrimitiveCanonical, Coding],
+      isArray: false
+    }];
+  }
 
   public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
 

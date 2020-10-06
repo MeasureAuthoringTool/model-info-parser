@@ -4,6 +4,7 @@ import {
   INestedPath,
   PrimitiveBoolean,
   ResourceChild,
+  FieldMetadata
 } from "../internal";
 
 export class NestedPath extends DomainResource {
@@ -14,6 +15,14 @@ export class NestedPath extends DomainResource {
   static readonly typeName: string = "NestedPath";
   
   static readonly primaryCodePath: string | null = "top.boolVal";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...DomainResource.fieldInfo, {
+      fieldName: "top",
+      fieldType: [ResourceChild],
+      isArray: false
+    }];
+  }
 
   public top?: ResourceChild;
 
