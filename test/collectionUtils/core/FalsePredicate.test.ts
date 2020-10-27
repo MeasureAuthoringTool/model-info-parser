@@ -1,4 +1,3 @@
-import "jest-extended";
 import FalsePredicate from "../../../src/collectionUtils/core/FalsePredicate";
 
 describe("FalsePredicate", () => {
