@@ -51,7 +51,7 @@ describe("TypeInfo", () => {
     });
 
     it("should handle type with no base type", () => {
-      delete input.$.baseType;
+      input.$.baseType = "";
       const result: TypeInfo = TypeInfo.createTypeInfo(input);
       expect(result.baseTypeName).toBeNull();
       expect(result.baseTypeNamespace).toBeNull();

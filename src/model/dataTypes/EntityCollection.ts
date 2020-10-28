@@ -66,7 +66,7 @@ export default class EntityCollection {
     return new EntityCollection(newEntities, this.baseDir);
   }
 
-  public transform<K>(
+  public transform(
     transformer: Transformer<EntityDefinition, EntityDefinition>
   ): EntityCollection {
     const newEntities = CollectionUtils.transform(this.entities, transformer);

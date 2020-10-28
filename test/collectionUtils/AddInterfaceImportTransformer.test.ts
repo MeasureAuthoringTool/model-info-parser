@@ -1,4 +1,3 @@
-import "jest-extended";
 import EntityDefinitionBuilder from "../model/dataTypes/EntityDefinitionBuilder";
 import EntityDefinition from "../../src/model/dataTypes/EntityDefinition";
 import DataType from "../../src/model/dataTypes/DataType";

@@ -1,4 +1,3 @@
-import "jest-extended";
 import Element from "../../../src/model/modelInfo/Element";
 import ChoiceElement, {
   ChoiceType,

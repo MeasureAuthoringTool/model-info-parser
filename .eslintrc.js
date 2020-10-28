@@ -51,5 +51,6 @@ module.exports = {
       },
     ],
     "class-methods-use-this": "off",
+    "jest/no-conditional-expect": "off"
   },
 };
