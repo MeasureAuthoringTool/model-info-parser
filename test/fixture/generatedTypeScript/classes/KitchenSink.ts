@@ -10,6 +10,7 @@ import {
   PrimitiveString,
   PrimitiveTime,
   PrimitiveUrl,
+  FieldMetadata
 } from "../internal";
 
 export class KitchenSink extends Element {
@@ -20,6 +21,38 @@ export class KitchenSink extends Element {
   static readonly typeName: string = "KitchenSink";
   
   static readonly primaryCodePath: string | null = "singleCode";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...Element.fieldInfo, {
+      fieldName: "system",
+      fieldType: [String],
+      isArray: false
+    }, {
+      fieldName: "url",
+      fieldType: [PrimitiveUrl],
+      isArray: false
+    }, {
+      fieldName: "version",
+      fieldType: [PrimitiveString],
+      isArray: false
+    }, {
+      fieldName: "singleCode",
+      fieldType: [CodeableConcept],
+      isArray: false
+    }, {
+      fieldName: "coding",
+      fieldType: [Coding],
+      isArray: true
+    }, {
+      fieldName: "times",
+      fieldType: [PrimitiveTime],
+      isArray: true
+    }, {
+      fieldName: "options",
+      fieldType: [PrimitiveBoolean, PrimitiveCanonical, Coding],
+      isArray: false
+    }];
+  }
 
   public system?: string;
 

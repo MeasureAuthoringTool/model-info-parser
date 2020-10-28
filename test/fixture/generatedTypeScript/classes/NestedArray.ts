@@ -4,6 +4,7 @@ import {
   Coding,
   DomainResource,
   INestedArray,
+  FieldMetadata
 } from "../internal";
 
 export class NestedArray extends DomainResource {
@@ -14,6 +15,14 @@ export class NestedArray extends DomainResource {
   static readonly typeName: string = "NestedArray";
   
   static readonly primaryCodePath: string | null = "codeList.coding";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...DomainResource.fieldInfo, {
+      fieldName: "codeList",
+      fieldType: [CodeableConcept],
+      isArray: true
+    }];
+  }
 
   public codeList?: Array<CodeableConcept>;
 

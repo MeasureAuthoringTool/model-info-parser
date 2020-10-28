@@ -4,6 +4,7 @@ import {
   Extension,
   IPathWithArray,
   PrimitiveBoolean,
+  FieldMetadata
 } from "../internal";
 
 export class PathWithArray extends DomainResource {
@@ -14,6 +15,14 @@ export class PathWithArray extends DomainResource {
   static readonly typeName: string = "PathWithArray";
   
   static readonly primaryCodePath: string | null = "boolList";
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...DomainResource.fieldInfo, {
+      fieldName: "boolList",
+      fieldType: [PrimitiveBoolean],
+      isArray: true
+    }];
+  }
 
   public boolList?: Array<PrimitiveBoolean>;
 

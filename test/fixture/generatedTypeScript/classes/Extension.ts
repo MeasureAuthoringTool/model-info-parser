@@ -23,6 +23,7 @@ import {
   PrimitiveUri,
   PrimitiveUrl,
   PrimitiveUuid,
+  FieldMetadata
 } from "../internal";
 
 export class Extension extends Element {
@@ -33,6 +34,18 @@ export class Extension extends Element {
   static readonly typeName: string = "Extension";
   
   static readonly primaryCodePath: string | null = null;
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...Element.fieldInfo, {
+      fieldName: "url",
+      fieldType: [PrimitiveUri],
+      isArray: false
+    }, {
+      fieldName: "value",
+      fieldType: [PrimitiveBase64Binary, PrimitiveBoolean, PrimitiveCanonical, PrimitiveCode, PrimitiveDate, PrimitiveDateTime, PrimitiveDecimal, PrimitiveId, PrimitiveInstant, PrimitiveInteger, PrimitiveMarkdown, PrimitiveOid, PrimitivePositiveInt, PrimitiveString, PrimitiveTime, PrimitiveUnsignedInt, PrimitiveUri, PrimitiveUrl, PrimitiveUuid, Coding],
+      isArray: false
+    }];
+  }
 
   public url?: PrimitiveUri;
 

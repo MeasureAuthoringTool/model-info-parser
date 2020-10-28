@@ -1,4 +1,3 @@
-import "jest-extended";
 import HasPrimitiveMembersPredicate from "../../src/collectionUtils/HasPrimitiveMembersPredicate";
 import DataType from "../../src/model/dataTypes/DataType";
 import EntityDefinition from "../../src/model/dataTypes/EntityDefinition";

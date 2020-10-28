@@ -1,4 +1,3 @@
-import "jest-extended";
 import HasParentPredicate from "../../src/collectionUtils/HasParentPredicate";
 import EntityDefinition from "../../src/model/dataTypes/EntityDefinition";
 import EntityDefinitionBuilder from "../model/dataTypes/EntityDefinitionBuilder";

@@ -3,6 +3,7 @@ import {
   BundleEntry,
   IBundle,
   Resource,
+  FieldMetadata
 } from "../internal";
 
 export class Bundle extends Resource {
@@ -13,6 +14,14 @@ export class Bundle extends Resource {
   static readonly typeName: string = "Bundle";
   
   static readonly primaryCodePath: string | null = null;
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...Resource.fieldInfo, {
+      fieldName: "entry",
+      fieldType: [BundleEntry],
+      isArray: true
+    }];
+  }
 
   public entry?: Array<BundleEntry>;
 

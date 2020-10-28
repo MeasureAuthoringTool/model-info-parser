@@ -1,4 +1,3 @@
-import "jest-extended";
 import IsDataTypePredicate from "../../src/collectionUtils/IsDataTypePredicate";
 import DataType from "../../src/model/dataTypes/DataType";
 

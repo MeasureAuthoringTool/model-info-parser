@@ -5,6 +5,7 @@ import {
   IResource,
   PrimitiveCode,
   Type,
+  FieldMetadata
 } from "../internal";
 
 export class Resource extends Type {
@@ -15,6 +16,22 @@ export class Resource extends Type {
   static readonly typeName: string = "Resource";
   
   static readonly primaryCodePath: string | null = null;
+
+  static get fieldInfo(): Array<FieldMetadata> {
+    return [...Type.fieldInfo, {
+      fieldName: "id",
+      fieldType: [String],
+      isArray: false
+    }, {
+      fieldName: "language",
+      fieldType: [PrimitiveCode],
+      isArray: false
+    }, {
+      fieldName: "resourceType",
+      fieldType: [String],
+      isArray: false
+    }];
+  }
 
   public id?: string;
 
