@@ -64,7 +64,7 @@ export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ pa
 {{# if (eq dataType.normalizedName "Resource") }}
   constructor() {
     super();
-    this.resourceType = this.constructor.name;
+    this.resourceType = this.getTypeName();
   }
   
 {{/ if }}
