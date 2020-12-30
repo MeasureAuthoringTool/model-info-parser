@@ -19,9 +19,8 @@ export default class BlacklistedTypesPredicate extends Predicate<DataType> {
 
   evaluate(input: DataType): boolean {
     const { typeName, namespace } = input;
-    const blacklistPredicate = (dataType: BlacklistItem): boolean => {
-      return dataType.name === typeName && dataType.namespace === namespace;
-    };
+    const blacklistPredicate = (dataType: BlacklistItem): boolean =>
+      dataType.name === typeName && dataType.namespace === namespace;
 
     return (
       BlacklistedTypesPredicate.blacklistedTypes.findIndex(

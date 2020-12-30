@@ -129,11 +129,17 @@ async function generateIndexFiles(
 ): Promise<void> {
   // Generate ResourceMapping.ts
   const hierarchy = new TypeHierarchy(entityCollection);
-  const resourceType = DataType.getInstance("FHIR", "Resource", entityCollection.baseDir);
-  const resourceChildren: Array<DataType> = hierarchy.getAllChildrenFor(resourceType);
+  const resourceType = DataType.getInstance(
+    "FHIR",
+    "Resource",
+    entityCollection.baseDir
+  );
+  const resourceChildren: Array<DataType> = hierarchy.getAllChildrenFor(
+    resourceType
+  );
 
   const resourceMapContents = resourceMapTemplate({
-    resourceTypes: resourceChildren
+    resourceTypes: resourceChildren,
   });
   const resourceMapWriter = new FileWriter(
     resourceMapContents,
@@ -268,9 +274,8 @@ async function generateModels(
 
   // Generate all class files
   const classPromises = classEntities.entities.map(
-    async (entity: EntityDefinition) => {
-      return generateClassFile(entity, entityCollection.baseDir);
-    }
+    async (entity: EntityDefinition) =>
+      generateClassFile(entity, entityCollection.baseDir)
   );
 
   // Preprocess interface entities
@@ -279,9 +284,8 @@ async function generateModels(
   );
   // Generate all interface files
   const interfacePromises = interfaceEntities.entities.map(
-    async (entity: EntityDefinition) => {
-      return generateInterfaceFile(entity, entityCollection.baseDir);
-    }
+    async (entity: EntityDefinition) =>
+      generateInterfaceFile(entity, entityCollection.baseDir)
   );
 
   // Generate index.ts and internal.ts

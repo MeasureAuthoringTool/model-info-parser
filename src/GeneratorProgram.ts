@@ -51,9 +51,8 @@ export default class GeneratorProgram {
 
     // Execute all of the specified preprocessors
     entityCollection = this.preprocessors.reduce(
-      (accumulator: EntityCollection, preprocessor: Preprocessor) => {
-        return preprocessor.preprocess(accumulator);
-      },
+      (accumulator: EntityCollection, preprocessor: Preprocessor) =>
+        preprocessor.preprocess(accumulator),
       entityCollection
     );
 

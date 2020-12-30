@@ -18,9 +18,7 @@ function findMemberByName(
   const { namespace, originalTypeName } = entityDefinition.metadata;
 
   const matchingMembers = entityDefinition.memberVariables.filter(
-    (member: MemberVariable) => {
-      return memberName.startsWith(member.variableName);
-    }
+    (member: MemberVariable) => memberName.startsWith(member.variableName)
   );
 
   // No members found

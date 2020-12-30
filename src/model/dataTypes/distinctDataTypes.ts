@@ -11,9 +11,7 @@ export function filterDataTypeArray(
   input: Array<DataType>,
   excluded: DataType
 ): Array<DataType> {
-  return input.filter((dataType) => {
-    return dataType !== excluded;
-  });
+  return input.filter((dataType) => dataType !== excluded);
 }
 
 /**
