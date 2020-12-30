@@ -19,9 +19,8 @@ export default class ChainedTransformer<T> extends Transformer<T, T> {
     }
 
     return this.transformers.reduce(
-      (accumulator: T, currentTransformer: Transformer<T, T>) => {
-        return currentTransformer.transform(accumulator);
-      },
+      (accumulator: T, currentTransformer: Transformer<T, T>) =>
+        currentTransformer.transform(accumulator),
       input
     );
   }

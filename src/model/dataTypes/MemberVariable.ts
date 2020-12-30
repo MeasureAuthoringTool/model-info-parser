@@ -158,9 +158,9 @@ export default class MemberVariable {
       const { name, choices } = element;
       const baseType = DataType.getInstance("FHIR", "Type", baseDir);
 
-      const choiceTypes: Array<DataType> = choices.map((choice) => {
-        return DataType.getInstance(choice.namespace, choice.typeName, baseDir);
-      });
+      const choiceTypes: Array<DataType> = choices.map((choice) =>
+        DataType.getInstance(choice.namespace, choice.typeName, baseDir)
+      );
 
       return new MemberVariable(
         baseType,

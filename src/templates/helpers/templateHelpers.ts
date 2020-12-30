@@ -67,7 +67,6 @@ Handlebars.registerHelper(
   }
 );
 
-
 Handlebars.registerHelper("hasReservedKeywords", function isReserved(
   this: Handlebars.TemplateDelegate<string>,
   members: Array<MemberVariable>,
@@ -105,9 +104,7 @@ Handlebars.registerHelper("isSystemType", function isSystem(
   return options.inverse(this);
 });
 
-Handlebars.registerHelper("getRobyDoc", function getRobyDoc(
-  dataType: DataType
-): string {
+Handlebars.registerHelper("getRobyDoc", (dataType: DataType): string => {
   const snakeCaseType = _.snakeCase(dataType.normalizedName);
   const namespace = _.toLower(dataType.namespace);
   return `${namespace}/${snakeCaseType}.rb`;
@@ -181,14 +178,13 @@ Handlebars.registerHelper("eq", eq);
 
 Handlebars.registerHelper(
   "jsonChoiceName",
-  (variableName: string, typeName: string): string => {
-    return jsonChoiceName(variableName, typeName);
-  }
+  (variableName: string, typeName: string): string =>
+    jsonChoiceName(variableName, typeName)
 );
 
-Handlebars.registerHelper("trimInterfaceName", (typeName: string): string => {
-  return trimInterfaceName(typeName);
-});
+Handlebars.registerHelper("trimInterfaceName", (typeName: string): string =>
+  trimInterfaceName(typeName)
+);
 
 Handlebars.registerHelper("trimPrimitiveName", (typeName: string): string => {
   if (typeName.startsWith("IPrimitive")) {
