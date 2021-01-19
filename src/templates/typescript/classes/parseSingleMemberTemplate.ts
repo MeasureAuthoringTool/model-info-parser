@@ -5,10 +5,7 @@ export default `
   {{ else }}
   {{# if dataType.primitive }}
   {{# if isArray }}
-    newInstance.{{ variableName }} = json.{{ variableName }}.map((x, i) => {
-      const ext = json._{{ variableName }} && json._{{ variableName }}[i];
-      return {{ dataType.normalizedName }}.parsePrimitive(x, ext);
-    });
+    newInstance.{{ variableName }} = json.{{ variableName }}.map((x, i) => {{ dataType.normalizedName }}.parsePrimitive(x, json._{{ variableName }}?.[i]));
   {{ else }}
     newInstance.{{ variableName }} = {{ dataType.normalizedName }}.parsePrimitive(json.{{ variableName }}, json._{{ variableName }});
   {{/ if }}

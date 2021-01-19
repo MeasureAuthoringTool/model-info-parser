@@ -1,29 +1,24 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   CodeableConcept,
   Coding,
   DomainResource,
+  FhirList,
   INestedArray,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("NestedArray", "DomainResource")
 export class NestedArray extends DomainResource {
   static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "NestedArray";
-  
+
   static readonly primaryCodePath: string | null = "codeList.coding";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...DomainResource.fieldInfo, {
-      fieldName: "codeList",
-      fieldType: [CodeableConcept],
-      isArray: true
-    }];
-  }
-
+  @FhirList("CodeableConcept")
   public codeList?: Array<CodeableConcept>;
 
   get primaryCode(): Coding | undefined {

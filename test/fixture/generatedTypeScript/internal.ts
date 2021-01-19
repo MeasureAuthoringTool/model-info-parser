@@ -1,6 +1,6 @@
-
 /* eslint-disable import/no-cycle */
-import { Type } from "./classes/Type";
+export * from "./FieldMetadata";
+export * from "./Decorators";
 
 export * from "./interfaces/IType";
 export * from "./interfaces/IResource";
@@ -63,6 +63,11 @@ export * from "./classes/PrimitiveMarkdown";
 export * from "./classes/PrimitiveOid";
 export * from "./classes/PrimitivePositiveInt";
 export * from "./classes/PrimitiveQuestion";
+export * from "./classes/PrimitiveTime";
+export * from "./classes/PrimitiveUnsignedInt";
+export * from "./classes/PrimitiveUrl";
+export * from "./classes/PrimitiveUuid";
+export * from "./classes/PrimitiveXhtml";
 export * from "./classes/AddressType";
 export * from "./classes/ResourceChild";
 export * from "./classes/Bundle";
@@ -74,18 +79,8 @@ export * from "./classes/PathWithArray";
 export * from "./classes/NestedPath";
 export * from "./classes/NestedArray";
 export * from "./classes/ChoicePath";
-export * from "./classes/PrimitiveTime";
-export * from "./classes/PrimitiveUnsignedInt";
-export * from "./classes/PrimitiveUrl";
-export * from "./classes/PrimitiveUuid";
-export * from "./classes/PrimitiveXhtml";
-
-export interface FieldMetadata {
-  fieldName: string,
-  fieldType: Array<typeof Type | typeof String | typeof Boolean | typeof Date | typeof Number>,
-  isArray: boolean
-}
 
 export * from "./ResourceMapping";
-/* eslint-enable import/no-cycle */
+export * from "./TypeMapping";
 
+/* eslint-enable import/no-cycle */

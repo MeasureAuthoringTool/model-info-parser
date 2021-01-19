@@ -1,29 +1,24 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   DomainResource,
   Extension,
+  FhirList,
   IPathWithArray,
   PrimitiveBoolean,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("PathWithArray", "DomainResource")
 export class PathWithArray extends DomainResource {
   static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "PathWithArray";
-  
+
   static readonly primaryCodePath: string | null = "boolList";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...DomainResource.fieldInfo, {
-      fieldName: "boolList",
-      fieldType: [PrimitiveBoolean],
-      isArray: true
-    }];
-  }
-
+  @FhirList("PrimitiveBoolean")
   public boolList?: Array<PrimitiveBoolean>;
 
   get primaryCode(): PrimitiveBoolean | undefined {
@@ -41,10 +36,7 @@ export class PathWithArray extends DomainResource {
     const newInstance: PathWithArray = DomainResource.parse(json, providedInstance);
   
     if (json.boolList !== undefined) {
-      newInstance.boolList = json.boolList.map((x, i) => {
-        const ext = json._boolList && json._boolList[i];
-        return PrimitiveBoolean.parsePrimitive(x, ext);
-      });
+      newInstance.boolList = json.boolList.map((x, i) => PrimitiveBoolean.parsePrimitive(x, json._boolList?.[i]));
     }
     return newInstance;
   }

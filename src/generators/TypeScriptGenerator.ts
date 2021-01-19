@@ -7,6 +7,7 @@ import interfaceTemplate, {
   TemplateContext as InterfaceTemplateContext,
 } from "../templates/typescript/interfaces/interfaceTemplate";
 import internalTemplate from "../templates/typescript/internalTemplate";
+import decoratorsTemplate from "../templates/typescript/DecoratorsTemplate";
 import resourceMapTemplate from "../templates/typescript/resourceMapTemplate";
 import indexTemplate from "../templates/typescript/indexTemplate";
 import typeAliasTemplate from "../templates/typescript/typeAliases/typeAliasTemplate";
@@ -185,6 +186,11 @@ async function generateIndexFiles(
     "PrimitiveOid",
     "PrimitivePositiveInt",
     "PrimitiveQuestion",
+    "PrimitiveTime",
+    "PrimitiveUnsignedInt",
+    "PrimitiveUrl",
+    "PrimitiveUuid",
+    "PrimitiveXhtml"
   ];
 
   const hoistedInterfaceNames: Array<string> = [
@@ -262,39 +268,45 @@ async function generateIndexFiles(
     "internal.ts"
   );
   await writer.writeFile();
+
+  const decoratorsContents: string = decoratorsTemplate();
+  const decoratorWriter = new FileWriter(
+    decoratorsContents,
+    entityCollection.baseDir.toString(),
+    null,
+    "Decorators.ts"
+  );
+  await decoratorWriter.writeFile();
 }
 
-async function generateModels(
-  entityCollection: EntityCollection
-): Promise<void[]> {
-  // Preprocess class entities
-  const classEntities = new TypeScriptClassPreprocessor().preprocess(
-    entityCollection
-  );
+export default class TypeScriptGenerator implements Generator {
+  generate(entityCollection: EntityCollection): Array<Promise<void>> {
+    // Preprocess class entities
+    const classEntities = new TypeScriptClassPreprocessor().preprocess(
+      entityCollection
+    );
 
-  // Generate all class files
-  const classPromises = classEntities.entities.map(
-    async (entity: EntityDefinition) =>
-      generateClassFile(entity, entityCollection.baseDir)
-  );
+    // Generate all class files
+    const classPromises = classEntities.entities.map(
+      async (entity: EntityDefinition) =>
+        generateClassFile(entity, entityCollection.baseDir)
+    );
 
-  // Preprocess interface entities
-  const interfaceEntities = new TypeScriptInterfacePreprocessor().preprocess(
-    entityCollection
-  );
-  // Generate all interface files
-  const interfacePromises = interfaceEntities.entities.map(
-    async (entity: EntityDefinition) =>
-      generateInterfaceFile(entity, entityCollection.baseDir)
-  );
+    // Preprocess interface entities
+    const interfaceEntities = new TypeScriptInterfacePreprocessor().preprocess(
+      entityCollection
+    );
+    // Generate all interface files
+    const interfacePromises = interfaceEntities.entities.map(
+      async (entity: EntityDefinition) =>
+        generateInterfaceFile(entity, entityCollection.baseDir)
+    );
 
-  // Generate index.ts and internal.ts
-  const indexPromise = generateIndexFiles(entityCollection);
+    // Generate index.ts and internal.ts
+    const indexPromise = generateIndexFiles(entityCollection);
 
-  const allPromises = [...classPromises, ...interfacePromises, indexPromise];
+    const allPromises = [...classPromises, ...interfacePromises, indexPromise];
 
-  return Promise.all(allPromises);
+    return allPromises;
+  }
 }
-
-const typeCheck: Generator = generateModels;
-export default typeCheck;

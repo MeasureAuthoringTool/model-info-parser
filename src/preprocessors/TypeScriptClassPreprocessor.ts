@@ -17,6 +17,7 @@ import TransformedPredicate from "../collectionUtils/core/TransformedPredicate";
 import ExtractDataTypeTransformer from "../collectionUtils/ExtractDataTypeTransformer";
 import IsDataTypePredicate from "../collectionUtils/IsDataTypePredicate";
 import SetPrimaryCodeTransformer from "../collectionUtils/SetPrimaryCodeTransformer";
+import AddDecoratorImportsTransformer from "../collectionUtils/AddDecoratorImportsTransformer";
 
 /**
  * EntityCollection Preprocessor for the TypeScript classes
@@ -82,6 +83,8 @@ export default class TypeScriptClassPreprocessor implements Preprocessor {
       noOpTransformer
     );
 
+    const addDecoratorImportsTransformer = new AddDecoratorImportsTransformer(entityCollection.baseDir);
+
     // Modify the Extension type
     const modifyExtensionTypeTransformer = new ModifyExtensionTypeTransformer(
       entityCollection.baseDir
@@ -95,7 +98,8 @@ export default class TypeScriptClassPreprocessor implements Preprocessor {
       addComplexImportsTransformer,
       modifyExtensionTypeTransformer,
       addExtensionImportTransformer,
-      setPrimaryCodeTypeTransformer
+      setPrimaryCodeTypeTransformer,
+      addDecoratorImportsTransformer
     );
 
     return entityCollection.transform(chainedTransformer);

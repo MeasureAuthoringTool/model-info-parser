@@ -82,25 +82,19 @@ export async function generateModelExporter(
   await writer.writeFile();
 }
 
-/**
- * Generate all mongoid models
- */
-async function generateModels(
-  entityCollection: EntityCollection
-): Promise<Array<void>> {
-  const entityNames: string[] = [];
-  const promises = entityCollection.entities.map(
-    async (entity: EntityDefinition) => {
-      const entityName = _.snakeCase(entity.dataType.normalizedName);
-      entityNames.push(entityName);
-      return generate(entity, entityCollection.baseDir);
-    }
-  );
+export default class MongoidTypeGenerator implements Generator {
+  generate(entityCollection: EntityCollection): Array<Promise<void>> {
+    const entityNames: string[] = [];
+    const promises = entityCollection.entities.map(
+      async (entity: EntityDefinition) => {
+        const entityName = _.snakeCase(entity.dataType.normalizedName);
+        entityNames.push(entityName);
+        return generate(entity, entityCollection.baseDir);
+      }
+    );
 
-  await generateModelExporter(entityNames, entityCollection.baseDir);
+    promises.push(generateModelExporter(entityNames, entityCollection.baseDir));
 
-  return Promise.all(promises);
+    return promises;
+  }
 }
-
-const typeCheck: Generator = generateModels;
-export default typeCheck;

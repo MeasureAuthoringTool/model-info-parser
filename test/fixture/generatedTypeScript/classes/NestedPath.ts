@@ -1,29 +1,24 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   DomainResource,
+  FhirField,
   INestedPath,
   PrimitiveBoolean,
   ResourceChild,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("NestedPath", "DomainResource")
 export class NestedPath extends DomainResource {
   static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "NestedPath";
-  
+
   static readonly primaryCodePath: string | null = "top.boolVal";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...DomainResource.fieldInfo, {
-      fieldName: "top",
-      fieldType: [ResourceChild],
-      isArray: false
-    }];
-  }
-
+  @FhirField("ResourceChild")
   public top?: ResourceChild;
 
   get primaryCode(): PrimitiveBoolean | undefined {
