@@ -1,29 +1,24 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   DomainResource,
   Extension,
+  FhirField,
   IResourceChild,
   PrimitiveBoolean,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("ResourceChild", "DomainResource")
 export class ResourceChild extends DomainResource {
   static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "ResourceChild";
-  
+
   static readonly primaryCodePath: string | null = "boolVal";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...DomainResource.fieldInfo, {
-      fieldName: "boolVal",
-      fieldType: [PrimitiveBoolean],
-      isArray: false
-    }];
-  }
-
+  @FhirField("PrimitiveBoolean")
   public boolVal?: PrimitiveBoolean;
 
   get primaryCode(): PrimitiveBoolean | undefined {

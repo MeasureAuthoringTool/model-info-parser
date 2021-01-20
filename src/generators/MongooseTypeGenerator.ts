@@ -67,8 +67,7 @@ function prepareAllModelNamesForExport(models: Array<string>): Array<string> {
   _.remove(models, (name) => hoistedModelNames.includes(name));
 
   // Add the above names to the front of the array
-  const prependedNames: Array<string> = [...hoistedModelNames, ...models];
-  return prependedNames;
+  return [...hoistedModelNames, ...models];
 }
 
 async function generateSchemaHeaders(
@@ -101,25 +100,19 @@ async function generateAllModelsExporter(
   await writer.writeFile();
 }
 
-/**
- * Generate all models
- */
-async function generateModels(
-  entityCollection: EntityCollection
-): Promise<Array<void>> {
-  const entityNames: string[] = [];
-  const promises = entityCollection.entities.map(
-    async (entity: EntityDefinition) => {
-      entityNames.push(entity.dataType.normalizedName);
-      return generate(entity, entityCollection.baseDir);
-    }
-  );
+export default class MongooseTypeGenerator implements Generator {
+  generate(entityCollection: EntityCollection): Array<Promise<void>> {
+    const entityNames: string[] = [];
+    const promises = entityCollection.entities.map(
+      async (entity: EntityDefinition) => {
+        entityNames.push(entity.dataType.normalizedName);
+        return generate(entity, entityCollection.baseDir);
+      }
+    );
 
-  await generateAllModelsExporter(entityNames, entityCollection.baseDir);
-  await generateSchemaHeaders(entityNames, entityCollection.baseDir);
+    promises.push(generateAllModelsExporter(entityNames, entityCollection.baseDir));
+    promises.push(generateSchemaHeaders(entityNames, entityCollection.baseDir));
 
-  return Promise.all(promises);
+    return promises;
+  }
 }
-
-const typeCheck: Generator = generateModels;
-export default typeCheck;

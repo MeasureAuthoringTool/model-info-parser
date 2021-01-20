@@ -1,28 +1,23 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   BundleEntry,
+  FhirList,
   IBundle,
   Resource,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("Bundle", "Resource")
 export class Bundle extends Resource {
   static readonly baseType: string = "FHIR.Resource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Bundle";
-  
+
   static readonly primaryCodePath: string | null = null;
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...Resource.fieldInfo, {
-      fieldName: "entry",
-      fieldType: [BundleEntry],
-      isArray: true
-    }];
-  }
-
+  @FhirList("BundleEntry")
   public entry?: Array<BundleEntry>;
 
   public static parse(

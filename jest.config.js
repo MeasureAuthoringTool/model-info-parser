@@ -4,5 +4,5 @@ module.exports = {
   roots: ["<rootDir>/src/", "<rootDir>/test/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
   collectCoverageFrom: ["src/**/*.ts", "!**/node_modules/**"],
-  setupFilesAfterEnv: ["jest-extended"],
+  setupFilesAfterEnv: ["jest-sinon", "jest-extended"],
 };

@@ -1,31 +1,26 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   Coding,
   DomainResource,
   Extension,
+  FhirChoice,
   IChoicePath,
   PrimitiveBoolean,
   PrimitiveCanonical,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("ChoicePath", "DomainResource")
 export class ChoicePath extends DomainResource {
   static readonly baseType: string = "FHIR.DomainResource";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "ChoicePath";
-  
+
   static readonly primaryCodePath: string | null = "optionsBoolean";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...DomainResource.fieldInfo, {
-      fieldName: "options",
-      fieldType: [PrimitiveBoolean, PrimitiveCanonical, Coding],
-      isArray: false
-    }];
-  }
-
+  @FhirChoice("PrimitiveBoolean", "PrimitiveCanonical", "Coding")
   public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
 
   get primaryCode(): PrimitiveBoolean | PrimitiveCanonical | Coding | undefined {

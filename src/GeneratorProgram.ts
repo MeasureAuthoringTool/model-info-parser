@@ -28,8 +28,9 @@ export default class GeneratorProgram {
   }
 
   async generateTypes(): Promise<Array<void>> {
-    const modelinfoFile: string = program.modelinfoFile as string;
-    let outputDirectory: string = program.outputDirectory as string;
+    const options = program.opts();
+    const modelinfoFile: string = options.modelinfoFile as string;
+    let outputDirectory: string = options.outputDirectory as string;
 
     if (!path.isAbsolute(outputDirectory)) {
       logger.info(`Redirecting relative directory ${outputDirectory}`);
@@ -57,6 +58,7 @@ export default class GeneratorProgram {
     );
 
     // Execute the generator for entityCollection
-    return this.generator(entityCollection);
+    const promises: Array<Promise<void>> = this.generator.generate(entityCollection);
+    return Promise.all(promises);
   }
 }

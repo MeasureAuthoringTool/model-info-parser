@@ -60,10 +60,12 @@ describe("TypeScriptClassPreprocessor", () => {
     expect(result.entities).toBeArrayOfSize(3);
     const { dataTypes: importTypes } = result.entities[0].imports;
 
-    expect(importTypes).toBeArrayOfSize(3);
-    expect(importTypes[0].normalizedName).toBe("IElement");
-    expect(importTypes[1].normalizedName).toBe("memberTypeName1");
-    expect(importTypes[2].normalizedName).toBe("memberTypeName2");
+    expect(importTypes).toBeArrayOfSize(5);
+    expect(importTypes[0].normalizedName).toBe("FhirField");
+    expect(importTypes[1].normalizedName).toBe("FhirList");
+    expect(importTypes[2].normalizedName).toBe("IElement");
+    expect(importTypes[3].normalizedName).toBe("memberTypeName1");
+    expect(importTypes[4].normalizedName).toBe("memberTypeName2");
   });
 
   it("should add the appropriate imports to non-primitive types", () => {
@@ -74,11 +76,13 @@ describe("TypeScriptClassPreprocessor", () => {
     expect(result.entities).toBeArrayOfSize(3);
     const { dataTypes: importTypes } = result.entities[1].imports;
 
-    expect(importTypes).toBeArrayOfSize(4);
-    expect(importTypes[0].normalizedName).toBe("IElement"); // only added to Extension type
-    expect(importTypes[1].normalizedName).toBe("IExtension");
-    expect(importTypes[2].normalizedName).toBe("memberTypeName1");
-    expect(importTypes[3].normalizedName).toBe("memberTypeName2");
+    expect(importTypes).toBeArrayOfSize(6);
+    expect(importTypes[0].normalizedName).toBe("FhirField");
+    expect(importTypes[1].normalizedName).toBe("FhirList");
+    expect(importTypes[2].normalizedName).toBe("IElement"); // only added to Extension type
+    expect(importTypes[3].normalizedName).toBe("IExtension");
+    expect(importTypes[4].normalizedName).toBe("memberTypeName1");
+    expect(importTypes[5].normalizedName).toBe("memberTypeName2");
   });
 
   it("should add an Extension import to any Entity with a primitive member", () => {
@@ -87,12 +91,13 @@ describe("TypeScriptClassPreprocessor", () => {
     const result = preprocessor.preprocess(entityCollection);
 
     const { dataTypes: importTypes } = result.entities[2].imports;
-    expect(importTypes).toBeArrayOfSize(5);
+    expect(importTypes).toBeArrayOfSize(6);
     expect(importTypes[0].normalizedName).toBe("Extension");
-    expect(importTypes[1].normalizedName).toBe("IDataType");
-    expect(importTypes[2].normalizedName).toBe("memberTypeName1");
-    expect(importTypes[3].normalizedName).toBe("memberTypeName2");
-    expect(importTypes[4].normalizedName).toBe("PrimitiveString");
+    expect(importTypes[1].normalizedName).toBe("FhirList");
+    expect(importTypes[2].normalizedName).toBe("IDataType");
+    expect(importTypes[3].normalizedName).toBe("memberTypeName1");
+    expect(importTypes[4].normalizedName).toBe("memberTypeName2");
+    expect(importTypes[5].normalizedName).toBe("PrimitiveString");
   });
 
   it("should compute the primaryCodeType", () => {
