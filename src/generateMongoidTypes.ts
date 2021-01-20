@@ -16,7 +16,7 @@ program.requiredOption(
 
 const preprocessors: Array<Preprocessor> = [new MongoidPreprocessor()];
 
-new GeneratorProgram(MongoidTypeGenerator, preprocessors)
+new GeneratorProgram(new MongoidTypeGenerator(), preprocessors)
   .generateTypes()
   .then((result: Array<void>) => {
     logger.info(`Successfully generated ${result.length} types`);

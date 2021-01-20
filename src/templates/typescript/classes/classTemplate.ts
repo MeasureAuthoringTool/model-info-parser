@@ -6,55 +6,71 @@ import EntityImports from "../../../model/dataTypes/EntityImports";
 import PrimaryCode from "../../../model/dataTypes/PrimaryCode";
 
 export const source = `/* eslint-disable import/prefer-default-export, import/no-cycle */
-{{# if imports.dataTypes }}import { 
+{{# if imports.dataTypes }}import {
 {{# if (eq dataType.normalizedName "Resource") }}
   lookupResourceType,
+{{/ if }}
+{{# if (eq dataType.normalizedName "Type") }}
+  getFieldList,
+  getTypeName,
+  getParentTypeName,
+  getFieldInfo,
+  lookupType,
+  FieldMetadata,
 {{/ if }}
 {{# each imports.dataTypes }}
   {{ this.normalizedName }},
 {{/ each }}
-  FieldMetadata
+  FhirType
 } from "../internal";
 
 {{/ if }}
+@FhirType("{{ dataType.normalizedName }}"{{# if parentDataType }}, "{{ parentDataType.normalizedName }}"{{/ if }})
 export class {{ dataType.normalizedName }}{{# if parentDataType }} extends {{ parentDataType.normalizedName }}{{/ if }} {
   static readonly baseType: string = "{{ metadata.parentTypeName }}";
 
   static readonly namespace: string = "{{ metadata.namespace }}";
 
   static readonly typeName: string = "{{ metadata.originalTypeName }}";
-  
+
   static readonly primaryCodePath: string | null = {{# if metadata.primaryCodePath ~}}
     "{{ metadata.primaryCodePath }}"
   {{~ else ~}}
     null
   {{~/ if }};
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [{{# if parentDataType }}...{{ parentDataType.normalizedName }}.fieldInfo, {{/ if }}{{# if memberVariables }}{ {{~/ if }}
-    {{# each memberVariables }}
-      fieldName: "{{ variableName }}",
-      fieldType: [{{# each choiceTypes ~}}
-      {{~# if systemType ~}}
-        {{ getTypeScriptType normalizedName }}
-      {{~ else ~}}
-        {{ normalizedName }}
-      {{~/ if ~}}
-      {{~# unless @last }}, {{/ unless }}{{ else ~}}
-      {{~# if dataType.systemType ~}}
-        {{ getTypeScriptType dataType.normalizedName }}
-      {{~ else ~}}
-        {{ dataType.normalizedName }}
-      {{~/ if ~}}
-      {{/ each }}],
-      isArray: {{ isArray }}
-    {{# unless @last }}
-    }, {
-    {{/ unless }}
-    {{/ each }}
-    {{# if memberVariables ~}} }{{/ if }}];
+  {{# if (eq dataType.normalizedName "Type") }}
+  static get fieldList(): ReadonlyArray<string> {
+    return getFieldList(this.prototype);
   }
 
+  static get parentType(): typeof Type | null {
+    const parentTypeName = getParentTypeName(this.prototype) || "";
+    const parentTypeRef = lookupType(parentTypeName);
+    return parentTypeRef || null;
+  }
+
+  get type(): typeof Type {
+    const typeName = getTypeName(this) || "";
+    const typeRef = lookupType(typeName);
+    if (!typeRef) {
+      throw new Error("Cannot find name of FHIR type");
+    }
+    return typeRef;
+  }
+
+  static get fieldInfo(): ReadonlyArray<FieldMetadata> {
+    const result = this.fieldList.map((fieldName) => {
+      const fieldMetadata = getFieldInfo(this.prototype, fieldName);
+      if (!fieldMetadata) {
+        throw new Error(\`Cannot find metadata for field \${fieldName}\`);
+      }
+      return fieldMetadata;
+    });
+    return result;
+  }
+
+  {{/ if }}
   {{# each memberVariables }}
   {{> complexMember member=this }}
 

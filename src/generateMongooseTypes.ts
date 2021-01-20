@@ -16,7 +16,7 @@ program.requiredOption(
 
 const preprocessors: Array<Preprocessor> = [new MongoosePreprocessor()];
 
-new GeneratorProgram(MongooseTypeGenerator, preprocessors)
+new GeneratorProgram(new MongooseTypeGenerator(), preprocessors)
   .generateTypes()
   .then((result: Array<void>) => {
     logger.info(`Successfully generated ${result.length} types`);

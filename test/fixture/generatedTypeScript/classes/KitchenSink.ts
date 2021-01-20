@@ -1,71 +1,50 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   CodeableConcept,
   Coding,
   Element,
   Extension,
+  FhirChoice,
+  FhirField,
+  FhirList,
   IKitchenSink,
   PrimitiveBoolean,
   PrimitiveCanonical,
   PrimitiveString,
   PrimitiveTime,
   PrimitiveUrl,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("KitchenSink", "Element")
 export class KitchenSink extends Element {
   static readonly baseType: string = "FHIR.Element";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "KitchenSink";
-  
+
   static readonly primaryCodePath: string | null = "singleCode";
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...Element.fieldInfo, {
-      fieldName: "system",
-      fieldType: [String],
-      isArray: false
-    }, {
-      fieldName: "url",
-      fieldType: [PrimitiveUrl],
-      isArray: false
-    }, {
-      fieldName: "version",
-      fieldType: [PrimitiveString],
-      isArray: false
-    }, {
-      fieldName: "singleCode",
-      fieldType: [CodeableConcept],
-      isArray: false
-    }, {
-      fieldName: "coding",
-      fieldType: [Coding],
-      isArray: true
-    }, {
-      fieldName: "times",
-      fieldType: [PrimitiveTime],
-      isArray: true
-    }, {
-      fieldName: "options",
-      fieldType: [PrimitiveBoolean, PrimitiveCanonical, Coding],
-      isArray: false
-    }];
-  }
-
+  @FhirField("SystemString")
   public system?: string;
 
+  @FhirField("PrimitiveUrl")
   public url?: PrimitiveUrl;
 
+  @FhirField("PrimitiveString")
   public version?: PrimitiveString;
 
+  @FhirField("CodeableConcept")
   public singleCode?: CodeableConcept;
 
+  @FhirList("Coding")
   public coding?: Array<Coding>;
 
+  @FhirList("PrimitiveTime")
   public times?: Array<PrimitiveTime>;
 
+  @FhirChoice("PrimitiveBoolean", "PrimitiveCanonical", "Coding")
   public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
 
   get primaryCode(): CodeableConcept | undefined {
@@ -98,10 +77,7 @@ export class KitchenSink extends Element {
       newInstance.coding = json.coding.map((x) => Coding.parse(x));
     }
     if (json.times !== undefined) {
-      newInstance.times = json.times.map((x, i) => {
-        const ext = json._times && json._times[i];
-        return PrimitiveTime.parsePrimitive(x, ext);
-      });
+      newInstance.times = json.times.map((x, i) => PrimitiveTime.parsePrimitive(x, json._times?.[i]));
     }
     if (json.optionsBoolean !== undefined) {
       newInstance.options = PrimitiveBoolean.parsePrimitive(json.optionsBoolean, json._optionsBoolean);

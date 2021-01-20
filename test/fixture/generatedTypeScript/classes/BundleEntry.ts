@@ -1,28 +1,23 @@
 /* eslint-disable import/prefer-default-export, import/no-cycle */
-import { 
+import {
   BackboneElement,
+  FhirField,
   IBundleEntry,
   Resource,
-  FieldMetadata
+  FhirType
 } from "../internal";
 
+@FhirType("BundleEntry", "BackboneElement")
 export class BundleEntry extends BackboneElement {
   static readonly baseType: string = "FHIR.BackboneElement";
 
   static readonly namespace: string = "FHIR";
 
   static readonly typeName: string = "Bundle.Entry";
-  
+
   static readonly primaryCodePath: string | null = null;
 
-  static get fieldInfo(): Array<FieldMetadata> {
-    return [...BackboneElement.fieldInfo, {
-      fieldName: "resource",
-      fieldType: [Resource],
-      isArray: false
-    }];
-  }
-
+  @FhirField("Resource")
   public resource?: Resource;
 
   public static parse(

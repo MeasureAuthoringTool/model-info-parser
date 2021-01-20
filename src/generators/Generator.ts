@@ -1,5 +1,5 @@
 import EntityCollection from "../model/dataTypes/EntityCollection";
 
-type Generator = (entityCollection: EntityCollection) => Promise<Array<void>>;
-
-export default Generator;
+export default interface Generator {
+  generate: (entityCollection: EntityCollection) => Array<Promise<void>>;
+}
