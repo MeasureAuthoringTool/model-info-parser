@@ -81,3 +81,10 @@ describe("Decorators", () => {
     expect(KitchenSink.fieldInfo).toBeArrayOfSize(9);
   });
 });
+
+describe("fhirTypeRef", () => {
+  it("should dynamically retrieve an object's FHIR type at runtime", () => {
+    const sink = new KitchenSink();
+    expect(sink.fhirTypeRef).toBe(KitchenSink);
+  });
+});

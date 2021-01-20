@@ -30,7 +30,7 @@ export class Type {
     return parentTypeRef || null;
   }
 
-  get type(): typeof Type {
+  get fhirTypeRef(): typeof Type {
     const typeName = getTypeName(this) || "";
     const typeRef = lookupType(typeName);
     if (!typeRef) {
