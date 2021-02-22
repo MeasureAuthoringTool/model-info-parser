@@ -31,7 +31,7 @@
   "dependencies": {
     "commander": "^7.0.0",
     "handlebars": "^4.7.6",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "winston": "^3.3.3",
     "xml2js": "^0.4.23"
