@@ -13,6 +13,7 @@ import {
   PrimitiveString,
   PrimitiveTime,
   PrimitiveUrl,
+  SimpleQuantity,
   FhirType
 } from "../internal";
 
@@ -44,8 +45,8 @@ export class KitchenSink extends Element {
   @FhirList("PrimitiveTime")
   public times?: Array<PrimitiveTime>;
 
-  @FhirChoice("PrimitiveBoolean", "PrimitiveCanonical", "Coding")
-  public options?: PrimitiveBoolean | PrimitiveCanonical | Coding;
+  @FhirChoice("PrimitiveBoolean", "PrimitiveCanonical", "Coding", "SimpleQuantity")
+  public options?: PrimitiveBoolean | PrimitiveCanonical | Coding | SimpleQuantity;
 
   get primaryCode(): CodeableConcept | undefined {
     return this?.singleCode;
@@ -87,6 +88,9 @@ export class KitchenSink extends Element {
     }
     if (json.optionsCoding !== undefined) {
       newInstance.options = Coding.parse(json.optionsCoding);
+    }
+    if (json.optionsQuantity !== undefined) {
+      newInstance.options = SimpleQuantity.parse(json.optionsQuantity);
     }
     return newInstance;
   }
@@ -138,6 +142,10 @@ export class KitchenSink extends Element {
 
     if (this.options && Coding.isCoding(this.options)) {
       result.optionsCoding = this.options.toJSON();
+    }
+
+    if (this.options && SimpleQuantity.isSimpleQuantity(this.options)) {
+      result.optionsQuantity = this.options.toJSON();
     }
 
     return result;

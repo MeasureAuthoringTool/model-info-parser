@@ -8,6 +8,7 @@ import {
   IPrimitiveString,
   IPrimitiveTime,
   IPrimitiveUrl,
+  ISimpleQuantity,
 } from "../internal";
 
 export interface IKitchenSink extends IElement {
@@ -33,6 +34,8 @@ export interface IKitchenSink extends IElement {
   _optionsCanonical?: IElement;
   
   optionsCoding?: ICoding;
+  
+  optionsQuantity?: ISimpleQuantity;
 
 }
 /* eslint-enable import/prefer-default-export, import/no-cycle, @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
