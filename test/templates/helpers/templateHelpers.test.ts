@@ -287,6 +287,21 @@ describe("templateHelpers", () => {
         })
       ).toBe("hey TypeName TypeName Name Name");
     });
+
+    it("should trim 'SimpleQuantity' down to 'Quantity'", () => {
+      const source =
+        "hey {{ trimInterfaceName name1 }} {{ trimInterfaceName name2 }} {{ trimInterfaceName name3 }} {{ trimInterfaceName name4 }}";
+      const template = Handlebars.compile(source);
+
+      expect(
+        template({
+          name1: "SimpleQuantity",
+          name2: "ISimpleQuantity",
+          name3: "ISimple",
+          name4: "IQuantity",
+        })
+      ).toBe("hey Quantity Quantity Simple Quantity");
+    });
   });
 
   describe("trimPrimitiveName", () => {
@@ -303,6 +318,20 @@ describe("templateHelpers", () => {
           name4: "IPrimitiveName",
         })
       ).toBe("hey TypeName ITypeName Name Name");
+    });
+
+    it("should trim 'SimpleQuantity' type names down to 'Quantity'", () => {
+      const source =
+        "hey {{ trimPrimitiveName name1 }} {{ trimPrimitiveName name2 }} {{ trimPrimitiveName name3 }}";
+      const template = Handlebars.compile(source);
+
+      expect(
+        template({
+          name1: "Quantity",
+          name2: "Simple",
+          name3: "SimpleQuantity",
+        })
+      ).toBe("hey Quantity Simple Quantity");
     });
   });
 });

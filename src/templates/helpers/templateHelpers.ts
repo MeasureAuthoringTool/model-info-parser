@@ -11,6 +11,9 @@ import DataType from "../../model/dataTypes/DataType";
 import { jsonChoiceName } from "../../utils";
 
 export function trimInterfaceName(typeName: string): string {
+  if (typeName === "ISimpleQuantity" || typeName === "SimpleQuantity") {
+    return "Quantity";
+  }
   if (typeName.startsWith("IPrimitive")) {
     return typeName.slice(10);
   }
@@ -46,16 +49,19 @@ Handlebars.registerHelper("getTypeScriptPrimitive", getTypeScriptPrimitive);
 
 Handlebars.registerHelper("getTypeScriptType", getTypeScriptType);
 
-Handlebars.registerHelper("isReservedKeyword", function isReserved(
-  this: Handlebars.TemplateDelegate<string>,
-  token: string,
-  options: HelperOptions
-): string {
-  if (reservedWords.includes(token)) {
-    return options.fn(this);
+Handlebars.registerHelper(
+  "isReservedKeyword",
+  function isReserved(
+    this: Handlebars.TemplateDelegate<string>,
+    token: string,
+    options: HelperOptions
+  ): string {
+    if (reservedWords.includes(token)) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
 Handlebars.registerHelper(
   "toModelVariableName",
@@ -67,42 +73,51 @@ Handlebars.registerHelper(
   }
 );
 
-Handlebars.registerHelper("hasReservedKeywords", function isReserved(
-  this: Handlebars.TemplateDelegate<string>,
-  members: Array<MemberVariable>,
-  options: HelperOptions
-): string {
-  const found = members.find((member) =>
-    reservedWords.includes(member.variableName)
-  );
+Handlebars.registerHelper(
+  "hasReservedKeywords",
+  function isReserved(
+    this: Handlebars.TemplateDelegate<string>,
+    members: Array<MemberVariable>,
+    options: HelperOptions
+  ): string {
+    const found = members.find((member) =>
+      reservedWords.includes(member.variableName)
+    );
 
-  if (found) {
-    return options.fn(this);
+    if (found) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
-Handlebars.registerHelper("isPrimitiveType", function isPrimitive(
-  this: Handlebars.TemplateDelegate<string>,
-  dataType: DataType,
-  options: HelperOptions
-): string {
-  if (dataType.primitive) {
-    return options.fn(this);
+Handlebars.registerHelper(
+  "isPrimitiveType",
+  function isPrimitive(
+    this: Handlebars.TemplateDelegate<string>,
+    dataType: DataType,
+    options: HelperOptions
+  ): string {
+    if (dataType.primitive) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
-Handlebars.registerHelper("isSystemType", function isSystem(
-  this: Handlebars.TemplateDelegate<string>,
-  dataType: DataType,
-  options: HelperOptions
-): string {
-  if (dataType.systemType) {
-    return options.fn(this);
+Handlebars.registerHelper(
+  "isSystemType",
+  function isSystem(
+    this: Handlebars.TemplateDelegate<string>,
+    dataType: DataType,
+    options: HelperOptions
+  ): string {
+    if (dataType.systemType) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
 Handlebars.registerHelper("getRobyDoc", (dataType: DataType): string => {
   const snakeCaseType = _.snakeCase(dataType.normalizedName);
@@ -110,29 +125,35 @@ Handlebars.registerHelper("getRobyDoc", (dataType: DataType): string => {
   return `${namespace}/${snakeCaseType}.rb`;
 });
 
-Handlebars.registerHelper("ifEquals", function ifEquals(
-  this: Handlebars.TemplateDelegate<boolean>,
-  a: string,
-  b: string,
-  options: HelperOptions
-): string {
-  if (a === b) {
-    return options.fn(this);
+Handlebars.registerHelper(
+  "ifEquals",
+  function ifEquals(
+    this: Handlebars.TemplateDelegate<boolean>,
+    a: string,
+    b: string,
+    options: HelperOptions
+  ): string {
+    if (a === b) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
-Handlebars.registerHelper("ifLessThanEqual", function ifEquals(
-  this: Handlebars.TemplateDelegate<boolean>,
-  a: string,
-  b: string,
-  options: HelperOptions
-): string {
-  if (a <= b) {
-    return options.fn(this);
+Handlebars.registerHelper(
+  "ifLessThanEqual",
+  function ifEquals(
+    this: Handlebars.TemplateDelegate<boolean>,
+    a: string,
+    b: string,
+    options: HelperOptions
+  ): string {
+    if (a <= b) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
   }
-  return options.inverse(this);
-});
+);
 
 export function getMongooseSystemType(typeName: string): string {
   return mongoosePrimitiveTypes[_.lowerFirst(typeName)];
@@ -187,6 +208,9 @@ Handlebars.registerHelper("trimInterfaceName", (typeName: string): string =>
 );
 
 Handlebars.registerHelper("trimPrimitiveName", (typeName: string): string => {
+  if (typeName === "SimpleQuantity") {
+    return "Quantity";
+  }
   if (typeName.startsWith("IPrimitive")) {
     return typeName.slice(10);
   }

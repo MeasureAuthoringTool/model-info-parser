@@ -56,10 +56,11 @@ describe("generated fieldInfo properties", () => {
 
     expect(fieldInfo[8].fieldName).toBe("options");
     expect(fieldInfo[8].isArray).toBeFalse();
-    expect(fieldInfo[8].fieldTypeNames).toBeArrayOfSize(3);
+    expect(fieldInfo[8].fieldTypeNames).toBeArrayOfSize(4);
     expect(fieldInfo[8].fieldTypeNames[0]).toBe("PrimitiveBoolean");
     expect(fieldInfo[8].fieldTypeNames[1]).toBe("PrimitiveCanonical");
     expect(fieldInfo[8].fieldTypeNames[2]).toBe("Coding");
+    expect(fieldInfo[8].fieldTypeNames[3]).toBe("SimpleQuantity");
   });
 });
 
