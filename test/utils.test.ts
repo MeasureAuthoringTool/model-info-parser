@@ -91,5 +91,11 @@ describe("utils", () => {
     it("should normalize odd type names", () => {
       expect(jsonChoiceName("foo", "odd type.name_")).toBe("fooOddtypename");
     });
+
+    it("should convert SimpleQuantity types to Quantity", () => {
+      expect(jsonChoiceName("foo", "SimpleQuantity")).toBe("fooQuantity");
+      expect(jsonChoiceName("foo", "Simple")).toBe("fooSimple");
+      expect(jsonChoiceName("foo", "Quantity")).toBe("fooQuantity");
+    });
   });
 });
