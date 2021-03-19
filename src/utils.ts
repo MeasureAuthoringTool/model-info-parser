@@ -22,6 +22,11 @@ export function normalizeElementTypeName(
 }
 
 export function jsonChoiceName(variableName: string, typeName: string): string {
-  const upperTypeName = _.upperFirst(typeName);
+  let upperTypeName = _.upperFirst(typeName);
+
+  if (upperTypeName === "SimpleQuantity") {
+    upperTypeName = "Quantity";
+  }
+
   return `${variableName}${normalizeTypeName(upperTypeName)}`;
 }
