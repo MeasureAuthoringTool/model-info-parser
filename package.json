@@ -29,7 +29,7 @@
   "author": "SemanticBits sb-mat-help@semanticbits.com",
   "license": "CC0-1.0",
   "dependencies": {
-    "commander": "^8.1.0",
+    "commander": "^8.3.0",
     "handlebars": "^4.7.6",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
