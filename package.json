@@ -34,7 +34,7 @@
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "winston": "^3.3.3",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.6.0"
   },
   "devDependencies": {
     "@jest/types": "^27.0.6",
