@@ -39,7 +39,7 @@
   "devDependencies": {
     "@jest/types": "^27.0.6",
     "@types/faker": "^5.5.7",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29.5.6",
     "@types/lodash": "^4.14.171",
     "@types/node": "^15.14.0",
     "@types/sinon": "^10.0.2",
